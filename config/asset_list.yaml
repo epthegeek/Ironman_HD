@@ -327,6 +327,9 @@ Audio:
     - key: 'shields_collected'
       file: 'Sound-004B.wav'
       volume: 1
+    - key: 'start_button'
+      file: 'Sound-002C.wav'
+      volume: 1
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'
@@ -351,4 +354,22 @@ Audio:
       volume: 1
     - key: 'game_start'
       file: 'Sound-002C.wav'
+      volume: 1
+    - key: 'one_hundred_th'
+      file: 'Sound-02EC.wav'
+      volume: 1
+    - key: 'two_hundred_th'
+      file: 'Sound-02ED.wav'
+      volume: 1
+    - key: 'three_hundred_th'
+      file: 'Sound-02EE.wav'
+      volume: 1
+    - key: 'four_hundred_th'
+      file: 'Sound-02EF.wav'
+      volume: 1
+    - key: 'six_hundred_th'
+      file: 'Sound-02F1.wav'
+      volume: 1
+    - key: 'eight_hundred_th'
+      file: 'Sound-02F3.wav'
       volume: 1

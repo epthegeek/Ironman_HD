@@ -68,6 +68,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # for tracking if player has a mark level from shields
         player.setState('shield_mark',False)
         # and so on
+        self.game.sound.play('start_button')
 
     def evt_ball_starting(self):
         self.game.sound.play_music('ball_1_shooter_lane',loops=0)

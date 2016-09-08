@@ -21,6 +21,12 @@ class Ramps(procgame.game.AdvancedMode):
                                  self.game.lamps['rightRamp200k'],
                                  self.game.lamps['rightRamp300k'],
                                  self.game.lamps['rightRamp400k']]
+        self.callouts = {'100000': 'one_hundred_th',
+                         '200000': 'two_hundred_th',
+                         '300000': 'three_hundred_th',
+                         '400000': 'four_hundred_th',
+                         '600000': 'six_hundred_th',
+                         '800000': 'eight_hundred_th'}
 
     def evt_ball_starting(self):
         # set the ramp doubler back to none
@@ -83,6 +89,8 @@ class Ramps(procgame.game.AdvancedMode):
                 points *= 2
             # score the points
             self.game.score(points)
+            # play the callout
+            self.game.sound.play(self.callouts[str(points)])
 
             # update stage if not already at 3
             if self.ramp_stage[ramp] < 4:
