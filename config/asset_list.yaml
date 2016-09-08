@@ -1,0 +1,354 @@
+UserInterface:
+  splash_screen: 'ironman_logo.jpg'
+  progress_bar:
+      x_center: 0.5
+      y_center: 0.1
+      width: 0.9
+      height: 0.10
+      border: 
+        - 64
+        - 64
+        - 64
+      fill: 
+        - 255
+        - 0
+        - 0
+  text:
+    color: [192, 192,0]
+    y_center: 0.3
+Animations:
+- key: 'ironman_flyby_right_movie'
+  file: 'ironman_flyby_right.mp4'
+  streamingMovie: True
+- key: 'marvel_logo_movie'
+  file: 'marvel_logo.mp4'
+  streamingMovie: True
+- key: 'stern_logo_image'
+  file: 'stern-logo.jpg'
+  holdLastFrame: True
+- key: 'ironman_logo_image'
+  file: 'ironman_logo.jpg'
+  holdLastFrame: True
+- key: 'clouds_1'
+  file: 'dark_clouds.png'
+  holdLastFrame: True
+- key: 'bright_clouds'
+  file: 'bright_clouds.jpg'
+  holdLastFrame: True
+- key: 'shield_logo_skillshot'
+  file: 'shield_logo_skillshot.jpg'
+  holdLastFrame: True
+- key: 'drone_0_image'
+  file: 'drone_0.jpg'
+  holdLastFrame: True
+- key: 'drone_1_image'
+  file: 'drone_1.jpg'
+  holdLastFrame: True
+- key: 'drone_2_image'
+  file: 'drone_2.jpg'
+  holdLastFrame: True
+- key: 'drone_3_image'
+  file: 'drone_3.jpg'
+  holdLastFrame: True
+- key: 'drone_hit_1'
+  file: 'drone_kill_1.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'drone_hit_2'
+  file: 'drone_kill_2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'drone_hit_3'
+  file: 'drone_kill_3.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'drone_hit_4'
+  file: 'drone_kill_4.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'drone_hit_5'
+  file: 'drone_kill_5.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'black'
+  file: 'black.png'
+  holdLastFrame: True
+- key: 'target_i_image'
+  file: 'target_i.jpg'
+  holdLastFrame: True
+- key: 'target_o_image'
+  file: 'target_o.jpg'
+  holdLastFrame: True
+- key: 'target_r_image'
+  file: 'target_r.jpg'
+  holdLastFrame: True
+- key: 'target_n1_image'
+  file: 'target_n1.jpg'
+  holdLastFrame: True
+- key: 'target_m_image'
+  file: 'target_m.jpg'
+  holdLastFrame: True
+- key: 'target_a_image'
+  file: 'target_a.jpg'
+  holdLastFrame: True
+- key: 'target_n2_image'
+  file: 'target_n2.jpg'
+  holdLastFrame: True
+- key: 'hit_1_movie'
+  file: 'ironman_punches_guy.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_2_movie'
+  file: 'ironman_turn_n_fire.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_3_movie'
+  file: 'ironman_shoot_guy_into_wall.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_4_movie'
+  file: 'ironman_double_blast.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'ironman_land_and_stand'
+  file: 'ironman_land_n_stand.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_1_movie'
+  file: 'whiplash_hands_working.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_2_movie'
+  file: 'whiplash_cutting_torch.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_3_movie'
+  file: 'whiplash_nozzle_flame_sledge.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_4_movie'
+  file: 'whiplash_switch_drip_working_close.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_5_movie'
+  file: 'whiplash_laughing.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_ready_movie'
+  file: 'whiplash_pick_up_arc.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_start_movie'
+  file: 'whiplash_mb_start.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'bogey_backdrop'
+  file: 'bogey_backdrop.png'
+  holdLastFrame: True
+- key: 'bogey_1_movie'
+  file: 'bogey_take_off_to_right.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_2_movie'
+  file: 'bogey_2_short_flyby_left.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_3_movie'
+  file: 'bogey_flying_pan.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_4_movie'
+  file: 'bogey_close_shot_pan.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_start_movie'
+  file: 'bogey_start.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_1'
+  file: 'bogey_1_plane_cockpit_left.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_2'
+  file: 'bogey_2_planes_turn_to_right.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_3'
+  file: 'bogey_cockpit_view_turn_left.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_4'
+  file: 'bogey_tony_annoyed_closeup.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_5'
+  file: 'bogey_plane_fires_missile.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_6'
+  file: 'bogey_tony_flies_toward_frame.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_7'
+  file: 'bogey_plane_forward_goes_right.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_8'
+  file: 'bogey_flares_explosion.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_9'
+  file: 'bogey_planes_dodge_explosion.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_10'
+  file: 'bogey_ass_cam_hud.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_11'
+  file: 'bogey_nose_of_plane_firing.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_12'
+  file: 'bogey_tony_hits_brakes.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_13'
+  file: 'bogey_pilot_checking_blind_spots.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_14'
+  file: 'bogey_pilot_spots_tony_on_plane.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_15'
+  file: 'bogey_shaking_tony_off.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_16'
+  file: 'bogey_tony_falls_hits_plane.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_17'
+  file: 'bogey_barrel_roll_behind.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_18'
+  file: 'bogey_flying_down.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'bogey_hit_19'
+  file: 'bogey_tony_face_with_hud.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mark_1_movie'
+  file: 'mark_3_alternate.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mark_2_movie'
+  file: 'mark_3_alternate.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mark_3_movie'
+  file: 'mark_3_alternate.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mark_4_movie'
+  file: 'mark_4_tony_landing.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mark_5_movie'
+  file: 'mark_3_alternate.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mark_6_movie'
+  file: 'mark_3_alternate.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+Fonts:
+  FontStyles:
+  - key: gold
+    interior_color:
+      - 255
+      - 224
+      - 0
+    line_width: 4
+    line_color:
+      - 0
+      - 0
+      - 0
+  - key: grey
+    interior_color:
+      - 192
+      - 192
+      - 192
+    line_width: 4
+    line_color:
+      - 0
+      - 0
+      - 0
+  - key: whiplash
+    interior_color:
+      - 12
+      - 117
+      - 2
+    line_color:
+      - 196
+      - 255
+      - 255
+  HDFonts:
+  - key: 'whiplash_large'
+    file: 'WOODCUTTER_STORM.ttf'
+    size: 300
+  - key: 'default'
+    file: 'BebasNeue.otf'
+    size: 120
+  - key: 'bebas180'
+    file: 'BebasNeue.otf'
+    size: 180
+  - key: 'bebas200'
+    file: 'BebasNeue.otf'
+    size: 200
+  - key: 'main_score'
+    file: 'BebasNeue.otf'
+    size: 350
+  - key: 'bebas500'
+    file: 'BebasNeue.otf'
+    size: 500
+Audio:
+  Music:
+    - key: 'ball_1_shooter_lane'
+      file: 'Sound-03F8.wav'
+      volume: 1
+  Effects:
+    - key: 'scoring_mode_start'
+      file: 'Sound-004A.wav'
+      volume: 1
+    - key: 'shields_collected'
+      file: 'Sound-004B.wav'
+      volume: 1
+  Voice:
+    - key: 'mark_1_completed'
+      file: 'Sound-0334.wav'
+      volume: 1
+    - key: 'mark_2_completed'
+      file: 'Sound-0335.wav'
+      volume: 1
+    - key: 'mark_3_completed'
+      file: 'Sound-0336.wav'
+      volume: 1
+    - key: 'mark_4_completed'
+      file: 'Sound-0337.wav'
+      volume: 1
+    - key: 'mark_5_completed'
+      file: 'Sound-0338.wav'
+      volume: 1
+    - key: 'mark_6_completed'
+      file: 'Sound-0339.wav'
+      volume: 1
+    - key: 'shields_completed'
+      file: 'Sound-0321.wav'
+      volume: 1
+    - key: 'game_start'
+      file: 'Sound-002C.wav'
+      volume: 1

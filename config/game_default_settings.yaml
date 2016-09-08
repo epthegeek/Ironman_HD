@@ -1,0 +1,168 @@
+## A P-ROC Project by Eric Priepke, Copyright 2012-2013
+## Built on the PyProcGame Framework from Adam Preble and Gerry Stellenberg
+## And PyPROCGameHD+SkeletonGame by Mike Ocean
+##
+# This file is a template for all of the settings used in the game.  The game code will
+# load this file along with a user_settings.yaml file.  Any settings not present in
+# the user_settings.yaml file will default to the default value specified here.  When
+# any setting is saved (via the in-game service menu), the user_settings.yaml file
+# will be updated with ALL of the entries here without overwriting existing settings.
+
+Machine (Standard):
+  'Color Display X Offset':
+    options: [-2500,2500]
+    increments: 1
+    default: 0
+  'Color Display Y Offset':
+    options: [-2500,2500]
+    increments: 1
+    default: -70
+  'Balls Per Game':
+    options: [1,10]
+    increments: 1
+    default: 3
+  'Tilt Warnings':
+    options: [1,10]
+    increments: 1
+    default: 2
+  'Maximum Extra Balls':
+    options: [0,10]
+    increments: 1
+    default: 2
+  'Game Restart':
+    options: [True,False]
+    default: True
+  'Slow Attract Pages':
+    options: ['Enabled','Disabled']
+    default: 'Disabled'
+  'Flipper Pulse':
+    options: [25,40]
+    increments: 1
+    default: 34
+  'Autoplunger Strength':
+    options: [20,50]
+    increments: 5
+    default: 20
+  'Trough Eject Strength':
+    options: [20,50]
+    increments: 5
+    default: 30
+  'Inactive Switch Warning':
+    options: [3,30]
+    increments: 1
+    default: 5
+  'Max Initials Length':
+    options: [3,12]
+    default: 3
+  'Replays':
+    options: ['Enabled','Disabled']
+    default: 'Enabled'
+  'Replay Award':
+    options: ['Extra Ball']
+    default: 'Extra Ball'
+  'Replay Score':
+    options: [3000000,9000000000]
+    increments: 500000
+    default: 10000000
+  'Replay Auto Adjust':
+    options: ['Yes','No']
+    default: 'Yes'
+  'Replay Score Pad':
+    options: [0,10000000]
+    increments: 500000
+    default: 0
+  'Match Percentage':
+    options: [1,100]
+    increments: 1
+    default: 10
+Sound:
+  'Initial volume':
+    options: [1,2,3,4,5,6,7,8,9,10]
+    default: 5
+  'Music volume offset':
+    options: [-0.4,-0.3,-0.2,-0.1,0,0.1,0.2,0.3,0.4]
+    default: 0
+Ironman:
+  '01 Bogey Timer':
+    options: [15,60]
+    increments: 1
+    default: 25
+  '02 1st Hard Bogey Ramp':
+    options: [0,10]
+    increments: 1
+    default: 1
+  '03 Double Scoring Timer':
+    options: [10,60]
+    increments: 1
+    default: 40
+  '04 Fast Scoring Timer':
+    options: [10,60]
+    increments: 1
+    default: 40
+  '05 Ironman Target Difficulty':
+    options: ['Extra Easy','Easy','Medium','Hard','Extra Hard']
+    default: 'Medium'
+  '06 Monger Letter Difficulty':
+    options: ['Easy','Medium','Hard']
+    default: 'Easy'
+  '07 Iron Monger Start Difficulty':
+    options: ['Easy','Hard']
+    default: 'Easy'
+  '08 Whiplash Starting Target Hits':
+    options: [3,7]
+    increments: 1
+    default: 5
+  '09 Whiplash Additional Target Hits':
+    options: [3,7]
+    increments: 1
+    default: 5
+  '10 War Machine MB Start Difficulty':
+    options: ['Extra Easy','Easy','Medium','Hard','Extra Hard']
+    default: 'Easy'
+  '11 Jericho Carry Over Ball to Ball':
+    options: ['Yes','No']
+    default: 'No'
+  '12 Do or Die MB Champion':
+    options: [5000000,50000000]
+    increments: 5000000
+    default: 25000000
+  '13 Do Or Die MB Champion Award':
+    options: ['Credit','Ticket','Token']
+    default: 'Credit'
+  '14 Do Or Die MB Champ Awards':
+    options: [0,5]
+    increments: 1
+    default: 0
+  '15 Disable Center Lane Up Post':
+    options: ['No','Yes']
+    default: 'No'
+  '16 Disable Orbit Up Post':
+    options: ['No','Yes']
+    default: 'No'
+  '17 Disable Iron Monger Magnet':
+    options: ['No','Yes']
+    default: 'No'
+  '18 Disable Iron Monger Motor':
+    options: ['No','Yes']
+    default: 'No'
+  '19 Disable Whiplash Magnet':
+    options: ['No','Yes']
+    default: 'No'
+  '20 Light Shows':
+    options: ['Flash + Playfield','Flash']
+    default: 'Flash + Playfield'
+  '21 Game Lamp Type':
+    options: ['Incandescent','LED']
+    default: 'Incandescent'
+  '22 Shaker Motor':
+    options: ['None','Minimal','Moderate','Max']
+    default: 'None'
+  '23 Music Volume':
+    options: [0,60]
+    increments: 1
+    default: 0
+  '24 Speech Volume':
+    options: [0,60]
+    increments: 1
+    default: 0
+

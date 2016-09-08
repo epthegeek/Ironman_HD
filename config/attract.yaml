@@ -1,0 +1,26 @@
+Sequence:
+    - LastScores:
+        Font: default
+        FontStyle: gold
+        Background: clouds_1
+        duration: 2.0
+    - panning_layer:
+        width: 1920
+        height: 800
+        origin_x: 0
+        origin_y: 0
+        scroll_x: 0
+        scroll_y: 4
+        frames_per_movement: 1 
+        bounce: False
+        contents:
+            animation_layer:
+              name: stern_logo_image
+        duration: 6.5
+    - Animation: 
+        Name: marvel_logo_movie
+    - animation_layer:
+        name: ironman_logo_image
+        duration: 3.0
+    - Animation: 
+        Name: ironman_flyby_right_movie

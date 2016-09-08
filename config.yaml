@@ -1,0 +1,48 @@
+font_path: ./assets/dmd/
+config_path: ./config/
+dmd_path: ./assets/dmd/
+sound_path: ./assets/sound/
+voice_dir: voice/
+sfx_dir: sfx/
+music_dir: music/
+hdfont_path: ./assets/fonts
+
+default_modes: 
+    score_display: "HD"
+    bonus_tally: False
+    osc_input: True
+    service_mode: True
+
+pinproc_class: procgame.fakepinproc.FakePinPROC
+
+use_virtual_dmd_only: True
+dmd_dots_w: 1920
+dmd_dots_h: 800
+dmd_dot_filter: False
+dmd_fullscreen: False
+desktop_dmd_scale: 1
+dmd_framerate: 48
+screen_position_x: 0
+screen_position_y: 204
+dmd_window_border: True
+
+keyboard_switch_map:
+    1: startButton
+    w: leftTargetI
+    i: rightTargetN
+    z: leftRampExit
+    x: rightRampExit
+    y: phantomSwitch1
+    q: whiplashLeft
+    m: mongerOptoLeft
+    c: leftOutlane
+    v: leftReturnLane
+    o: topLeftLane
+    p: topRightLane
+    s: droneTarget0
+    d: droneTarget1
+    f: droneTarget2
+    g: droneTarget3
+    a: warMachineOpto
+    1073742053: flipperLwL
+    1073742049: flipperLwR

@@ -1,0 +1,689 @@
+##
+## Ironman HD
+##
+##
+## A P-ROC Project by Eric Priepke, Copyright 2012-2013
+## Built on the PyProcGame Framework from Adam Preble and Gerry Stellenberg
+##
+
+# P-ROC Game Description file for Stern Iron Man
+PRGame:
+    machineType: sternSAM
+    numBalls: 4
+PRFlippers:
+    - flipperLwR
+    - flipperLwL
+PRBumpers:
+    - leftSlingshot
+    - rightSlingshot
+    - leftJetBumper
+    - rightJetBumper
+    - bottomJetBumper
+PRSwitches:
+    # **** Format ****
+    # name:
+    #   number: <number>
+    #   type: <type>
+    #
+    #   <number> can be: SFx (Flipper switch, labeled Fx in WPC manual
+    #                    SDx (Dedicated switch, labeled SDx in WPC manual
+    #                    Sx  (Matrix switch, labeled x in WPC manual
+    #   <type> can be: 'NO' (normally open.  This is the default; so no need to use this)
+    #    'NC' (normally closed.  Common for optos)
+
+    #Dedicated Grounded Swtches
+    leftCoin:
+        number: SD1
+        label: Left Coin Chute
+        tags: Dedicated,0,1
+    centerCoin:
+        number: SD2
+        label: Center Coin Chute
+        tags: Dedicated,0,2
+    rightCoin:
+        number: SD3
+        label: Right Coin Chute
+        tags: Dedicated,0,3
+    fourthCoin:
+        number: SD4
+        label: 4th Coin Chute
+        tags: Dedicated,0,4
+    flipperLwL:
+        number: SD9
+        label: Left Flipper Button
+        tags: Dedicated
+    flipperLwLEOS:
+        number: SD10
+        label: Left Flipper EOS
+        tags: Dedicated
+    flipperLwR:
+        number: SD11
+        label: Right Flipper Button
+        tags: Dedicated
+    flipperLwREOS:
+        number: SD12
+        label: Right Flipper EOS
+        tags: Dedicated
+    tilt:
+        number: SD17
+        label: Tilt Pendulum
+        tags: Dedicated,tilt
+    slamTilt:
+        number: SD18
+        label: Slam Tilt
+        tags: Dedicated
+    exit:
+        number: SD21
+        label: Exit
+        tags: Dedicated,0,5
+    down:
+        number: SD22
+        label: Down
+        tags: Dedicated,0,6
+    up: 
+        number: SD23
+        label: Up
+        tags: Dedicated,0,7
+    enter: 
+        number: SD24
+        label: Enter
+        tags: Dedicated,0,8
+    dipSW1:
+        number: SD25
+    dipSW2:
+        number: SD26
+    dipSW3:
+        number: SD27
+    dipSW4:
+        number: SD28
+    dipSW5:
+        number: SD29
+    dipSW6:
+        number: SD30
+    dipSW7:
+        number: SD31
+    dibSW8:
+        number: SD32
+
+    #Matrix Switches
+    motorSwitchTop:
+        number: S01
+        label: Monger Motor Switch Top Position
+        tags: Standard,1,1
+    motorSwitch2:
+        number: S02
+        label: Monger Motor Switch
+        tags: Standard,2,1
+    motorSwitchBot:
+        number: S03
+        label: Monger Motor Switch Bottom Position
+        tags: Standard,3,1
+    mongerOptoLeft:
+        number: S04
+        label: Monger Opto Left
+        tags: Standard,4,1,Bonus
+        type: 'NC'
+    mongerOptoCenter:
+        number: S05
+        label: Monger Opto Center
+        tags: Standard,5,1,Bonus
+        type: 'NC'
+    mongerOptoRight:
+        number: S06
+        label: Monger Opto Right
+        tags: Standard,6,1,Bonus
+        type: 'NC'
+    leftOrbit:
+        number: S07
+        label: Left Orbit
+        tags: Standard,7,1,Bonus
+    motorSwitch4:
+        number: S08
+        label: Monger Motor Switch
+        tags: Standard,8,1
+    rightOrbit:
+        number: S09
+        label: Monger Motor Switch
+        tags: Standard,9,1,Bonus
+    warMachineOpto:
+        number: S10
+        label: War Machine Opto
+        tags: Standard,10,1,Bonus
+        type: 'NC'
+    leftSpinner:
+        number: S11
+        label: Left Orbit Spinner
+        tags: Standard,11,1,Bonus
+    leftRampEnter:
+        number: S12
+        label: Left Ramp Enter
+        tags: Standard,12,1,Bonus
+    centerSpinner:
+        number: S13
+        label: Center Spinner
+        tags: Standard,13,1,Bonus
+    rightSpinner:
+        number: S14
+        label: Right Spinner
+        tags: Standard,14,1,Bonus
+    tournStartButton:
+        number: S15
+        label: Tournament Start Button
+        tags: Standard,15,1
+        type: 'NC'
+    startButton:
+        number: S16
+        label: Start Button
+        tags: Standard,16,1
+    phantomSwitch1:
+        number: S17
+        label: Unused Position
+        tags: Standard,1,2
+    troughBallFour:
+        number: S18
+        label: Trough Ball 4
+        tags: Standard,2,2
+        type: 'NC'
+    troughBallThree:
+        number: S19
+        label: Trough Ball 3
+        tags: Standard,2,3
+        type: 'NC'
+    troughBallTwo:
+        number: S20
+        label: Trough Ball 2
+        tags: Standard,2,4
+        type: 'NC'
+    troughBallOne:
+        number: S21
+        label: Trough Ball 1
+        tags: Standard,2,5
+        type: 'NC'
+    troughEject:
+        number: S22
+        label: Trough Stack
+        tags: Standard,2,6
+        type: 'NC'
+    shooterLane:
+        number: S23
+        label: Shooter Lane
+        tags: Standard,2,7,shooter
+    leftOutlane:
+        number: S24
+        label: Left Outlane
+        tags: Standard,2,8,Bonus
+    leftReturnLane:
+        number: S25
+        label: left Return Lane
+        tags: Standard,2,9,Bonus
+    leftSlingshot:
+        number: S26
+        label: Left Slingshot
+        tags: Standard,2,10,Bonus
+    rightSlingshot:
+        number: S27
+        label: Right Slingshot
+        tags: Standard,2,11,Bonus
+        debounce: False
+    rightReturnLane:
+        number: S28
+        label: Right Return Lane
+        tags: Standard,2,12,Bonus
+    rightOutlane:
+        number: S29
+        label: Right Outlane
+        tags: Standard,2,13,Bonus
+    leftJetBumper:
+        number: S30
+        label: Left Pop Bumper
+        tags: Standard,2,14,Bonus
+    rightJetBumper:
+        number: S31
+        label: Right Pop Bumper
+        tags: Standard,2,15,Bonus
+    bottomJetBumper:
+        number: S32
+        label: Bottom Pop Bumper
+        tags: Standard,2,16,Bonus
+    leftTargetI:
+        number: S33
+        label: Left Targets I
+        tags: Standard,3,1,Bonus
+    leftTargetR:
+        number: S34
+        label: Left Targets R
+        tags: Standard,3,2,Bonus
+    leftTargetO:
+        number: S35
+        label: Left Targets O
+        tags: Standard,3,3,Bonus
+    leftTargetN:
+        number: S36
+        label: Left Targets N
+        tags: Standard,3,4,Bonus
+    rightRampExit:
+        number: S37
+        label: Right Ramp Exit
+        tags: Standard,3,5,Bonus
+    topLeftLane:
+        number: S38
+        label: Top Left Lane
+        tags: Standard,3,6,Bonus
+    topRightLane:
+        number: S39
+        label: Top Right Lane
+        tags: Standard,3,7,Bonus
+    rightTargetM:
+        number: S40
+        label: Right Target M
+        tags: Standard,3,8,Bonus
+    rightTargetA:
+        number: S41
+        label: Right Target A
+        tags: Standard,3,9,Bonus
+    rightTargetN:
+        number: S42
+        label: Right Target N
+        tags: Standard,3,10,Bonus
+    rightRampEnter:
+        number: S43
+        label: Right Ramp Enter
+        tags: Standard,3,11,Bonus
+    droneTarget0:
+        number: S44
+        label: Drone Target 1 - Left
+        tags: Standard,3,12,Bonus
+    droneTarget1:
+        number: S45
+        label: Drone Target 2 - Left Center
+        tags: Standard,3,13,Bonus
+    droneTarget2:
+        number: S46
+        label: Drone Target 3 - Right Center
+        tags: Standard,3,14,Bonus
+    whiplashLeft:
+        number: S47
+        label: Whiplash Left Target
+        tags: Standard,3,15,Bonus
+    whiplashRight:
+        number: S48
+        label: Whiplash Right Target
+        tags: Standard,3,16,Bonus
+    leftRampExit:
+        number: S49
+        label: Left Ramp Exit
+        tags: Standard,4,1,Bonus
+    droneTarget3:
+        number: S50
+        label: Drone Target 4 - Right
+        tags: Standard,4,2,Bonus
+    phantomSwitch2:
+        number: S51
+        label: Unused Switch
+        tags: Standard,4,3
+    phantomSwitch3:
+        number: S52
+        label: Unused Switch
+        tags: Standard,4,4
+    phantomSwitch4:
+        number: S53
+        label: Unused Switch
+        tags: Standard,4,5
+
+PRCoils:
+    troughEject:
+        number: C01
+    autoPlunger:
+        number: C02
+    ironMongerMagnet:
+        number: C03
+    whiplashMagnet:
+        number: C04
+    warMachineKicker:
+        number: C05
+        tags: Solenoid
+    orbitPost:
+        number: C06
+        tags: Solenoid
+    shakerMotor:
+        number: C08
+        tags: Mech
+    leftJetBumper:
+        number: C09
+        tags: Solenoid
+    rightJetBumper:
+        number: C10
+        tags: Solenoid
+    bottomJetBumper:
+        number: C11
+        tags: Solenoid
+    centerShotPost:
+        number: C12
+    flipperLwLMain:
+        number: C15
+        tags: Solenoid
+    flipperLwRMain:
+        number: C16
+        tags: Solenoid
+    leftSlingshot:
+        number: C17
+        tags: Solenoid
+    rightSlingshot:
+        number: C18
+        tags: Solenoid
+    ironMongerMotor:
+        number: C19
+        tags: Mech
+    popsFlasher:
+        number: C20
+        tags: Flasher
+    leftRampTopFlasher:
+        number: C21
+        tags: Flasher
+    warMachineEntranceFlasher:
+        number: C22
+        tags: Flasher
+    centerShotMongerFlasher:
+        number: C23
+        tags: Flasher
+    ironMongerFlasher:
+        number: C25
+        tags: Flasher
+    rightRampTopFlasher:
+        number: C26
+        tags: Flasher
+    warMachineFlasher:
+        number: C27
+        tags: Flasher
+    whiplashFlasher:
+        number: C29
+        tags: Flasher
+    mark6Flasher:
+        number: C30
+        label: Left Pistol
+        tags: Flasher
+    leftRampBottomFlasher:
+        number: C31
+        label: Mine Motor
+        tags: Flasher
+    rightRampBottomFlasher:
+        number: C32
+        label: Mine
+        tags: Flasher
+
+PRLamps:
+    startButton:
+        number: L01
+        label: Start Button
+    tournStartButton:
+        number: L02
+        label: Tournament Start Button
+        tags: Playfield
+    shootAgain:
+        number: L03
+        label: Shoot Again
+        tags: Playfield
+    leftOutlane:
+        number: L04
+        label: Left Outlane Shield
+        tags: Playfield
+    leftReturnLane:
+        number: L05
+        label: Left Return Lane Shiled
+        tags: Playfield
+    rightReturnLane:
+        number: L06
+        label: Right Return Lane Shield
+        tags: Playfield
+    rightOutlane:
+        number: L07
+        label: Right Outlane Shield
+        tags: Playfield
+    extraBall:
+        number: L08
+        label: Extra Ball
+        tags: Playfield
+    centerShotArrow:
+        number: L09
+        label: Center Shot Arrow
+        tags: Playfield
+    centerShotMonger:
+        number: L10
+        label: Center Shot Monger Insert
+        tags: Playfield
+    centerShotWeaponAdvance:
+        number: L11
+        label: Center Weapon Advance
+        tags: Playfield
+    droneTarget2:
+        number: L12
+        label: Drone 3 Arrow
+        tags: Playfield
+    droneTarget1:
+        number: L13
+        label: Drone 2 Arrow
+        tags: Playfield
+    leftRampArrow:
+        number: L14
+        label: Left Ramp Arrow
+        tags: Playfield
+    leftOrbitMonger:
+        number: L15
+        label: Left Orbit Monger
+        tags: Playfield
+    leftOrbitWeaponAdvance:
+        number: L16
+        label: Left Weapon Advance
+        tags: Playfield
+    leftTargetsN:
+        number: L17
+        label: IRO(N) MAN
+        tags: Playfield
+    leftTargetsO:
+        number: L18
+        label: IR(O)N MAN
+        tags: Playfield
+    leftTargetsR:
+        number: L19
+        label: I(R)ON MAN
+        tags: Playfield
+    leftTargetsI:
+        number: L20
+        label: (I)RON MAN
+        tags: Playfield
+    warMachine:
+        number: L21
+        label: War Machine Insert
+        tags: Playfield
+    leftRamp400k:
+        number: L22
+        label: Left Ramp 400k
+        tags: Playfield
+    leftRamp300k:
+        number: L23
+        label: Left Ramp 300k
+        tags: Playfield,
+    leftRamp200k:
+        number: L24
+        label: Left Ramp 200k
+        tags: Playfield
+    leftRamp100k:
+        number: L25
+        label: Left Ramp 100k
+        tags: Playfield
+    rightRampArrow:
+        number: L26
+        label: Right Ramp Arrow
+        tags: Playfield
+    collectShield:
+        number: L27
+        label: Collect Shield
+        tags: Playfield
+    mongerR:
+        number: L28
+        label: MONGE(R)
+        tags: Playfield
+    mongerE:
+        number: L29
+        label: MONG(E)R
+        tags: Playfield
+    mongerG:
+        number: L30
+        label: MON(G)ER
+        tags: Playfield
+    mongerN:
+        number: L31
+        label: MO(N)GER
+        tags: Playfield
+    mongerO:
+        number: L32
+        label: M(O)NGER
+        tags: Playfield
+    mongerM:
+        number: L33
+        label: (M)ONGER
+        tags: Playfield
+    rightOrbitArrow:
+        number: L34
+        label: Right Orbit Arrow
+        tags: Playfield
+    rightOrbitMonger:
+        number: L35
+        label: Right Orbit Monger Insert
+        tags: Playfield,Main
+    rightTargetsM:
+        number: L36
+        label: IRON (M)AN
+        tags: Playfield
+    rightTargetsA:
+        number: L37
+        label: IRON M(A)N
+        tags: Playfield
+    rightTargetsN:
+        number: L38
+        label: IRON MA(N)
+        tags: Playfield
+    rightRamp400k:
+        number: L39
+        label: Right Ramp 400k
+        tags: Playfield
+    rightRamp300k:
+        number: L40
+        label: Right Ramp 300k
+        tags: Playfield
+    rightRamp200k:
+        number: L41
+        label: Right Ramp 200k
+        tags: Playfield
+    rightRamp100k:
+        number: L42
+        label: Right Ramp 100k
+        tags: Playfield
+    droneTarget0:
+        number: L43
+        label: Drone Target 1 Arrow
+        tags: Playfield
+    progressIronMan:
+        number: L44
+        label: Center Lights Iron Man
+        tags: Playfield
+    progressWarMachine:
+        number: L45
+        label: Center Lights War Machine
+        tags: Playfield
+    progressIronMonger:
+        number: L46
+        label: Center Lights Iron Monger
+        tags: Playfield
+    progressWhiplash:
+        number: L47
+        label: Center Lights Whiplash
+        tags: Playfield
+    progressDrones:
+        number: L48
+        label: Center Lights Drones
+        tags: Playfield
+    mark5:
+        number: L49
+        label: Mark V
+        tags: Playfield
+    mark4:
+        number: L50
+        label: Mark IV
+        tags: Playfield
+    mark3:
+        number: L51
+        label: Mark III
+        tags: Playfield
+    mark2:
+        number: L52
+        label: Mark II
+        tags: Playfield
+    mark1:
+        number: L53
+        label: Mark I
+        tags: Playfield
+    leftOrbitArrow:
+        number: L54
+        label: Left Orbit Arrow
+        tags: Playfield
+    mark6:
+        number: L55
+        label: Mark VI
+        tags: Playfield
+    Special:
+        number: L56
+        label: Special
+        tags: Playfield
+    topLeftLane:
+        number: L57
+        label: Top Left Lane
+        tags: Playfield
+    topRightLane:
+        number: L58
+        label: Top Right Lane
+        tags: Playfield
+    droneTarget3:
+        number: L59
+        label: Drone Target 4 Arrow
+        tags: Playfield
+    leftJetBumper:
+        number: L60
+        label: Left Jet Bumper
+        tags: Playfield
+    rightJetBumper:
+        number: L61
+        label: Right Jet Bumper
+        tags: Playfield
+    bottomJetBumper:
+        number: L62
+        label: Bottom Jet Bumper
+        tags: Playfield
+    rightOrbitWeaponAdvance:
+        number: L63
+        label: Right Orbit Weapon Advance
+        tags: Playfield
+
+PRBallSave:
+    pulseCoils: [leftJetBumper, rightJetBumper, bottomJetBumper,leftSling,rightSling]
+    resetSwitches:
+        rightOutlane: open
+        leftOutlane: open
+        rightReturnLane: open
+        leftReturnLane: open
+        rightRampEnter: open
+        leftRampEnter: open
+        centerRampEnter: open
+        leftOrbit: open
+        rightOrbit: open
+        rightRampExit: open
+        leftRampExit: open
+        warMachine: open
+        topLeftLane: open
+        topRightLane: open
+    stopSwitches:
+        shooterLane: closed
+        # don't ball search if a flipper button is pressed
+        flipperLwL: closed
+        flipperLwR: closed
+

@@ -1,0 +1,141 @@
+import procgame.game
+from procgame.game import AdvancedMode
+
+import pygame
+from pygame.locals import *
+from pygame.font import *
+from collections import deque
+
+class Shields(procgame.game.AdvancedMode):
+    def __init__(self, game):
+        super(Shields, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        self.myID = "Shields"
+        self.shield_lamps = [self.game.lamps.topLeftLane,
+                             self.game.lamps.topRightLane,
+                             self.game.lamps.rightOutlane,
+                             self.game.lamps.rightReturnLane,
+                             self.game.lamps.leftReturnLane,
+                             self.game.lamps.leftOutlane]
+
+    def evt_ball_starting(self):
+        self.shield_tracking = self.game.getPlayerState('shields')
+        self.shield_awards_pending = self.game.getPlayerState('shield_awards_pending')
+        self.shield_awards_collected = self.game.getPlayerState('shield_awards_collected')
+        self.valid = True
+        self.shield_mark = self.game.getPlayerState('shield_mark')
+
+    def evt_ball_ending(self):
+        self.game.setPlayerState('shields',self.shields_tracking)
+        self.game.setPlayerState('shield_awards_pending',self.shield_awards_pending)
+        self.game.setPlayerState('shield_awards_collected', self.shield_awards_collected)
+        self.game.setPlayerState('shield_mark', self.shield_mark)
+
+    ####
+    ### Shields
+    ####
+
+    def sw_topLeftLane_active(self, sw):
+        self.shield_hit(0)
+
+    def sw_topRightLane_active(self, sw):
+        self.shield_hit(1)
+
+    def sw_rightOutlane_active(self, sw):
+        self.shield_hit(2)
+
+    def sw_rightReturnLane_active(self, sw):
+        self.shield_hit(3)
+
+    def sw_leftReturnLane_active(self, sw):
+        self.shield_hit(4)
+
+    def sw_leftOutlane_active(self, sw):
+        self.shield_hit(5)
+
+    def sw_flipperLwL_active(self,sw):
+        if self.valid:
+            self.rotate_shields(-1)
+
+    def sw_flipperLwR_active(self,sw):
+        if self.valid:
+            self.rotate_shields(1)
+
+    def sw_warMachineOpto_active(self,sw):
+        if self.shield_awards_pending > 0:
+            self.collect_award()
+
+    def shield_hit(self,switch):
+        if self.valid:
+            # is this switch already on?
+            if self.shield_tracking[switch] == True:
+                # already lit
+                points = 1090
+                #sound = "miss"
+            else:
+                self.shield_tracking[switch] = True
+                points = 3000
+                #sound = "hit"
+            # if it was an outlane, the points are 10k
+            if switch == 2 or switch == 5:
+                points = 10000
+                #sound = outlane
+
+            #Did we finish the set?
+            if False not in self.shield_tracking:
+                self.valid = False
+                self.game.score(10000)
+                self.light_shield_collect()
+            else:
+                #play the selected sound
+                self.game.score(points)
+
+    def light_shield_collect(self):
+        # add the bonus multiplier
+        self.base_game_mode.bonus_x += 1
+        # play a sound
+        self.game.sound.play('shields_collected')
+        duration = self.game.sound.sounds['shields_collected']['sound_list'][0].get_length()
+        # play a quote
+        self.delay(delay=(duration -1) ,handler=lambda: self.game.sound.play_voice('shields_completed'))
+        self.shield_awards_pending += 1
+        # flash the lights a bit
+        self.flash_lights()
+        # if this player hasn't gotten a mark level from shields, add one
+        if not self.shield_mark:
+            self.game.mark.player_mark += 1
+            self.game.mark.score()
+            self.delay(delay=3,handler=self.game.mark.completed)
+            self.shield_mark = True
+        # reset
+        self.delay(delay=2,handler=self.reset_shields)
+
+    def collect_award(self):
+        if self.shield_awards_pending > 0:
+            self.game.score(10)
+            self.shield_awards_pending -= 1
+            self.game.displayText("SHIELDS COLLECTED")
+
+    def reset_shields(self):
+        self.shield_tracking = [False,False,False,False,False,False]
+        self.valid = True
+        self.update_lamps()
+
+    def rotate_shields(self,direction):
+        if self.valid:
+            items = deque(self.shield_tracking)
+            items.rotate(direction)
+            self.shield_tracking = items
+            self.update_lamps()
+
+    def update_lamps(self):
+        if self.valid:
+            for i in range (0,6,1):
+                if self.shield_tracking[i] == True:
+                    self.shield_lamps[i].enable()
+                else:
+                    self.shield_lamps[i].disable()
+
+    def flash_lights(self):
+        for i in range (0,6,1):
+            self.shield_lamps[i].schedule(0x00FF00FF)
+

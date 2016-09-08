@@ -1,0 +1,15 @@
+Ironman: {01 Bogey Timer: 25, 02 1st Hard Bogey Ramp: 1, 03 Double Scoring Timer: 40,
+  04 Fast Scoring Timer: 40, 05 Ironman Target Difficulty: Medium, 06 Monger Letter Difficulty: Easy,
+  07 Iron Monger Start Difficulty: Easy, 08 Whiplash Starting Target Hits: 5, 09 Whiplash Additional Target Hits: 5,
+  10 War Machine MB Start Difficulty: Easy, 11 Jericho Carry Over Ball to Ball: 'No',
+  12 Do or Die MB Champion: 25000000, 13 Do Or Die MB Champion Award: Credit, 14 Do Or Die MB Champ Awards: 0,
+  15 Disable Center Lane Up Post: 'No', 16 Disable Orbit Up Post: 'No', 17 Disable Iron Monger Magnet: 'No',
+  18 Disable Iron Monger Motor: 'No', 19 Disable Whiplash Magnet: 'No', 20 Light Shows: Flash
+    + Playfield, 21 Game Lamp Type: Incandescent, 22 Shaker Motor: None, 23 Music Volume: 0,
+  24 Speech Volume: 0}
+Machine (Standard): {Autoplunger Strength: 20, Balls Per Game: 3, Color Display X Offset: 0,
+  Color Display Y Offset: -70, Flipper Pulse: 34, Game Restart: true, Inactive Switch Warning: 5,
+  Match Percentage: 10, Max Initials Length: 3, Maximum Extra Balls: 2, Replay Auto Adjust: 'Yes',
+  Replay Award: Extra Ball, Replay Score: 10000000, Replay Score Pad: 0, Replays: Enabled,
+  Slow Attract Pages: Disabled, Tilt Warnings: 2, Trough Eject Strength: 30}
+Sound: {Initial volume: 5, Music volume offset: 0}
