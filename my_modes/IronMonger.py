@@ -40,6 +40,8 @@ class IronMonger(procgame.game.AdvancedMode):
             self.game.coils.ironmongerMagnet.pulse()
         if input == "Hold":
             self.game.coils.ironmongerMagnet.patter(on_time=2,off_time=6,original_on_time=10)
+        if input == "Release":
+            self.game.coils.ironmongerMagnet.disable()
 
 
     def sw_leftSpinner_active(self,sw):
@@ -78,10 +80,10 @@ class IronMonger(procgame.game.AdvancedMode):
         if self.letters < 10:
             self.letters += 1
             if self.letters == 10:
-                self.rise()
+                self.game.monger_toy.rise()
 
     def hit_toy(self):
-        if self.status == "UP":
+        if self.game.monger_toy.status == "UP":
             # play a sound
             # score some points?
             # add a letter
@@ -90,27 +92,9 @@ class IronMonger(procgame.game.AdvancedMode):
                 if self.toy_letters == 6:
                     self.start_multiball()
 
-    def rise(self):
-        if self.game.switches['motorSwitchBot'].is_active() and not self.game.switches['motorSwitchTop'].is_active():
-            # raise the monger
-            self.status= "MOVING"
-            self.game.coils.mongerMotor.patter(on_time=6, off_time=6)
-
-    def lower(self):
-        if self.game.switches['motorSwitchTop'].is_active() and not self.game.switches['motorSwitchBot'].is_active():
-            self.status = "MOVING"
-            self.game.coils.mongerMotor.patter(on_time=6,off_time=6)
-
-    def sw_motorSwitchTop_active(self,sw):
-        self.game.coils.mongerMotor.disable()
-        self.status == "UP"
-
-    def sw_motorSwitchBot_active(self,sw):
-        self.game.coilsmongerMotor.disable()
-
     def start_multiball(self):
-        print "START MULTIBALL"
-        pass
+        self.game.modes.add(self.game.monger_multiball)
+        self.game.monger_multiball.start_multiball()
 
     def validate(self,spinner):
         self.valid[spinner] = True

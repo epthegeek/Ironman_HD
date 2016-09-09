@@ -19,8 +19,10 @@ from my_modes import Pops
 from my_modes import Marks
 from my_modes import WarMachine
 from my_modes import IronMonger
+from my_modes import MongerToy
 from my_modes import SwitchFilter
 from my_modes import Bogey
+from my_modes import MongerMultiball
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -47,7 +49,11 @@ class IMGame(SkeletonGame):
         self.monger = IronMonger(game=self)
 
         self.bogey = Bogey(game=self) # pri 15
-        self.mark = Marks(game=self) # pri 10
+        self.mark = Marks(game=self) # pri 15
+
+        self.monger_toy = MongerToy(game=self) # pri 20
+
+        self.monger_multiball = MongerMultiball(game=self) # pri 50
 
         self.switch_filter = SwitchFilter(game=self) # pri 900
 

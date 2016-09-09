@@ -9,8 +9,10 @@ __all__ = [
     'Marks',
     'WarMachine',
     'IronMonger',
+    'MongerToy,'
     'SwitchFilter',
-    'Bogey'
+    'Bogey',
+    'MongerMultiball'
     ]
 
 from BaseGameMode import *
@@ -23,5 +25,7 @@ from Pops import *
 from Marks import *
 from WarMachine import *
 from IronMonger import *
+from MongerToy import *
 from SwitchFilter import *
 from Bogey import *
+from MongerMultiball import *
