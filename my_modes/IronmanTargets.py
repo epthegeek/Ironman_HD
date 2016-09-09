@@ -236,9 +236,9 @@ class IronmanTargets(procgame.game.AdvancedMode):
     def update_lamps(self):
         # default state for unlit lamps is blinking
         for lamp in self.left_lamps:
-            lamp.schedule(0x0F0F0F0F)
+            lamp.schedule(0x224AC244) # 0010 0010 0100 1011 1101 0010 0100 0100
         for lamp in self.right_lamps:
-            lamp.schedule(0x0F0F0F0F)
+            lamp.schedule(0x224AC244)
         # if they're done, flash slower - a nice pulse fade would be good eventually
         if True not in self.left_tracking and True not in self.right_tracking:
             for lamp in self.left_lamps:

@@ -250,6 +250,7 @@ class MovieLayer(Layer):
             movie = Movie().load(movie_file_path)
 
         self.movie = movie
+        self.composite_op = None
 
         if self.movie.vc == None:
             raise ValueError, "OpenCV failed to handle this movie"
@@ -335,7 +336,7 @@ class MovieLayer(Layer):
             video_frame = cv2.cvtColor(video_frame,cv2.cv.CV_BGR2RGB)
             the_frame = cv.fromarray(video_frame)
             # surface = pygame.image.frombuffer(the_frame.tostring(), (self.movie.width, self.movie.height), 'RGB')
-            surf = sdl2_DisplayManager.inst().make_texture_from_imagebits(bits=the_frame.tostring(), width=self.movie.width, height=self.movie.height, mode='RGB', composite_op = None)
+            surf = sdl2_DisplayManager.inst().make_texture_from_imagebits(bits=the_frame.tostring(), width=self.movie.width, height=self.movie.height, mode='RGB', composite_op = self.composite_op)
 
             self.frame.pySurface = surf
 

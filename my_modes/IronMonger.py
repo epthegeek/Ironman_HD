@@ -91,10 +91,22 @@ class IronMonger(procgame.game.AdvancedMode):
                     self.start_multiball()
 
     def rise(self):
-        if self.game.switches['motorSwitchBot'].is_active():
+        if self.game.switches['motorSwitchBot'].is_active() and not self.game.switches['motorSwitchTop'].is_active():
             # raise the monger
-            # set the status to up
-            self.status = "UP"
+            self.status= "MOVING"
+            self.game.coils.mongerMotor.patter(on_time=6, off_time=6)
+
+    def lower(self):
+        if self.game.switches['motorSwitchTop'].is_active() and not self.game.switches['motorSwitchBot'].is_active():
+            self.status = "MOVING"
+            self.game.coils.mongerMotor.patter(on_time=6,off_time=6)
+
+    def sw_motorSwitchTop_active(self,sw):
+        self.game.coils.mongerMotor.disable()
+        self.status == "UP"
+
+    def sw_motorSwitchBot_active(self,sw):
+        self.game.coilsmongerMotor.disable()
 
     def start_multiball(self):
         print "START MULTIBALL"

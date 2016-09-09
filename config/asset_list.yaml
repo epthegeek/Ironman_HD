@@ -50,25 +50,9 @@ Animations:
 - key: 'drone_3_image'
   file: 'drone_3.jpg'
   holdLastFrame: True
-- key: 'drone_hit_1'
-  file: 'drone_kill_1.mp4'
-  holdLastFrame: True
-  streamingMovie: True
-- key: 'drone_hit_2'
-  file: 'drone_kill_2.mp4'
-  holdLastFrame: True
-  streamingMovie: True
-- key: 'drone_hit_3'
-  file: 'drone_kill_3.mp4'
-  holdLastFrame: True
-  streamingMovie: True
-- key: 'drone_hit_4'
-  file: 'drone_kill_4.mp4'
-  holdLastFrame: True
-  streamingMovie: True
-- key: 'drone_hit_5'
-  file: 'drone_kill_5.mp4'
-  holdLastFrame: True
+- key: 'explosion'
+  file: 'explosion.mp4'
+  holdLastFrame: False
   streamingMovie: True
 - key: 'black'
   file: 'black.png'
@@ -330,6 +314,9 @@ Audio:
     - key: 'start_button'
       file: 'Sound-002C.wav'
       volume: 1
+    - key: 'drone_hit'
+      file: 'Sound-00A1.wav'
+      volume: 1
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'
@@ -372,4 +359,19 @@ Audio:
       volume: 1
     - key: 'eight_hundred_th'
       file: 'Sound-02F3.wav'
+      volume: 1
+    - key: 'aa_drone'
+      file: 'Sound-03D5.wav'
+      volume: 1
+    - key: 'drone_added'
+      file: 'Sound-03D6.wav'
+      volume: 1
+    - key: 'ga_drone'
+      file: 'Sound-03D8.wav'
+      volume: 1
+    - key: 'sa_drone'
+      file: 'Sound-03D9.wav'
+      volume: 1
+    - key: 'ta_drone'
+      file: 'Sound-03DB.wav'
       volume: 1

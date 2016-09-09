@@ -5,18 +5,30 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 import random
+from procgame import dmd
 
 class Drones(procgame.game.AdvancedMode):
 
     def __init__(self,game):
         super(Drones, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
         self.myID = "Drones"
-        self.drone_hit_movies = ['drone_hit_1','drone_hit_2','drone_hit_3','drone_hit_4','drone_hit_5']
-        self.drone_movie_index = 0
         self.drone_lamps = [self.game.lamps['droneTarget0'],
                             self.game.lamps['droneTarget1'],
                             self.game.lamps['droneTarget2'],
                             self.game.lamps['droneTarget3']]
+        self.drone_0_layer = self.game.animations['drone_0_image']
+        self.drone_0_layer.set_target_position(113,0)
+        self.drone_1_layer = self.game.animations['drone_1_image']
+        self.drone_1_layer.set_target_position(560,0)
+        self.drone_2_layer = self.game.animations['drone_2_image']
+        self.drone_2_layer.set_target_position(1007,0)
+        self.drone_3_layer = self.game.animations['drone_3_image']
+        self.drone_3_layer.set_target_position(1426,0)
+        self.explosion_layer = self.game.animations['explosion']
+        self.explosion_positions = [53,500,933,1386]
+        self.drone_layers = [self.drone_0_layer,self.drone_1_layer,self.drone_2_layer,self.drone_3_layer]
+        self.drone_quotes = ['ga_drone','aa_drone','ta_drone','sa_drone']
+        self.quote_delay = self.game.sound.sounds['drone_hit']['sound_list'][0].get_length()
 
     def evt_ball_starting(self):
         self.drone_tracking = self.game.getPlayerState('drone_targets')
@@ -50,6 +62,8 @@ class Drones(procgame.game.AdvancedMode):
             # count the hit
             self.drone_total += 1
             self.drones_for_mb -= 1
+            # play the sound effect
+            self.game.sound.play('drone_hit')
             # if that was enough, it's time for war machine multiball
             if self.drones_for_mb <= 0:
                 self.warmachine.light_multiball()
@@ -77,12 +91,12 @@ class Drones(procgame.game.AdvancedMode):
                 # if the sum is only one
                 if sum(self.drone_tracking) <= 1:
                     # add another drone
-                    self.add()
+                    self.add(target)
         else:
             # otherwise, it's a thunk
             self.drone_thunk(target)
 
-    def add(self):
+    def add(self,target):
         candidates = []
         # step through the values
         for x in range(0, 4, 1):
@@ -104,13 +118,17 @@ class Drones(procgame.game.AdvancedMode):
 
     def drone_hit_display(self,target):
         self.cancel_delayed("clear")
-        self.game.animations[self.drone_hit_movies[self.drone_movie_index]].reset()
-        self.layer = self.game.animations[self.drone_hit_movies[self.drone_movie_index]]
-        self.drone_movie_index += 1
-        if self.drone_movie_index > 4:
-            self.drone_movie_index = 0
+        # play a delayed quote for the drone
+        self.delay(delay=self.quote_delay,handler=lambda: self.game.sound.play_voice(self.drone_quotes[target]))
+        self.set_explosion_position(target)
+        list = []
+        for n in range (0,4,1):
+            if self.drone_tracking[n]:
+                list.append(self.drone_layers[n])
+        list.append(self.explosion_layer)
+        self.layer = dmd.GroupedLayer(1920,800,list,opaque=True)
 
-        self.delay("clear",delay=2,handler=self.clear_layer)
+        #self.delay("clear",delay=2,handler=self.clear_layer)
 
     def update_lamps(self):
         for lamp in self.drone_lamps:
@@ -118,4 +136,10 @@ class Drones(procgame.game.AdvancedMode):
         for n in range (0,4,1):
             if self.drone_tracking[n] == True:
                 self.drone_lamps[n].enable()
+
+    def set_explosion_position(self,target):
+        self.explosion_layer.reset()
+        self.explosion_layer.composite_op = 'blacksrc'
+        self.explosion_layer.add_frame_listener(-1,self.clear_layer)
+        self.explosion_layer.set_target_position(self.explosion_positions[target],84)
 
