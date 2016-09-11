@@ -74,7 +74,7 @@ class Shields(procgame.game.AdvancedMode):
             # is this switch already on?
             if self.shield_tracking[switch] == True:
                 # already lit
-                points = 1090
+                points = 0
                 #sound = "miss"
                 self.game.sound.play('shield_already_lit')
             else:
@@ -85,10 +85,6 @@ class Shields(procgame.game.AdvancedMode):
                     self.game.sound.play('last_shield')
                 else:
                     self.game.sound.play('shield_unlit')
-            # if it was an outlane, the points are 10k
-            if switch == 2 or switch == 5:
-                points = 10000
-                #sound = outlane
 
             #Did we finish the set?
             if False not in self.shield_tracking:

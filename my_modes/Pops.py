@@ -56,7 +56,7 @@ class Pops(procgame.game.AdvancedMode):
             # play the sound
 
     def light_pop(self,number):
-        if not self.pop_state[number] == 0:
+        if self.pop_state[number] == 0:
             self.pop_state[number] = 1
             self.update_lamps()
 

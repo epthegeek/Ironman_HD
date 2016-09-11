@@ -325,6 +325,10 @@ Audio:
       file: 'Sound-0072.wav'
     - key: 'last_shield'
       file: 'Sound-007F.wav'
+    - key: 'slingshot_clank'
+      file: 'Sound-00A9.wav'
+    - key: 'helicopter'
+      file: 'Sound-0033.wav'
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'

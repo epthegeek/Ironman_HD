@@ -104,5 +104,4 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.sling_hit()
     def sling_hit(self):
         # play a sound
-        # score some points
-        self.game.score(440)
+        self.game.sound.play('slingshot_clank')
