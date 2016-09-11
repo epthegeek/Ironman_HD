@@ -31,6 +31,7 @@ class Marks(procgame.game.AdvancedMode):
                            self.game.lamps['progressIronMonger'],
                            self.game.lamps['progressWhiplash'],
                            self.game.lamps['progressDrones']]
+        self.text = dmd.HDTextLayer(1890, 640, self.game.fonts['default'], "right", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
 
     def evt_ball_starting(self):
         self.player_mark = self.game.getPlayerState('marks')
@@ -56,7 +57,8 @@ class Marks(procgame.game.AdvancedMode):
         self.game.animations[self.mark_movies[self.player_mark]].reset()
         anim = self.game.animations[self.mark_movies[self.player_mark]]
         anim.add_frame_listener(-1,self.clear_layer)
-        self.layer = anim
+        self.text.set_text("MARK " + str(self.player_mark) + " COMPLETED")
+        self.layer = dmd.GroupedLayer(1920,800,[anim,self.text],opaque=True)
 
     def score(self):
         print "MARK SCORE"

@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 from collections import deque
+from procgame import dmd
 
 class Shields(procgame.game.AdvancedMode):
     def __init__(self, game):
@@ -16,6 +17,10 @@ class Shields(procgame.game.AdvancedMode):
                              self.game.lamps.rightReturnLane,
                              self.game.lamps.leftReturnLane,
                              self.game.lamps.leftOutlane]
+        self.shield_bg = dmd.FrameLayer(frame=self.game.animations['shield_logo'].frames[0])
+        self.top_text = dmd.HDTextLayer(1920 / 2, 230, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(224, 224, 224))
+        self.bot_text = dmd.HDTextLayer(1920 / 2, 450, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(0, 192, 0))
+        self.top_text.set_text("SHIELD IS LIT")
 
     def evt_ball_starting(self):
         self.shield_tracking = self.game.getPlayerState('shields')
@@ -71,10 +76,15 @@ class Shields(procgame.game.AdvancedMode):
                 # already lit
                 points = 1090
                 #sound = "miss"
+                self.game.sound.play('shield_already_lit')
             else:
                 self.shield_tracking[switch] = True
                 points = 3000
                 #sound = "hit"
+                if sum(self.shield_tracking) == 6:
+                    self.game.sound.play('last_shield')
+                else:
+                    self.game.sound.play('shield_unlit')
             # if it was an outlane, the points are 10k
             if switch == 2 or switch == 5:
                 points = 10000
@@ -91,15 +101,19 @@ class Shields(procgame.game.AdvancedMode):
 
     def light_shield_collect(self):
         # add the bonus multiplier
-        self.base_game_mode.bonus_x += 1
+        self.game.base_game_mode.bonus_x += 1
         # play a sound
-        self.game.sound.play('shields_collected')
+        #self.game.sound.play('shields_collected')
         duration = self.game.sound.sounds['shields_collected']['sound_list'][0].get_length()
         # play a quote
         self.delay(delay=(duration -1) ,handler=lambda: self.game.sound.play_voice('shields_completed'))
         self.shield_awards_pending += 1
         # flash the lights a bit
         self.flash_lights()
+        # do the display
+        self.bot_text.set_text(str(self.game.base_game_mode.bonus_x) + "X BONUS")
+        self.layer = dmd.GroupedLayer(1920,1080,[self.shield_bg,self.top_text,self.bot_text],opaque=True)
+        self.delay(delay=3,handler=self.clear_layer)
         # if this player hasn't gotten a mark level from shields, add one
         if not self.shield_mark:
             self.game.mark.player_mark += 1

@@ -35,7 +35,7 @@ Animations:
 - key: 'bright_clouds'
   file: 'bright_clouds.jpg'
   holdLastFrame: True
-- key: 'shield_logo_skillshot'
+- key: 'shield_logo'
   file: 'shield_logo_skillshot.jpg'
   holdLastFrame: True
 - key: 'drone_0_image'
@@ -317,6 +317,14 @@ Audio:
     - key: 'drone_hit'
       file: 'Sound-00A1.wav'
       volume: 1
+    - key: 'shield_unlit'
+      file: 'Sound-002A.wav'
+    - key: 'shield_unlit'
+      file: 'Sound-0028.wav'
+    - key: 'shield_already_lit'
+      file: 'Sound-0072.wav'
+    - key: 'last_shield'
+      file: 'Sound-007F.wav'
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'

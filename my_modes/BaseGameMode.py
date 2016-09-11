@@ -71,7 +71,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.game.sound.play('start_button')
 
     def evt_ball_starting(self):
-        self.game.sound.play_music('ball_1_shooter_lane',loops=0)
+        self.game.sound.play_music('ball_1_shooter_lane',loops=-1)
         #self.game.ball_saver_enable(num_balls_to_save=1, time=5, now=True, allow_multiple_saves=False,callback=self.ballsaved)
         self.bonus_x = 0
 
