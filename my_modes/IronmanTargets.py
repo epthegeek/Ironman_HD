@@ -223,10 +223,17 @@ class IronmanTargets(procgame.game.AdvancedMode):
         #self.game.displayText(letter[target])
 
     def start_target_mode(self):
+        if self.completions % 3 == 0:
+            self.game.modes.add(self.game.fast_scoring)
+        elif self.completions % 3 == 1:
+            # double scoring would go here
+            self.end_target_mode()
+        else:
+            # ironman scoring would go here
+            self.end_target_mode()
         # add the completion
         self.completions += 1
         # add the scoring mode and start the proper action
-        # for now just reset the targets
 
     def end_target_mode(self):
         # reset the tracking for the next one

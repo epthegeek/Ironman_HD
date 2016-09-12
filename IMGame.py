@@ -12,6 +12,7 @@ import my_modes
 from my_modes import BaseGameMode
 from my_modes import Ramps
 from my_modes import IronmanTargets
+from my_modes import FastScoring
 from my_modes import Shields
 from my_modes import Drones
 from my_modes import Whiplash
@@ -23,6 +24,7 @@ from my_modes import MongerToy
 from my_modes import SwitchFilter
 from my_modes import Bogey
 from my_modes import MongerMultiball
+from my_modes import WhiplashMultiball
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -39,6 +41,9 @@ class IMGame(SkeletonGame):
         super(IMGame, self).__init__('config/im_machine.yaml',self.curr_file_path)
        
         self.base_game_mode = BaseGameMode(game=self) # pri 5
+
+        self.fast_scoring = FastScoring(game=self) # pri 9
+
         self.ramps = Ramps(game=self) # pri 10
         self.im_targets = IronmanTargets(game=self) # pri 10
         self.shields = Shields(game=self) # pri 10
@@ -54,6 +59,7 @@ class IMGame(SkeletonGame):
         self.monger_toy = MongerToy(game=self) # pri 20
 
         self.monger_multiball = MongerMultiball(game=self) # pri 50
+        self.whiplash_multiball = WhiplashMultiball(game=self) # pri 50
 
         self.switch_filter = SwitchFilter(game=self) # pri 900
 

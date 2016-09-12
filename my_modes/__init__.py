@@ -2,6 +2,7 @@ __all__ = [
     'BaseGameMode',
     'Ramps',
     'IronmanTargets',
+    'FastScoring',
     'Shields',
     'Drones',
     'Whiplash',
@@ -12,12 +13,14 @@ __all__ = [
     'MongerToy,'
     'SwitchFilter',
     'Bogey',
-    'MongerMultiball'
+    'MongerMultiball',
+    'WhiplashMultiball'
     ]
 
 from BaseGameMode import *
 from Ramps import *
 from IronmanTargets import *
+from FastScoring import *
 from Shields import *
 from Drones import *
 from Whiplash import *
@@ -29,3 +32,4 @@ from MongerToy import *
 from SwitchFilter import *
 from Bogey import *
 from MongerMultiball import *
+from WhiplashMultiball import *

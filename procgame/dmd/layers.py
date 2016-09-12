@@ -911,7 +911,7 @@ class PanningLayer_pysurf(Layer):
 
 class PanningLayer(Layer):
     """Pans a frame about on a 128x32 buffer, bouncing when it reaches the boundaries."""
-    def __init__(self, width, height, frame, origin, translate, bounce=True, numFramesDrawnBetweenMovementUpdate=3, fill_color=None):
+    def __init__(self, width, height, frame, origin, translate, bounce=True, numFramesDrawnBetweenMovementUpdate=3, fill_color=None,wrap=True):
 
         if(isinstance(frame, Frame)):
             self.content_layer = FrameLayer(frame=frame)
@@ -930,6 +930,7 @@ class PanningLayer(Layer):
         self.original_origin = origin
         self.translate = translate #(-translate[0],-translate[1])
         self.bounce = bounce
+        self.wrap = wrap
         self.holdFrames = numFramesDrawnBetweenMovementUpdate
         self.tick = 0
         self.fill_color=fill_color
@@ -951,6 +952,10 @@ class PanningLayer(Layer):
             return None
 
         if (self.tick % self.holdFrames) == 0:
+            if self.wrap:
+                if self.origin[0] >= (self.width / 2):
+                    self.origin = [0, 0]
+
             if self.bounce:
                 if self.translate[0] < 0 and (-self.origin[0] + frame.width + self.translate[0] > self.width):
                     self.translate = (self.translate[0] * -1, self.translate[1])

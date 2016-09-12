@@ -62,5 +62,8 @@ class SwitchFilter(procgame.game.AdvancedMode):
         # score default points for the switch if there are any
         if self.point_values[sw.name]:
             self.game.score(self.point_values[sw.name])
+            # if fast scoring is running, score the point value per switch also
+            if self.game.fast_scoring.running:
+                self.game.fast_scoring.switch_hit()
         # set the last hit switch
         self.last_switch = sw.name

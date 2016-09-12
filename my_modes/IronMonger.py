@@ -4,6 +4,7 @@ from procgame.game import AdvancedMode
 import pygame
 from pygame.locals import *
 from pygame.font import *
+from procgame import dmd
 
 class IronMonger(procgame.game.AdvancedMode):
 
@@ -16,11 +17,31 @@ class IronMonger(procgame.game.AdvancedMode):
                              self.game.lamps['mongerG'],
                              self.game.lamps['mongerE'],
                              self.game.lamps['mongerR']]
-        self.delay_names = {0,'leftSpinner',
-                            1, 'centerSpinner',
-                            2, 'rightSpinner',
-                            3, 'leftOrbit',
-                            4, 'rightOrbit'}
+        self.delay_names = ['leftSpinner','centerSpinner','rightSpinner','leftOrbit','rightOrbit']
+        layer0 = dmd.FrameLayer(frame=self.game.animations['monger_logo_0'].frames[0])
+        layer0.set_target_position(367,0)
+        layer1 = dmd.FrameLayer(frame=self.game.animations['monger_logo_1'].frames[0])
+        layer1.set_target_position(367,0)
+        layer2 = dmd.FrameLayer(frame=self.game.animations['monger_logo_2'].frames[0])
+        layer2.set_target_position(367,0)
+        layer3 = dmd.FrameLayer(frame=self.game.animations['monger_logo_3'].frames[0])
+        layer3.set_target_position(367,0)
+        layer4 = dmd.FrameLayer(frame=self.game.animations['monger_logo_4'].frames[0])
+        layer4.set_target_position(367,0)
+        layer5 = dmd.FrameLayer(frame=self.game.animations['monger_logo_5'].frames[0])
+        layer5.set_target_position(367,0)
+        layer6 = dmd.FrameLayer(frame=self.game.animations['monger_logo_6'].frames[0])
+        layer6.set_target_position(367,0)
+        layer7 = dmd.FrameLayer(frame=self.game.animations['monger_logo_7'].frames[0])
+        layer7.set_target_position(367,0)
+        layer8 = dmd.FrameLayer(frame=self.game.animations['monger_logo_8'].frames[0])
+        layer8.set_target_position(367,0)
+        layer9 = dmd.FrameLayer(frame=self.game.animations['monger_logo_9'].frames[0])
+        layer9.set_target_position(367,0)
+        layer10 = dmd.FrameLayer(frame=self.game.animations['monger_logo_10'].frames[0])
+        layer10.set_target_position(367,0)
+        self.logo_layers = [layer0,layer1,layer2,layer3,layer4,layer5,layer6,layer7,layer8,layer9,layer10]
+        self.points_layer = dmd.HDTextLayer(1920 / 2, 570, self.game.fonts['bebas200'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
 
 
     def evt_ball_starting(self):
@@ -53,29 +74,29 @@ class IronMonger(procgame.game.AdvancedMode):
     def sw_leftSpinner_active(self,sw):
         if self.valid[0]:
             self.set_valid_switches(0)
-            self.letter_hit(0)
+            self.letter_hit()
 
     def sw_centerSpinner_active(self,sw):
         if self.valid[1]:
             self.set_valid_switches(1)
-            self.letter_hit(1)
+            self.letter_hit()
 
     def sw_rightSpinner_active(self,sw):
         if self.valid[2]:
             self.set_valid_switches(2)
-            self.letter_hit(2)
+            self.letter_hit()
 
     def sw_leftOrbit_active(self,sw):
         if self.valid[3]:
             self.set_valid_switches(3)
-            self.letter_hit(3)
+            self.letter_hit()
         # play the orbit noise
         self.orbit_noise()
 
     def sw_rightOrbit_active(self,sw):
         if self.valid[4]:
             self.set_valid_switches(4)
-            self.letter_hit(4)
+            self.letter_hit()
         # play the orbit noise
         self.orbit_noise()
 
@@ -95,10 +116,31 @@ class IronMonger(procgame.game.AdvancedMode):
             self.hit_toy()
 
     def letter_hit(self):
+        # stop any display delays
+        self.cancel_delayed("display")
         if self.letters < 10:
             self.letters += 1
+            points = self.letters * 10000
+            # do the display
+            self.points_layer.set_text(self.game.score_display.format_score(points))
+            layer1 = dmd.GroupedLayer(1920,800,[self.logo_layers[self.letters],self.points_layer])
+            self.layer = dmd.ScriptedLayer(1920,800,[{'layer': layer1,'seconds': 0.2},{'layer': self.logo_layers[self.letters -1], 'seconds': 0.2}],opaque=True)
+            # if complete follow up with ready message
             if self.letters == 10:
-                self.game.monger_toy.rise()
+                self.delay("display",delay=1.4,handler=self.monger_ready_display)
+            # set a clear delay
+            else:
+                self.delay("display",delay=1.8,handler=self.clear_layer)
+            # score the points
+            self.game.score(points)
+        # if we're already at 10 letters raise the monger
+        else:
+            self.game.monger_toy.rise()
+
+    def monger_ready_display(self):
+        self.points_layer.set_text("IRON MONGER READY")
+        self.layer = dmd.GroupedLayer(1920, 800, [self.logo_layers[self.letters], self.points_layer],opaque=True)
+        self.delay("display", delay=1.5, handler=self.clear_layer)
 
     def hit_toy(self):
         if self.game.monger_toy.status == "UP":
@@ -149,6 +191,8 @@ class IronMonger(procgame.game.AdvancedMode):
         if switch == 0:
             # affects left spinner and left orbit
             self.process_validation([0,3])
+            # immediately validates right spinner
+            self.validate(2)
         # center spinner
         elif switch == 1:
             # affects only itself
@@ -157,6 +201,8 @@ class IronMonger(procgame.game.AdvancedMode):
         elif switch == 2:
             # affects right spinner and right orbit
             self.process_validation([2,4])
+            # immediately validates left spinner
+            self.validate(0)
         # left orbit
         elif switch == 3:
             # affect the left spinner and the right orbit
@@ -185,7 +231,7 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def revalidate(self,list):
         for item in list:
-            self.delay(self.delay_names[item],delay=2,handler=lambda: self.validate(item))
+            self.delay(self.delay_names[item],delay=1,handler=lambda: self.validate(item))
 
     def orbit_noise(self):
         if not self.orbit_quiet:

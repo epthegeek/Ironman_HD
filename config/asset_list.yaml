@@ -57,6 +57,12 @@ Animations:
 - key: 'black'
   file: 'black.png'
   holdLastFrame: True
+- key: 'metal_bg'
+  file: 'metal_backdrop.jpg'
+  holdLastFrame: True
+- key: 'fast_scoring_banner'
+  file: 'fast_scoring_banner.png'
+  holdLastFrame: True
 - key: 'target_i_image'
   file: 'target_i.jpg'
   holdLastFrame: True
@@ -248,6 +254,59 @@ Animations:
 - key: 'mark_6_movie'
   file: 'mark_3_alternate.mp4'
   streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_jp_1'
+  file: 'whiplash_jackpot_1.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_2'
+  file: 'whiplash_jackpot_2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_3'
+  file: 'whiplash_jackpot_3.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_4'
+  file: 'whiplash_jackpot_4.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_5'
+  file: 'whiplash_jackpot_5.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_logo_0'
+  file: 'monger_logo_0.png'
+  holdLastFrame: True
+- key: 'monger_logo_1'
+  file: 'monger_logo_1.png'
+  holdLastFrame: True
+- key: 'monger_logo_2'
+  file: 'monger_logo_2.png'
+  holdLastFrame: True
+- key: 'monger_logo_3'
+  file: 'monger_logo_3.png'
+  holdLastFrame: True
+- key: 'monger_logo_4'
+  file: 'monger_logo_4.png'
+  holdLastFrame: True
+- key: 'monger_logo_5'
+  file: 'monger_logo_5.png'
+  holdLastFrame: True
+- key: 'monger_logo_6'
+  file: 'monger_logo_6.png'
+  holdLastFrame: True
+- key: 'monger_logo_7'
+  file: 'monger_logo_7.png'
+  holdLastFrame: True
+- key: 'monger_logo_8'
+  file: 'monger_logo_8.png'
+  holdLastFrame: True
+- key: 'monger_logo_9'
+  file: 'monger_logo_9.png'
+  holdLastFrame: True
+- key: 'monger_logo_10'
+  file: 'monger_logo_10.png'
   holdLastFrame: True
 Fonts:
   FontStyles:
