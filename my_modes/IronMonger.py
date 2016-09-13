@@ -11,7 +11,8 @@ class IronMonger(procgame.game.AdvancedMode):
     def __init__(self,game):
         super(IronMonger, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
         self.myID = "IronMonger"
-        self.monger_lamps = [self.game.lamps['mongerM'],
+        self.monger_lamps = ["Placeholder",
+                             self.game.lamps['mongerM'],
                              self.game.lamps['mongerO'],
                              self.game.lamps['mongerN'],
                              self.game.lamps['mongerG'],
@@ -72,16 +73,19 @@ class IronMonger(procgame.game.AdvancedMode):
 
 
     def sw_leftSpinner_active(self,sw):
+        self.spinner_noise()
         if self.valid[0]:
             self.set_valid_switches(0)
             self.letter_hit()
 
     def sw_centerSpinner_active(self,sw):
+        self.spinner_noise()
         if self.valid[1]:
             self.set_valid_switches(1)
             self.letter_hit()
 
     def sw_rightSpinner_active(self,sw):
+        self.game.sound.play('spinner_normal')
         if self.valid[2]:
             self.set_valid_switches(2)
             self.letter_hit()
@@ -166,12 +170,12 @@ class IronMonger(procgame.game.AdvancedMode):
             if self.letters < 4:
                 pass
             else:
-                blinker = 11
-                for n in range (0,11,1):
-                    if n < 4:
+                blinker = 12
+                for n in range (1,12,1):
+                    if n < 5:
                         pass
-                    if n < self.letters:
-                        self.monger_lamps[n].enable()
+                    if n < self.letters and n > 4:
+                        self.monger_lamps[y].enable()
                     if n == self.letters:
                         self.monger_lamps[n].enable()
                         blinker = n + 1
@@ -180,7 +184,7 @@ class IronMonger(procgame.game.AdvancedMode):
                     else:
                         pass
         if self.status == "UP":
-            for n in range(0,7,1):
+            for n in range(1,8,1):
                 if n <= self.toy_letters:
                     self.monger_lamps[n].enable()
                 else:
@@ -238,6 +242,13 @@ class IronMonger(procgame.game.AdvancedMode):
             self.orbit_quiet = True
             self.game.sound.play('helicopter')
             self.delay(delay=1,handler=self.orbit_noise_reset)
+
+    def spinner_noise(self):
+        if self.game.monger_toy.status == "UP" or self.game.monger_multiball.running:
+            self.game.sound.play('spinner_monger')
+        else:
+            self.game.sound.play('spinner_normal')
+
 
     def orbit_noise_reset(self):
         self.orbit_quiet = False

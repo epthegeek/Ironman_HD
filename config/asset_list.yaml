@@ -391,6 +391,10 @@ Audio:
       file: 'Sound-00A9.wav'
     - key: 'helicopter'
       file: 'Sound-0033.wav'
+    - key: 'spinner_normal'
+      file: 'Sound-0079.wav'
+    - key: 'spinner_monger'
+      file: 'Sound-0038.wav'
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'

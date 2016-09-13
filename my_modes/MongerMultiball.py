@@ -13,6 +13,13 @@ class MongerMultiball(procgame.game.Mode):
         self.myID = "MongerMultiball"
         self.toy_status = None
         self.running = False
+        self.monger_lamps = ["Placeholder",
+                             self.game.lamps['mongerM'],
+                             self.game.lamps['mongerO'],
+                             self.game.lamps['mongerN'],
+                             self.game.lamps['mongerG'],
+                             self.game.lamps['mongerE'],
+                             self.game.lamps['mongerR']]
 
     def evt_ball_ending(self):
         if self.running:
@@ -44,4 +51,17 @@ class MongerMultiball(procgame.game.Mode):
     # this needs work for now it's just unloading
     def end_multiball(self):
         self.game.monger_toy.fall()
+        self.running = False
+        # reset the iron monger letters
+        self.game.monger.letters = 0
         self.unload()
+
+    def update_lamps(self):
+        # the jackpot arrows
+        # the letters in front of monger
+        for lamp in self.monger_lamps:
+            lamp.disable()
+        if self.jackpot_hits > 0:
+            for n in range (1,8,1):
+                if n <= self.jackpot_hits and n != 0:
+                    self.monger_lamps[n].enable()
