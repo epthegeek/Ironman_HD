@@ -29,6 +29,7 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_layers = [self.drone_0_layer,self.drone_1_layer,self.drone_2_layer,self.drone_3_layer]
         self.drone_quotes = ['ga_drone','aa_drone','ta_drone','sa_drone']
         self.quote_delay = self.game.sound.sounds['drone_hit']['sound_list'][0].get_length()
+        self.text = bottom = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
 
     def evt_ball_starting(self):
         self.drone_tracking = self.game.getPlayerState('drone_targets')
@@ -121,11 +122,18 @@ class Drones(procgame.game.AdvancedMode):
         # play a delayed quote for the drone
         self.delay(delay=self.quote_delay,handler=lambda: self.game.sound.play_voice(self.drone_quotes[target]))
         self.set_explosion_position(target)
+        count = self.drones_for_mb
+        if count == 1:
+            word = "DRONE"
+        else:
+            word = "DRONES"
+        self.text.set_text(str(count) + " MORE " + word + " REMAINING")
         list = []
         for n in range (0,4,1):
             if self.drone_tracking[n]:
                 list.append(self.drone_layers[n])
         list.append(self.explosion_layer)
+        list.append(self.text)
         self.layer = dmd.GroupedLayer(1920,800,list,opaque=True)
 
         #self.delay("clear",delay=2,handler=self.clear_layer)

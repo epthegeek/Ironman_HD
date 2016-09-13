@@ -63,6 +63,9 @@ Animations:
 - key: 'fast_scoring_banner'
   file: 'fast_scoring_banner.png'
   holdLastFrame: True
+- key: 'timer_box'
+  file: 'timer_box.png'
+  holdLastFrame: True
 - key: 'target_i_image'
   file: 'target_i.jpg'
   holdLastFrame: True
@@ -232,11 +235,11 @@ Animations:
   streamingMovie: True
   holdLastFrame: True
 - key: 'mark_1_movie'
-  file: 'mark_3_alternate.mp4'
+  file: 'Ironman_Mark_1_cave.mp4'
   streamingMovie: True
   holdLastFrame: True
 - key: 'mark_2_movie'
-  file: 'mark_3_alternate.mp4'
+  file: 'Ironman_mark_2_hover.mp4'
   streamingMovie: True
   holdLastFrame: True
 - key: 'mark_3_movie'
@@ -248,11 +251,11 @@ Animations:
   streamingMovie: True
   holdLastFrame: True
 - key: 'mark_5_movie'
-  file: 'mark_3_alternate.mp4'
+  file: 'ironman_mark_5_suitcase.mp4'
   streamingMovie: True
   holdLastFrame: True
 - key: 'mark_6_movie'
-  file: 'mark_3_alternate.mp4'
+  file: 'mark_6_complete.mp4'
   streamingMovie: True
   holdLastFrame: True
 - key: 'whiplash_jp_1'

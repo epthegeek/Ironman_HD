@@ -1110,7 +1110,7 @@ class HDTextLayer(TextLayer):
         self.blink_frames_counter = self.blink_frames
 
         if(style is not None):
-            fill_color = style.fill_color 
+            fill_color = style.fill_color
             line_color = style.line_color 
             interior_color = style.interior_color 
             line_width = style.line_width 

@@ -14,6 +14,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.rampDoubled = "NONE"
         self.left_targets = [0,1,2,3]
         self.right_targets = [0,1,2]
+        self.scoring_mode_running = False
         self.left_lamps = [self.game.lamps['leftTargetsI'],
                            self.game.lamps['leftTargetsR'],
                            self.game.lamps['leftTargetsO'],
@@ -50,6 +51,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.completions = self.game.getPlayerState('im_targets_completions')
         self.mode_index = self.game.getPlayerState('im_mode_index')
         self.last_value = self.game.getPlayerState('im_last_value')
+        self.scoring_mode_running = False
 
     def evt_ball_ending(self):
         self.game.setPlayerState('im_left_targets',self.left_tracking)
@@ -57,6 +59,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.game.setPlayerState('im_targets_completions',self.completions)
         self.game.setPlayerState('im_mode_index',self.mode_index)
         self.game.setPlayerState('im_last_value')
+        self.scoring_mode_running = False
 
     def sw_leftTargetI_active(self,sw):
         self.target_hit(0)
@@ -81,17 +84,21 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
     # target_hit checks to see if mode should start - if not, passes on to activate
     def target_hit(self,target):
-        # if scoring mode is ready, then do that
-        if False not in self.left_tracking and False not in self.right_tracking:
-            self.start_target_mode()
-        # if the targets are not ready, then we're processing it
+        if self.scoring_mode_running:
+            pass
         else:
-            if target in self.left_targets:
-                self.target_activate(target,self.left_targets,self.left_tracking,"L")
+            # if scoring mode is ready, then do that
+            if False not in self.left_tracking and False not in self.right_tracking:
+                self.scoring_mode_running = True
+                self.start_target_mode()
+            # if the targets are not ready, then we're processing it
             else:
-                # this is a right target
-                target -= 4
-                self.target_activate(target,self.right_targets,self.right_tracking,"R")
+                if target in self.left_targets:
+                    self.target_activate(target,self.left_targets,self.left_tracking,"L")
+                else:
+                    # this is a right target
+                    target -= 4
+                    self.target_activate(target,self.right_targets,self.right_tracking,"R")
 
     # target_activate treats as either a side hit (first set) or  single target hit
     def target_activate(self,target, target_set,tracker,side):
@@ -231,14 +238,15 @@ class IronmanTargets(procgame.game.AdvancedMode):
         else:
             # ironman scoring would go here
             self.end_target_mode()
-        # add the completion
-        self.completions += 1
-        # add the scoring mode and start the proper action
+            # add the completion
+            self.completions += 1
+            # add the scoring mode and start the proper action
 
     def end_target_mode(self):
         # reset the tracking for the next one
         self.left_tracking = [False,False,False,False]
         self.right_tracking = [False,False,False]
+        self.scoring_mode_running = False
 
     def update_lamps(self):
         # default state for unlit lamps is blinking
