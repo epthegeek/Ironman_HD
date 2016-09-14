@@ -116,6 +116,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
                     # Check if we're done
                     data = self.check_complete()
                     #do the display - sends activated target
+                    # for now play a generic sound
+                    self.game.sound.play('im_target_hit')
                     if data[0]:
                         self.target_display(n,side,data[0])
                     else:
@@ -158,7 +160,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
     def target_thunk(self):
         # score the already lit target amount
         self.game.score(10000)
-        self.game.displayText("THUNK")
+        self.game.sound.play('im_target_thunk')
         # play a sound here
 
     def target_display_movie(self,target,side,complete = False):

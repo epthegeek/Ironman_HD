@@ -57,6 +57,7 @@ class Ramps(procgame.game.AdvancedMode):
         # score points
         self.game.score(5000)
         # make noise
+        self.game.sound.play('ramp_enter')
 
     def sw_rightRampExit_active(self, sw):
         ramp = 1

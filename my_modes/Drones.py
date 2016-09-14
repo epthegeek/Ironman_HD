@@ -114,7 +114,7 @@ class Drones(procgame.game.AdvancedMode):
         self.update_lamps()
 
     def drone_thunk(self,target):
-        self.game.displayText("THUNK")
+        self.game.sound.play('drone_thunk')
         self.game.score(5000)
 
     def drone_hit_display(self,target):
