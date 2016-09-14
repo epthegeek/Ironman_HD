@@ -95,3 +95,8 @@ class MongerToy(procgame.game.AdvancedMode):
 
     def run_motor(self):
         self.game.coils.mongerMotor.patter(on_time=6,off_time=6)
+
+
+    def monger_rise_video(self):
+        self.layer = self.game.animations['monger_rise']
+        self.delay(delay=4,handler=self.clear_layer)

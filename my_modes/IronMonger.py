@@ -140,6 +140,7 @@ class IronMonger(procgame.game.AdvancedMode):
         # if we're already at 10 letters raise the monger
         else:
             self.game.monger_toy.rise()
+            self.game.monger_toy.monger_rise_video()
 
     def monger_ready_display(self):
         self.points_layer.set_text("IRON MONGER READY")

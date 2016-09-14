@@ -278,6 +278,10 @@ Animations:
   file: 'whiplash_jackpot_5.mp4'
   holdLastFrame: True
   streamingMovie: True
+- key: 'monger_rise'
+  file: 'monger_crawl_out.mp4'
+  holdLastFrame: True
+  streamingMovie: True
 - key: 'monger_logo_0'
   file: 'monger_logo_0.png'
   holdLastFrame: True
