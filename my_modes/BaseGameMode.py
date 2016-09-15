@@ -23,6 +23,8 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('im_right_targets', [False,False,False])
         # set the completion total to 0
         player.setState('im_targets_completions',0)
+        player.setState('fast_scoring_runs',0)
+        player.setState('target_virgin', True)
         player.setState('im_mode_index',0)
         player.setState('im_last_value',125000)
         # shields stat blank

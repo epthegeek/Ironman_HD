@@ -52,6 +52,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.mode_index = self.game.getPlayerState('im_mode_index')
         self.last_value = self.game.getPlayerState('im_last_value')
         self.scoring_mode_running = False
+        self.target_virgin = self.game.getPlayerState('target_virgin')
 
     def evt_ball_ending(self):
         self.game.setPlayerState('im_left_targets',self.left_tracking)
@@ -59,6 +60,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.game.setPlayerState('im_targets_completions',self.completions)
         self.game.setPlayerState('im_mode_index',self.mode_index)
         self.game.setPlayerState('im_last_value')
+        self.game.getPlayerState('target_virgin', self.target_virgin)
         self.scoring_mode_running = False
 
     def sw_leftTargetI_active(self,sw):
@@ -85,7 +87,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
     # target_hit checks to see if mode should start - if not, passes on to activate
     def target_hit(self,target):
         if self.scoring_mode_running:
-            pass
+            if self.game.fast_scoring.running:
+                self.game.fast_scoring.increase_value()
         else:
             # if scoring mode is ready, then do that
             if False not in self.left_tracking and False not in self.right_tracking:
@@ -118,6 +121,10 @@ class IronmanTargets(procgame.game.AdvancedMode):
                     #do the display - sends activated target
                     # for now play a generic sound
                     self.game.sound.play('im_target_hit')
+                    # if this is the first target of a set, play the tutorial quote
+                    if self.target_virgin:
+                        self.target_virgin = False
+                        self.tutorial_quote()
                     if data[0]:
                         self.target_display(n,side,data[0])
                     else:
@@ -232,17 +239,46 @@ class IronmanTargets(procgame.game.AdvancedMode):
         #self.game.displayText(letter[target])
 
     def start_target_mode(self):
-        if self.completions % 3 == 0:
-            self.game.modes.add(self.game.fast_scoring)
-        elif self.completions % 3 == 1:
-            # double scoring would go here
-            self.end_target_mode()
+        self.completions += 1
+        if self.completions < 3:
+            if self.completions == 1:
+                self.game.modes.add(self.game.fast_scoring)
+            else:
+                # TODO: have to add double scoring and ironman scoring yet
+                # double scoring goes here
+                self.end_target_mode()
         else:
-            # ironman scoring would go here
-            self.end_target_mode()
-            # add the completion
-            self.completions += 1
+            if self.completions %3 == 1:
+                self.game.modes.add(self.game.fast_scoring)
+            elif self.completions % 3 == 2:
+                # double scoring would go here
+                self.end_target_mode()
+            else:
+                # ironman scoring would go here
+                self.end_target_mode()
+                # add the completion
             # add the scoring mode and start the proper action
+
+    def tutorial_quote(self):
+        if self.completions < 3:
+            if self.completions == 0:
+                quote = 'tut_fast_scoring'
+            elif self.completions == 1:
+                # double scoring quote
+                quote = 'tut_double_scoring'
+            else:
+                # ironman scoring quote
+                quote = 'tut_ironman_scoring'
+        else:
+            if self.completions % 3 == 0:
+                quote = 'tut_fast_scoring'
+            elif self.completions % 3 == 1:
+                # double scoring
+                quote = 'tut_double_scoring'
+            else:
+                # ironman scoring
+                quote = 'tut_ironman_scoring'
+        self.game.sound.play_voice(quote)
 
     def end_target_mode(self):
         # reset the tracking for the next one

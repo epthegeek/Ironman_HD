@@ -14,6 +14,8 @@ class Whiplash(procgame.game.AdvancedMode):
         self.hold = False
         self.movie_index = 0
         self.hit_movies = ['whiplash_1_movie','whiplash_2_movie','whiplash_3_movie','whiplash_4_movie','whiplash_5_movie']
+        self.track_1 = ['whiplash_1_1','whiplash_1_3','whiplash_1_3','whiplash_laugh']
+        self.track_2 = ['whiplash_2_1','whiplash_2_2','whiplash_2_3','whiplash_2_4','whiplash_2_5','whiplash_laugh']
 
     def evt_ball_starting(self):
         self.hits = self.game.getPlayerState('whiplash_hits')

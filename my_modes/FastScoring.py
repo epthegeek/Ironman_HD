@@ -30,15 +30,27 @@ class FastScoring(procgame.game.Mode):
         self.timer_layer = dmd.HDTextLayer(1920/2, 120, self.game.fonts['bebas500'], "center", line_color=(0,0,0), line_width=8,interior_color=(255, 0, 0))
         timer_box = self.game.animations['timer_box']
         timer_box.set_target_position(731,164)
-        self.display = dmd.GroupedLayer(1920, 800, [backdrop, banner,timer_box,self.timer_layer,self.score1,self.score2,self.score3,self.score4,self.score5,self.score6], opaque=True)
+        title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(96,96,86),line_width=3,interior_color=(224,224,224))
+        title.set_text("FAST SCORING")
+        bottom1 = dmd.HDTextLayer(1920/2,650,self.game.fonts['default'],"center",line_color=(96,96,96),line_width=3,interior_color=(224,224,224))
+        bottom1.set_text("IRONMAN TARGETS RAISE VALUE")
+        self.bottom2 = dmd.HDTextLayer(1920/2,650,self.game.fonts['default'],"center",line_color=(96,96,96),line_width=3,interior_color=(224,224,224))
+        self.bottom2.set_text("ALL SWITCHES SCORE 10,000 POINTS")
+        info_line = dmd.ScriptedLayer(1920,800,[{'layer':bottom1,'seconds':2},{'layer':self.bottom2,'seconds':2}])
+        self.display = dmd.GroupedLayer(1920, 800, [backdrop, banner,title,info_line,timer_box,self.timer_layer,self.score1,self.score2,self.score3,self.score4,self.score5,self.score6], opaque=True)
         self.names = ['fast5','fast4','fast3','fast2','fast1','fast0']
         self.timer_start_value = 41
 
+
     def mode_started(self):
+        self.fast_scoring_runs = self.game.getPlayerState('fast_scoring_runs')
         # play the sound and quote
+        self.game.sound.play('scoring_mode_riff')
+        duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
+        self.delay(delay=duration,handler=lambda: self.game.sound.play_voice('fast_scoring'))
         self.running = True
         # set the starting value
-        self.switch_value = 15000
+        self.switch_value = 10000 + (5000 * self.fast_scoring_runs)
 
         for layer in self.score_layers:
             layer.enabled = False
@@ -74,12 +86,27 @@ class FastScoring(procgame.game.Mode):
         self.layer = None
         self.game.im_targets.end_scoring_mode()
         self.running = False
+        # add up the tally for how many times FS has run
+        self.game.setPlayerState('fast_scoring_runs', (self.fast_scoring_runs + 1))
         self.unload()
 
+    # updates the score layers and triggers the update to the info line
     def set_layer_points(self):
         for layer in self.score_layers:
             layer.set_text(self.game.score_display.format_score(self.switch_value))
+        self.update_info_line()
 
+    # increases the switch value 1000 points and updates the score layers
+    def increase_value(self):
+        self.switch_value += 1000
+        self.set_layer_points()
+
+    # updates the info line that contains points
+    def update_info_line(self):
+        string = "ALL TARGETS SCORE " + self.game.score_display.format_score(self.switch_value) + " POINTS"
+        self.bottom2.set_text(string)
+
+    # chooses and returns a random layer from the available layers for score display
     def get_random_layer(self):
         choices = []
         for n in range (0,6,1):
