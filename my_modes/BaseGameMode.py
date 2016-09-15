@@ -52,6 +52,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('drone_targets', [True,True,True,True])
         # set the drone count for the player
         player.setState('drone_hits', 0)
+        player.setState('drone_value', 10)
         # set a count for war machine battles
         player.setState('war_machine_battles',0)
         # TODO: need to apply config to this
@@ -75,9 +76,6 @@ class BaseGameMode(procgame.game.AdvancedMode):
         #self.game.ball_saver_enable(num_balls_to_save=1, time=5, now=True, allow_multiple_saves=False,callback=self.ballsaved)
         self.bonus_x = 0
 
-    def evt_ball_ending(self):
-        pass
-
     def ballsaved(self):
         self.game.log("BaseGameMode: BALL SAVED from Trough Callback")
         self.game.displayText('Ball Saved!')
@@ -89,6 +87,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         pass
 
     def evt_ball_ending(self, (shoot_again, last_ball)):
+        self.game.sound.stop_music()
         self.game.log("BaseGameMode trough changed notification ('ball_ending - again=%s, last=%s')" % (shoot_again,last_ball))
         return 2
 

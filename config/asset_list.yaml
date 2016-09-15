@@ -407,6 +407,8 @@ Audio:
       file: 'Sound-008D.wav'
     - key: 'im_target_hit'
       file: 'Sound-005B.wav'
+    - key: 'electric_buzz_1'
+      file: 'Sound-0061.wav'
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'

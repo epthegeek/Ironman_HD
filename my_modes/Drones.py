@@ -29,19 +29,23 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_layers = [self.drone_0_layer,self.drone_1_layer,self.drone_2_layer,self.drone_3_layer]
         self.drone_quotes = ['ga_drone','aa_drone','ta_drone','sa_drone']
         self.quote_delay = self.game.sound.sounds['drone_hit']['sound_list'][0].get_length()
-        self.text = bottom = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
+        self.text = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
+        self.score_text = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['bebas200'], "center", line_color=(0, 0, 0), line_width=6, interior_color=(64, 64, 224))
+        self.text_positions = [300,750,1180,1620]
 
     def evt_ball_starting(self):
         self.drone_tracking = self.game.getPlayerState('drone_targets')
         self.drone_total = self.game.getPlayerState('drone_hits')
         self.war_machine_battles = self.game.getPlayerState('war_machine_battles')
         self.drones_for_mb = self.game.getPlayerState('drones_for_mb')
+        self.drone_value = self.game.getPlayerState('drone_value')
 
     def evt_ball_ending(self):
         self.game.setPlayerState('drone_targets', self.drone_tracking)
         self.game.setPlayerState('drone_hits',self.drone_total)
         self.game.setPlayerState('war_machine_battles', self.war_machine_battles)
         self.game.setPlayerState('drones_for_mb', self.drones_for_mb)
+        self.game.setPlayerState('drone_value', self.drone_value)
 
     def sw_droneTarget0_active(self,sw):
         self.drone_hit(0)
@@ -70,9 +74,10 @@ class Drones(procgame.game.AdvancedMode):
                 self.warmachine.light_multiball()
             # If not, do the normal display
             else:
-                self.drone_hit_display(target)
+                self.drone_hit_display(target,self.drone_value)
             # score some points
-            self.game.score(10000)
+            self.game.score(self.drone_value * 1000)
+            self.drone_value += 5
             # Then balance the drones if needed
             # if WM multiball hasn't run yet, always a minimum of three
             if self.war_machine_battles <= 0:
@@ -117,11 +122,13 @@ class Drones(procgame.game.AdvancedMode):
         self.game.sound.play('drone_thunk')
         self.game.score(5000)
 
-    def drone_hit_display(self,target):
+    def drone_hit_display(self,target,value):
         self.cancel_delayed("clear")
         # play a delayed quote for the drone
         self.delay(delay=self.quote_delay,handler=lambda: self.game.sound.play_voice(self.drone_quotes[target]))
         self.set_explosion_position(target)
+        self.score_text.set_text(str(value) + "K",blink_frames = 8)
+        self.score_text.set_target_position(self.text_positions[target],170)
         count = self.drones_for_mb
         if count == 1:
             word = "DRONE"
@@ -129,6 +136,7 @@ class Drones(procgame.game.AdvancedMode):
             word = "DRONES"
         self.text.set_text(str(count) + " MORE " + word + " REMAINING")
         list = []
+        list.append(self.score_text)
         for n in range (0,4,1):
             if self.drone_tracking[n]:
                 list.append(self.drone_layers[n])
@@ -136,7 +144,7 @@ class Drones(procgame.game.AdvancedMode):
         list.append(self.text)
         self.layer = dmd.GroupedLayer(1920,800,list,opaque=True)
 
-        #self.delay("clear",delay=2,handler=self.clear_layer)
+        self.delay("clear",delay=3,handler=self.clear_layer)
 
     def update_lamps(self):
         for lamp in self.drone_lamps:
@@ -148,6 +156,8 @@ class Drones(procgame.game.AdvancedMode):
     def set_explosion_position(self,target):
         self.explosion_layer.reset()
         self.explosion_layer.composite_op = 'blacksrc'
-        self.explosion_layer.add_frame_listener(-1,self.clear_layer)
         self.explosion_layer.set_target_position(self.explosion_positions[target],84)
+
+    def reset_value(self):
+        self.drone_value = 10
 

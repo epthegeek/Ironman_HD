@@ -43,7 +43,7 @@ class Whiplash(procgame.game.AdvancedMode):
         self.game.coils.whiplashFlasher.pulse()
         self.delay("hold",delay=0.5,handler=self.clear_hold)
         # play a sound for the hit
-
+        self.game.sound.play('electric_buzz_1')
         # count the hit
         self.hits += 1
         if self.status == "READY":
