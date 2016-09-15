@@ -35,6 +35,7 @@ keyboard_switch_map:
     y: phantomSwitch1
     q: whiplashLeft
     m: mongerOptoLeft
+    n: shooterLane
     c: leftOutlane
     v: leftReturnLane
     o: topLeftLane

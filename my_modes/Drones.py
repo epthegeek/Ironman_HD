@@ -39,6 +39,7 @@ class Drones(procgame.game.AdvancedMode):
         self.war_machine_battles = self.game.getPlayerState('war_machine_battles')
         self.drones_for_mb = self.game.getPlayerState('drones_for_mb')
         self.drone_value = self.game.getPlayerState('drone_value')
+        self.drone_jp_value = self.game.getPlayerState('drone_jp_value')
 
     def evt_ball_ending(self):
         self.game.setPlayerState('drone_targets', self.drone_tracking)
@@ -46,6 +47,7 @@ class Drones(procgame.game.AdvancedMode):
         self.game.setPlayerState('war_machine_battles', self.war_machine_battles)
         self.game.setPlayerState('drones_for_mb', self.drones_for_mb)
         self.game.setPlayerState('drone_value', self.drone_value)
+        self.game.setPlayerState('drone_value', self.drone_jp_value)
 
     def sw_droneTarget0_active(self,sw):
         self.drone_hit(0)
@@ -71,7 +73,8 @@ class Drones(procgame.game.AdvancedMode):
             self.game.sound.play('drone_hit')
             # if that was enough, it's time for war machine multiball
             if self.drones_for_mb <= 0:
-                self.warmachine.light_multiball()
+                # time to do WM Multiball
+                self.game.warmachine.light_multiball()
             # If not, do the normal display
             else:
                 self.drone_hit_display(target,self.drone_value)
@@ -161,3 +164,6 @@ class Drones(procgame.game.AdvancedMode):
     def reset_value(self):
         self.drone_value = 10
 
+
+    def raise_jackpot(self):
+        self.drone_jp_value += 25000

@@ -85,7 +85,7 @@ class IronMonger(procgame.game.AdvancedMode):
             self.letter_hit()
 
     def sw_rightSpinner_active(self,sw):
-        self.game.sound.play('spinner_normal')
+        self.spinner_noise()
         if self.valid[2]:
             self.set_valid_switches(2)
             self.letter_hit()

@@ -29,7 +29,6 @@ class MongerMultiball(procgame.game.Mode):
         if self.running:
             self.end_multiball()
 
-
     def mode_started(self):
         self.running = True
         if self.game.monger_toy.status == "UP":
@@ -37,7 +36,6 @@ class MongerMultiball(procgame.game.Mode):
         # reset the jacpot hit count
         self.jackpot_hits = 0
         self.jackpots_total = 0
-
 
     def start_multiball(self):
         # play the clip and the audio

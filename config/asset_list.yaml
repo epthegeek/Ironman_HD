@@ -315,6 +315,50 @@ Animations:
 - key: 'monger_logo_10'
   file: 'monger_logo_10.png'
   holdLastFrame: True
+- key: 'war_machine_ready'
+  file: 'war_machine_ready.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_start'
+  file: 'war_machine_start.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_jp_1'
+  file: 'war_machine_jp-1.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_jp_2'
+  file: 'war_machine_jp-2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_jp_3'
+  file: 'war_machine_jp-3.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_jp_4'
+  file: 'war_machine_jp-4.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_jp_5'
+  file: 'war_machine_jp-5.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_d_jp_1'
+  file: 'war_machine_d_jp-1.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_d_jp_2'
+  file: 'war_machine_d_jp-2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_d_jp_3'
+  file: 'war_machine_d_jp-3.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'war_machine_super'
+  file: 'war_machine_super.mp4'
+  holdLastFrame: True
+  streamingMovie: True
 Fonts:
   FontStyles:
   - key: gold

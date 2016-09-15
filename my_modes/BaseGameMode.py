@@ -53,10 +53,11 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # set the drone count for the player
         player.setState('drone_hits', 0)
         player.setState('drone_value', 10)
+        player.setState('drone_jp_value', 150000)
         # set a count for war machine battles
         player.setState('war_machine_battles',0)
         # TODO: need to apply config to this
-        player.setState('drones_for_mb',10)
+        player.setState('drones_for_mb',8)
         player.setState('wm_multiball_status', "OPEN")
         player.setState('whiplash_hits',0)
         # TODO: need to apply config to this

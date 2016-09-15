@@ -179,22 +179,22 @@ PRSwitches:
         number: S17
         label: Unused Position
         tags: Standard,1,2
-    troughBallFour:
+    trough1:
         number: S18
         label: Trough Ball 4
         tags: Standard,2,2
         type: 'NC'
-    troughBallThree:
+    trough2:
         number: S19
         label: Trough Ball 3
         tags: Standard,2,3
         type: 'NC'
-    troughBallTwo:
+    trough3:
         number: S20
         label: Trough Ball 2
         tags: Standard,2,4
         type: 'NC'
-    troughBallOne:
+    trough4:
         number: S21
         label: Trough Ball 1
         tags: Standard,2,5
@@ -331,7 +331,7 @@ PRSwitches:
         tags: Standard,4,5
 
 PRCoils:
-    troughEject:
+    trough:
         number: C01
     autoPlunger:
         number: C02

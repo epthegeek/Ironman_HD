@@ -7,7 +7,7 @@ from pygame.font import *
 
 class WarMachine(procgame.game.AdvancedMode):
     def __init__(self, game):
-        super(WarMachine, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(WarMachine, self).__init__(game=game, priority=11, mode_type=AdvancedMode.Game)
         self.myID = "WarMachine"
 
 
@@ -32,15 +32,20 @@ class WarMachine(procgame.game.AdvancedMode):
             self.game.shields.collect_award()
         if self.multiball_status == "READY":
             # if war machine multiball is ready, do that
-            pass
+            self.game.modes.add(self.game.wm_multiball)
         # last option is add a drone
-        else:
+        elif sum(self.game.drones.drone_tracking) < 4:
             self.game.drones.add()
+        else:
+            # raise the drone jackpot by some amount
+            self.game.drones.raise_jackpot()
 
 
     def light_multiball(self):
-        self.multiball_status == "READY"
+        self.multiball_status = "READY"
         # do a display?
+        self.layer = self.game.animations['war_machine_ready']
+        self.delay(delay=2,handler=self.clear_layer)
         # update the lamps?
 
     def make_valid(self):
