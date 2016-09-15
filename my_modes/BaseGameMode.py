@@ -64,6 +64,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('whiplash_hits',0)
         # TODO: need to apply config to this
         player.setState('whiplash_hits_for_mb',5)
+        player.setState('whiplash_mb_count',0)
         player.setState('whiplash_status', "OPEN")
         player.setState('marks',0)
         player.setState('marks_finished', False)

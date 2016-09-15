@@ -14,16 +14,18 @@ class Whiplash(procgame.game.AdvancedMode):
         self.hold = False
         self.movie_index = 0
         self.hit_movies = ['whiplash_1_movie','whiplash_2_movie','whiplash_3_movie','whiplash_4_movie','whiplash_5_movie']
-        self.track_1 = ['whiplash_1_1','whiplash_1_3','whiplash_1_3','whiplash_laugh']
-        self.track_2 = ['whiplash_2_1','whiplash_2_2','whiplash_2_3','whiplash_2_4','whiplash_2_5','whiplash_laugh']
+        self.track_1 = ['whiplash_laugh','whiplash_laugh','whiplash_1_3','whiplash_1_2','whiplash_1_1']
+        self.track_2 = ['whiplash_laugh','whiplash_laugh','whiplash_2_5','whiplash_2_4','whiplash_2_3','whiplash_2_2','whiplash_2_1']
 
     def evt_ball_starting(self):
         self.hits = self.game.getPlayerState('whiplash_hits')
         self.hits_for_mb = self.game.getPlayerState('whiplash_hits_for_mb')
         self.status = self.game.getPlayerState('whiplash_status')
+        self.mb_count = self.game.getPlayerState('whiplash_multiball_count')
         self.hold = False
 
     def evt_ball_ending(self):
+        self.game.setPlayerState('whiplash_mb_count', self.mb_count)
         self.game.setPlayerState('whiplash_hits',self.hits)
         self.game.setPlayerState('whiplash_hits_for_mb',self.hits_for_mb)
         self.game.setPlayerState('whiplash_status',self.status)
@@ -60,8 +62,6 @@ class Whiplash(procgame.game.AdvancedMode):
                 print "DO MB READY"
                 self.status = "READY"
                 self.whiplash_hit_display("mb")
-
-#                self.whiplash_mb_ready()
             else:
                 self.whiplash_hit_display()
 
@@ -85,6 +85,13 @@ class Whiplash(procgame.game.AdvancedMode):
         self.game.score(points)
         self.animation_layer.add_frame_listener(-1,lambda: self.whiplash_text_display(type))
         self.layer = self.animation_layer
+        # play a quote
+        if self.mb_count == 0:
+            quotes = self.track_1
+        else:
+            quotes = self.track_2
+        if quotes[self.hits_for_mb]:
+            self.game.sound.play_voice(quotes[self.hits_for_mb])
 
     def whiplash_text_display(self,type="normal"):
         print "TEXT DISPLAY TYPE " + type
