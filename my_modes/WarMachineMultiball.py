@@ -179,6 +179,7 @@ class WarMachineMultiball(procgame.game.Mode):
             choice = 'war_machine_super'
             text = "SUPER JACKPOT"
             delay = 3
+            voice = 'super_jackpot'
         elif type == self.d_jp_movies:
             text = "DOUBLE JACKPOT"
             choice = self.d_jp_movies[self.d_jp_idx]
@@ -186,6 +187,7 @@ class WarMachineMultiball(procgame.game.Mode):
             self.d_jp_idx += 1
             if self.d_jp_idx > 2:
                 self.d_jp_idx = 0
+            voice = 'double_jackpot'
         else:
             text = "JACKPOT"
             choice = self.jp_movies[self.jp_idx]
@@ -193,8 +195,10 @@ class WarMachineMultiball(procgame.game.Mode):
             self.jp_idx += 1
             if self.jp_idx > 4:
                 self.jp_idx = 0
+            voice = 'jackpot'
         self.game.animations[choice].reset()
         self.layer = self.game.animations[choice]
+        self.game.sound.play_voice(voice)
         self.delay("display",delay=delay,handler=lambda:self.text_portion(text,points))
 
     def text_portion(self,string,points):

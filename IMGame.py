@@ -26,6 +26,7 @@ from my_modes import Bogey
 from my_modes import MongerMultiball
 from my_modes import WhiplashMultiball
 from my_modes import WarMachineMultiball
+from my_modes import Skillshot
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -62,6 +63,8 @@ class IMGame(SkeletonGame):
         self.monger_multiball = MongerMultiball(game=self) # pri 50
         self.whiplash_multiball = WhiplashMultiball(game=self) # pri 50
         self.wm_multiball = WarMachineMultiball(game=self) # pri 50
+
+        self.skillshot = Skillshot(game=self)
 
         self.switch_filter = SwitchFilter(game=self) # pri 900
 
