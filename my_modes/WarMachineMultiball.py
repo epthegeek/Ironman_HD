@@ -17,25 +17,50 @@ class WarMachineMultiball(procgame.game.Mode):
         self.big5_jackpots = [False,False,False,False,False]
         self.super = False
         self.jp_movies = ['war_machine_jp_1','war_machine_jp_2','war_machine_jp_3','war_machine_jp_4','war_machine_jp_5']
+        self.jp_delays = [1.8,1.8,1.8,1.8,1.8]
         self.d_jp_movies = ['war_machine_d_jp_1','war_machine_d_jp_2','war_machine_d_jp_3']
+        self.d_jp_delays = [3.5,3.5,3.5]
         self.top = dmd.HDTextLayer(1920 / 2, 50, self.game.fonts['main_score'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(64, 64, 224))
         self.bottom = dmd.HDTextLayer(1920 / 2, 400, self.game.fonts['main_score'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(255,255,0))
         self.text_display = dmd.GroupedLayer(1920,800,[self.top,self.bottom],opaque=True)
         self.main_text_info = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
         # group layers for the main display
         self.super_main = dmd.GroupedLayer(1920,800,[self.main_text_info],opaque=True)
-        self.big5_main = dmd.GroupedLayer(1920,800,[self.main_text_info],opaque=True)
         drones_main_layers = []
         for layer in self.game.drones.drone_layers:
             drones_main_layers.append(layer)
         drones_main_layers.append(self.main_text_info)
         self.drones_main = dmd.GroupedLayer(1920,800,drones_main_layers,opaque=True)
         self.valid = [True,True]
+        self.left_arrow = self.game.animations['left_arrow']
+        self.left_mid_arrow = self.game.animations['left_mid_arrow']
+        self.left_mid_arrow.set_target_position(384,0)
+        self.center_arrow = self.game.animations['center_arrow']
+        self.center_arrow.set_target_position(768,0)
+        self.right_mid_arrow = self.game.animations['right_mid_arrow']
+        self.right_mid_arrow.set_target_position(1152,0)
+        self.right_arrow = self.game.animations['right_arrow']
+        self.right_arrow.set_target_position(1536,0)
+        self.arrows = [self.left_arrow, self.left_mid_arrow,self.center_arrow,self.right_mid_arrow,self.right_arrow]
+        big5_list = []
+        for layer in self.arrows:
+            big5_list.append(layer)
+        big5_list.append(self.main_text_info)
+        self.big5_main = dmd.GroupedLayer(1920, 800, big5_list, opaque=True)
+        #
+        # text layers for intro display
+        intro_1 = dmd.HDTextLayer(1850, 650,self.game.fonts['default'],"right",line_color=(0,0,0),line_width=6,interior_color=(224,224,224)).set_text("MULTIBALL")
+        intro_2 = dmd.HDTextLayer(1850, 550,self.game.fonts['default'],"right",line_color=(0,0,0),line_width=6,interior_color=(224,224,224)).set_text("MACHINE")
+        intro_3 = dmd.HDTextLayer(1850, 450,self.game.fonts['default'],"right",line_color=(0,0,0),line_width=6,interior_color=(224,224,224)).set_text("WAR")
+        self.intro_movie = self.game.animations['war_machine_start']
+        self.intro = dmd.GroupedLayer(1920,800,[self.intro_movie,intro_1,intro_2,intro_3],opaque = True)
 
     def mode_started(self):
         self.valid = [True, True]
         self.display_type = "drones"
         self.start_multiball()
+        self.jp_idx = 0
+        self.d_jp_idx = 0
 
     def evt_ball_ending(self):
         if self.running:
@@ -135,14 +160,15 @@ class WarMachineMultiball(procgame.game.Mode):
     def start_multiball(self):
         self.running = True
         # display
-        self.game.animations['war_machine_start'].reset()
-        self.layer = self.game.animations['war_machine_start']
+        self.intro_movie.reset()
+        self.layer = self.intro
         self.delay(delay=3,handler=self.set_main_display)
         # audio callout?
         self.game.sound.play_voice('war_machine_multiball')
         # change the music
+        self.game.sound.play_music('war_machine_mb',loops=-1)
         # launch balls
-        self.game.trough.launch_and_autoplunge_balls(1)
+       # self.game.trough.launch_and_autoplunge_balls(1)
         # reset the drone jackpots
         self.jackpots_init('drone',True)
         self.jackpots_init('big5',False)
@@ -152,15 +178,24 @@ class WarMachineMultiball(procgame.game.Mode):
         if type == 'Super':
             choice = 'war_machine_super'
             text = "SUPER JACKPOT"
+            delay = 3
         elif type == self.d_jp_movies:
             text = "DOUBLE JACKPOT"
-            choice = random.choice(type)
+            choice = self.d_jp_movies[self.d_jp_idx]
+            delay = self.d_jp_delays[self.d_jp_idx]
+            self.d_jp_idx += 1
+            if self.d_jp_idx > 2:
+                self.d_jp_idx = 0
         else:
             text = "JACKPOT"
-            choice = random.choice(type)
+            choice = self.jp_movies[self.jp_idx]
+            delay = self.jp_delays[self.jp_idx]
+            self.jp_idx += 1
+            if self.jp_idx > 4:
+                self.jp_idx = 0
         self.game.animations[choice].reset()
         self.layer = self.game.animations[choice]
-        self.delay("display",delay=1.5,handler=lambda:self.text_portion(text,points))
+        self.delay("display",delay=delay,handler=lambda:self.text_portion(text,points))
 
     def text_portion(self,string,points):
         self.top.set_text(string)
@@ -170,13 +205,13 @@ class WarMachineMultiball(procgame.game.Mode):
 
     def set_main_display(self):
         # if that was the last drone jackpot - shift to the big5
-        if True not in self.drone_jackpots and self.display_type == 'drone':
+        if True not in self.drone_jackpots and self.display_type == 'drones':
             self.jackpots_init('big5', True)
             self.display_type = 'big5'
-        if True not in self.big5_jackpots and self.display_type == 'big5':
+        elif True not in self.big5_jackpots and self.display_type == 'big5':
             self.display_type = 'super'
             self.light_super()
-        if self.display_type == 'super':
+        elif self.display_type == 'super':
             self.jackpots_init('drones',True)
             self.display_type = 'drones'
 
@@ -198,17 +233,20 @@ class WarMachineMultiball(procgame.game.Mode):
     def update_main_layers(self):
         for x in range (0,4,1):
             if self.drone_jackpots[x]:
-                print str(x) + " IS VALID"
                 self.game.drones.drone_layers[x].enabled = True
             else:
                 self.game.drones.drone_layers[x].enabled = False
-        # TODO: need to add arrow layers
+        for x in range (0,5,1):
+            if self.big5_jackpots[x]:
+                self.arrows[x].enabled = True
+            else:
+                self.arrows[x].enabled = False
 
     def jackpots_init(self,set,value):
         if set == 'drone':
             for jp in range (0,4,1):
                 self.drone_jackpots[jp] = value
-        if set == 'big5':
+        elif set == 'big5':
             for jp in range (0,5,1):
                 self.big5_jackpots[jp] = value
 
@@ -223,5 +261,5 @@ class WarMachineMultiball(procgame.game.Mode):
         self.valid[orbit] = False
         self.delay(delay=1,handler=lambda: self.validate(orbit))
 
-    def validate(self,oribt):
+    def validate(self,orbit):
         self.valid[orbit] = True

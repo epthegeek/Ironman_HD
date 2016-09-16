@@ -20,12 +20,12 @@ class FastScoring(procgame.game.Mode):
         #self.explosion.composite_op = "blacksrc"
         #self.explosion.enabled = False
         #self.display = dmd.GroupedLayer(1920, 800, [backdrop, banner, self.explosion], opaque=True)
-        self.score1 = dmd.HDTextLayer(200, 100, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
-        self.score2 = dmd.HDTextLayer(250, 250, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
-        self.score3 = dmd.HDTextLayer(200, 500, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
+        self.score1 = dmd.HDTextLayer(250, 100, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
+        self.score2 = dmd.HDTextLayer(300, 250, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
+        self.score3 = dmd.HDTextLayer(250, 450, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
         self.score4 = dmd.HDTextLayer(1700, 100, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
-        self.score5 = dmd.HDTextLayer(1650, 250, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
-        self.score6 = dmd.HDTextLayer(1700, 500, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
+        self.score5 = dmd.HDTextLayer(1600, 250, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
+        self.score6 = dmd.HDTextLayer(1700, 450, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(255, 255, 0))
         self.score_layers = [self.score1, self.score2, self.score3, self.score4, self.score5, self.score6]
         self.timer_layer = dmd.HDTextLayer(1920/2, 120, self.game.fonts['bebas500'], "center", line_color=(0,0,0), line_width=8,interior_color=(255, 0, 0))
         timer_box = self.game.animations['timer_box']
@@ -84,7 +84,7 @@ class FastScoring(procgame.game.Mode):
 
     def end(self):
         self.layer = None
-        self.game.im_targets.end_scoring_mode()
+        self.game.im_targets.end_target_mode()
         self.running = False
         # add up the tally for how many times FS has run
         self.game.setPlayerState('fast_scoring_runs', (self.fast_scoring_runs + 1))
@@ -103,7 +103,7 @@ class FastScoring(procgame.game.Mode):
 
     # updates the info line that contains points
     def update_info_line(self):
-        string = "ALL TARGETS SCORE " + self.game.score_display.format_score(self.switch_value) + " POINTS"
+        string = "ALL SWITCHES SCORE " + self.game.score_display.format_score(self.switch_value) + " POINTS"
         self.bottom2.set_text(string)
 
     # chooses and returns a random layer from the available layers for score display

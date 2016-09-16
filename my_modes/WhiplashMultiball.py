@@ -41,6 +41,8 @@ class WhiplashMultiball(procgame.game.Mode):
 
 
     def start_multiball(self):
+        # play some music
+        self.game.sound.play_music('whiplash_mb',loops=-1)
         # do the display
         # set the total score to zero
         self.total_points = 0

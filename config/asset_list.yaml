@@ -359,6 +359,21 @@ Animations:
   file: 'war_machine_super.mp4'
   holdLastFrame: True
   streamingMovie: True
+- key: 'left_arrow'
+  file: 'left_arrow.png'
+  holdLastFrame: True
+- key: 'left_mid_arrow'
+  file: 'mid_left_arrow.png'
+  holdLastFrame: True
+- key: 'center_arrow'
+  file: 'center_arrow.png'
+  holdLastFrame: True
+- key: 'right_mid_arrow'
+  file: 'mid_right_arrow.png'
+  holdLastFrame: True
+- key: 'right_arrow'
+  file: 'right_arrow.png'
+  holdLastFrame: True
 Fonts:
   FontStyles:
   - key: gold
@@ -414,6 +429,12 @@ Audio:
     - key: 'ball_1_shooter_lane'
       file: 'Sound-03F8.wav'
       volume: 1
+    - key: 'war_machine_ready'
+      file: 'Sound-0402.wav'
+    - key: 'war_machine_mb'
+      file: 'Sound-03F7.wav'
+    - key: 'whiplash_mb'
+      file: 'Sound-03F6.wav'
   Effects:
     - key: 'scoring_mode_start'
       file: 'Sound-004A.wav'

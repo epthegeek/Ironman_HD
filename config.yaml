@@ -21,7 +21,7 @@ dmd_dots_h: 800
 dmd_dot_filter: False
 dmd_fullscreen: False
 desktop_dmd_scale: 1
-dmd_framerate: 48
+dmd_framerate: 46
 screen_position_x: 0
 screen_position_y: 204
 dmd_window_border: True
