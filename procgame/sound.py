@@ -240,7 +240,7 @@ class SoundController(mode.Mode):  #made this a mode since I want to use delay f
         when b gets removed from the pygame queue (automatically, when playback of a finishes) we need to
         make sure c is moved into b's former spot some time before b completes playback.
         """
-        #print "sound finished, the queue currently has :" + str(len(self.queue))
+        print "sound finished, the queue currently has :" + str(len(self.queue))
 
         # see if a voice call is already queued in PyGame
         queued_sound = mixer.Channel(CH_VOICE).get_queue() 
@@ -370,13 +370,19 @@ class SoundController(mode.Mode):  #made this a mode since I want to use delay f
                 if len(self.sounds[key]['sound_list']) > 0:
                     random.shuffle(self.sounds[key]['sound_list'])
                 if action==PLAY_QUEUED:
+                    print "PLAY QUEUED WAS CALLED"
                     # using queue since we are not 100% sure audio finsihed
                     mixer.Channel(CH_VOICE).queue(self.sounds[key]['sound_list'][0])  
                     #duration = self.sounds[key]['sound_list'][0].get_length() * (loops+1)
                 elif action == PLAY_FORCE:
                     # use play instead of queue since we want it to play now
                     # mixer.Channel(CH_VOICE).stop() # uncomment to use stop, if your driver won't force playback 
-                    mixer.Channel(CH_VOICE).play(self.sounds[key]['sound_list'][0]) 
+                    mixer.Channel(CH_VOICE).play(self.sounds[key]['sound_list'][0])
+                elif action == PLAY_NOTBUSY:
+                    if (mixer.Channel(CH_VOICE).get_queue() or len(self.queue) > 0):
+                        pass
+                    else:
+                        mixer.Channel(CH_VOICE).play(self.sounds[key]['sound_list'][0])
             
             if(self.ducking_enabled):
                 self.__music_ducking(True)

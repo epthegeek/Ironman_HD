@@ -13,8 +13,6 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     # player added event
     def evt_player_added(self, player):
-        # Play the player added noise
-        self.game.sound.play('game_start')
         # Stores/sets data for the player for the game
         # bonus multiplier
         #player.setState('bonus_x', 0)
@@ -113,3 +111,4 @@ class BaseGameMode(procgame.game.AdvancedMode):
     def sling_hit(self):
         # play a sound
         self.game.sound.play('slingshot_clank')
+

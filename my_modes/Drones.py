@@ -128,7 +128,7 @@ class Drones(procgame.game.AdvancedMode):
     def drone_hit_display(self,target,value):
         self.cancel_delayed("clear")
         # play a delayed quote for the drone
-        self.delay(delay=self.quote_delay,handler=lambda: self.game.sound.play_voice(self.drone_quotes[target]))
+        self.delay(delay=self.quote_delay,handler=lambda: self.game.sound.play_voice(self.drone_quotes[target],action=procgame.sound.PLAY_NOTBUSY))
         self.set_explosion_position(target)
         self.score_text.set_text(str(value) + "K",blink_frames = 8)
         self.score_text.set_target_position(self.text_positions[target],170)

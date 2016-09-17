@@ -47,6 +47,7 @@ class Skillshot(procgame.game.Mode):
         if self.right_orbit_count >= 2:
             if not self.hit:
                 self.unload()
+        return procgame.game.SwitchStop
 
     def sw_shooterLane_active(self,sw):
         self.cancel_delayed("unload")
@@ -54,6 +55,10 @@ class Skillshot(procgame.game.Mode):
     def sw_shooterLane_inactive(self,sw):
         # start a timer to unload if nothing else happens
         self.delay("unload",delay=15,handler=self.unload)
+        # and fire the orbit post
+        self.game.coils['orbitPost'].patter(on_time=4,off_time=4,original_on_time=20)
+        # drop the post in 2 seconds
+        self.delay(delay=2,handler=lambda: self.game.coils['orbitPost'].disable())
 
     def check_ss(self,lane):
         self.cancel_delayed("unload")
@@ -91,7 +96,9 @@ class Skillshot(procgame.game.Mode):
             self.game.lamps['topRightLane'].enable()
 
     def unload(self):
+        # drop the post just to be safe
+        self.game.coils['orbitPost'].disable()
         self.wipe_delays()
-        self.game.setPlayerState('ss_value')
+        self.game.setPlayerState('ss_value',self.ss_value)
         self.clear_layer()
         self.game.modes.remove(self)

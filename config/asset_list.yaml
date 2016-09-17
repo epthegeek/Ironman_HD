@@ -377,6 +377,15 @@ Animations:
 - key: 'right_arrow'
   file: 'right_arrow.png'
   holdLastFrame: True
+- key: 'war_machine_bg'
+  file: 'war_machine_backdrop.png'
+  holdLastFrame: True
+- key: 'war_machine_bg_blank'
+  file: 'war_machine_backdrop_blank.png'
+  holdLastFrame: True
+- key: 'small_explosion'
+  file: 'explosion-4.mp4'
+  streamingMovie: True
 Fonts:
   FontStyles:
   - key: gold
@@ -421,6 +430,9 @@ Fonts:
   - key: 'bebas200'
     file: 'BebasNeue.otf'
     size: 200
+  - key: 'bebas300'
+    file: 'BebasNeue.otf'
+    size: 300
   - key: 'main_score'
     file: 'BebasNeue.otf'
     size: 350
@@ -453,32 +465,76 @@ Audio:
       volume: 1
     - key: 'shield_unlit'
       file: 'Sound-002A.wav'
+      volume: 1
     - key: 'shield_unlit'
       file: 'Sound-0028.wav'
+      volume: 1
     - key: 'shield_already_lit'
       file: 'Sound-0072.wav'
+      volume: 1
     - key: 'last_shield'
       file: 'Sound-007F.wav'
+      volume: 1
     - key: 'slingshot_clank'
       file: 'Sound-00A9.wav'
+      volume: 1
     - key: 'helicopter'
       file: 'Sound-0033.wav'
+      volume: 1
     - key: 'spinner_normal'
       file: 'Sound-0079.wav'
+      volume: 1
     - key: 'spinner_monger'
       file: 'Sound-0038.wav'
+      volume: 1
     - key: 'drone_thunk'
       file: 'Sound-00A0.wav'
+      volume: 1
     - key: 'im_target_thunk'
       file: 'Sound-009E.wav'
+      volume: 1
     - key: 'ramp_enter'
       file: 'Sound-008D.wav'
+      volume: 1
     - key: 'im_target_hit'
       file: 'Sound-005B.wav'
+      volume: 1
     - key: 'electric_buzz_1'
       file: 'Sound-0061.wav'
+      volume: 1
     - key: 'scoring_mode_riff'
       file: 'Sound-0049.wav'
+      volume: 1
+    - key: 'wm_explosion'
+      file: 'Sound-0084.wav'
+      volume: 1
+    - key: 'wm_jp_1'
+      file: 'Sound-004D.wav'
+      volume: 1
+    - key: 'wm_jp_2'
+      file: 'Sound-004E.wav'
+      volume: 1
+    - key: 'wm_jp_3'
+      file: 'Sound-004F.wav'
+      volume: 1
+    - key: 'wm_jp_4'
+      file: 'Sound-0050.wav'
+      volume: 1
+    - key: 'wm_djp_1'
+      file: 'Sound-0052.wav'
+      volume: 1
+    - key: 'wm_djp_2'
+      file: 'Sound-0053.wav'
+      volume: 1
+    - key: 'wm_djp_3'
+      file: 'Sound-0054.wav'
+      volume: 1
+    - key: 'wm_djp_4'
+      file: 'Sound-0055.wav'
+      volume: 1
+    - key: 'wm_djp_5'
+      file: 'Sound-0056.wav'
+      volume: 1
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'
@@ -500,9 +556,6 @@ Audio:
       volume: 1
     - key: 'shields_completed'
       file: 'Sound-0321.wav'
-      volume: 1
-    - key: 'game_start'
-      file: 'Sound-002C.wav'
       volume: 1
     - key: 'one_hundred_th'
       file: 'Sound-02EC.wav'
@@ -539,61 +592,91 @@ Audio:
       volume: 1
     - key: 'tut_fast_scoring'
       file: 'Sound-02C4.wav'
+      volume: 1
     - key: 'tut_fast_scoring'
       file: 'Sound-02C8.wav'
+      volume: 1
     - key: 'tut_fast_scoring'
       file: 'Sound-036F.wav'
+      volume: 1
     - key: 'fast_scoring'
       file: 'Sound-02A1.wav'
+      volume: 1
     - key: 'tut_double_scoring'
       file: 'Sound-02C3.wav'
+      volume: 1
     - key: 'tut_double_scoring'
       file: 'Sound-02C5.wav'
+      volume: 1
     - key: 'tut_double_scoring'
       file: 'Sound-036E.wav'
+      volume: 1
     - key: 'double_scoring'
       file: 'Sound-02A2.wav'
+      volume: 1
     - key: 'tut_ironman_scoring'
       file: 'Sound-02C7.wav'
+      volume: 1
     - key: 'ironman_scoring'
       file: 'Sound-02A0.wav'
+      volume: 1
     - key: 'war_machine_ready'
       file: 'Sound-03B8.wav'
+      volume: 1
     - key: 'war_machine_multiball'
       file: 'Sound-03B9.wav'
+      volume: 1
     - key: 'whiplash_laugh'
       file: 'Sound-0299.wav'
+      volume: 1
     - key: 'whiplash_1_1'
       file: 'Sound-029B.wav'
+      volume: 1
     - key: 'whiplash_1_2'
       file: 'Sound-0296.wav'
+      volume: 1
     - key: 'whiplash_1_3'
       file: 'Sound-029C.wav'
+      volume: 1
     - key: 'whiplash_2_1'
       file: 'Sound-0174.wav'
+      volume: 1
     - key: 'whiplash_2_2'
       file: 'Sound-017E.wav'
+      volume: 1
     - key: 'whiplash_2_3'
       file: 'Sound-029A.wav'
+      volume: 1
     - key: 'whiplash_2_4'
       file: 'Sound-0297.wav'
+      volume: 1
     - key: 'whiplash_2_5'
       file: 'Sound-0173.wav'
+      volume: 1
     - key: 'jackpot'
       file: 'Sound-02DC.wav'
+      volume: 1
     - key: 'jackpot'
       file: 'Sound-02DD.wav'
+      volume: 1
     - key: 'jackpot'
       file: 'Sound-02DE.wav'
+      volume: 1
     - key: 'double_jackpot'
       file: 'Sound-02D2.wav'
+      volume: 1
     - key: 'double_jackpot'
       file: 'Sound-02D3.wav'
+      volume: 1
     - key: 'double_jackpot'
       file: 'Sound-02D4.wav'
+      volume: 1
     - key: 'super_jackpot'
       file: 'Sound-02DF.wav'
+      volume: 1
     - key: 'super_jackpot'
       file: 'Sound-02E0.wav'
+      volume: 1
     - key: 'super_jackpot'
       file: 'Sound-02E1.wav'
+      volume: 1

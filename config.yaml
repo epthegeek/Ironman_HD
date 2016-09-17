@@ -28,13 +28,15 @@ dmd_window_border: True
 
 keyboard_switch_map:
     1: startButton
-    w: leftTargetI
-    i: rightTargetN
-    z: leftRampExit
-    x: rightRampExit
-    y: phantomSwitch1
+    2: leftTargetI
+    3: leftTargetR
+    4: leftTargetO
+    5: leftTargetN
+    6: rightTargetM
+    7: rightTargetA
+    8: rightTargetN
     q: whiplashLeft
-    m: mongerOptoLeft
+    z: mongerOptoLeft
     n: shooterLane
     c: leftOutlane
     v: leftReturnLane
@@ -45,8 +47,15 @@ keyboard_switch_map:
     f: droneTarget2
     g: droneTarget3
     a: warMachineOpto
-    h: leftSpinner
-    j: centerSpinner
-    k: rightSpinner
+    w: leftSpinner
+    e: leftOrbit
+    r: leftRampExit
+    t: centerSpinner
+    y: rightRampExit
+    u: rightOrbit
+    i: rightSpinner
+    j: leftJetBumper
+    k: bottomJetBumper
+    l: rightJetBumper
     1073742053: flipperLwL
     1073742049: flipperLwR
