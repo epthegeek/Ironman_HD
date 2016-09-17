@@ -52,7 +52,7 @@ class WarMachine(procgame.game.AdvancedMode):
         # change the music
         self.game.sound.play_music('war_machine_ready',loops=-1)
         self.delay(delay=0.5,handler=lambda:self.game.sound.play_voice('war_machine_ready'))
-        self.delay(delay=3.4,handler=self.clear_layer)
+        self.delay(delay=3.6,handler=self.clear_layer)
         # update the lamps?
 
     def make_valid(self):

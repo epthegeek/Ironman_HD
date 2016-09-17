@@ -62,7 +62,6 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_hit(3)
 
     def drone_hit(self,target):
-        print self.drone_tracking
         # is the target lit?
         if self.drone_tracking[target] == True:
             self.drone_tracking[target] = False
@@ -79,6 +78,8 @@ class Drones(procgame.game.AdvancedMode):
                 # Turn all the drones off
                 for n in range (0,4,1):
                     self.drone_tracking[n] = False
+                # bail on the rest of this junk
+                return
             # If not, do the normal display
             else:
                 self.drone_hit_display(target,self.drone_value)
@@ -167,7 +168,6 @@ class Drones(procgame.game.AdvancedMode):
 
     def reset_value(self):
         self.drone_value = 10
-
 
     def raise_jackpot(self):
         self.drone_jp_value += 25000

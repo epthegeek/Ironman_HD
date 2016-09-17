@@ -370,7 +370,6 @@ class SoundController(mode.Mode):  #made this a mode since I want to use delay f
                 if len(self.sounds[key]['sound_list']) > 0:
                     random.shuffle(self.sounds[key]['sound_list'])
                 if action==PLAY_QUEUED:
-                    print "PLAY QUEUED WAS CALLED"
                     # using queue since we are not 100% sure audio finsihed
                     mixer.Channel(CH_VOICE).queue(self.sounds[key]['sound_list'][0])  
                     #duration = self.sounds[key]['sound_list'][0].get_length() * (loops+1)
