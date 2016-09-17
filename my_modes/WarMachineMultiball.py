@@ -120,9 +120,12 @@ class WarMachineMultiball(procgame.game.Mode):
         return procgame.game.SwitchStop
 
     def sw_leftOrbit_active(self,sw):
-        if self.valid[0]:
-            self.make_invalid(1)
-            self.double_jp_hit(0)
+        if self.big5_jackpots[0]:
+            if self.valid[0]:
+                self.make_invalid(1)
+                self.double_jp_hit(0)
+        else:
+            self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
 
     def sw_leftRampExit_active(self,sw):
@@ -138,9 +141,12 @@ class WarMachineMultiball(procgame.game.Mode):
         return procgame.game.SwitchStop
 
     def sw_rightOrbit_active(self,sw):
-        if self.valid[1]:
-            self.make_invalid(0)
-            self.double_jp_hit(4)
+        if self.big5_jackpots[4]:
+            if self.valid[1]:
+                self.make_invalid(0)
+                self.double_jp_hit(4)
+        else:
+            self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
 
     def sw_warMachineOpto_active(self,sw):
@@ -157,10 +163,10 @@ class WarMachineMultiball(procgame.game.Mode):
             self.super = False
             # reset the super for the next round
             self.super_jp_value = 0
+            # up the jackpot value by 100k
+            self.game.drones.drone_jp_value += 100000
         else:
             pass
-        # raise the drone jackpot by some amount - every time
-        self.game.drones.raise_jackpot()
         return procgame.game.SwitchStop
 
     def drone_hit(self,target):
@@ -328,3 +334,4 @@ class WarMachineMultiball(procgame.game.Mode):
 
     def validate(self,orbit):
         self.valid[orbit] = True
+

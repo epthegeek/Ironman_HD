@@ -29,6 +29,11 @@ class WarMachine(procgame.game.AdvancedMode):
         self.process_hit()
 
     def process_hit(self):
+        # the start multiball shot doesn't raise JP value - all others do.
+        if self.multiball_status != "READY":
+            # raise the drone jackpot by some amount - every time
+            self.game.drones.raise_jackpot()
+
         # if there are shield awards waiting, do that
         if self.game.shields.shield_awards_pending > 0:
             self.game.shields.collect_award()
@@ -41,8 +46,6 @@ class WarMachine(procgame.game.AdvancedMode):
         else:
             # do the raise jackpot display
             pass
-        # raise the drone jackpot by some amount - every time
-        self.game.drones.raise_jackpot()
 
 
     def light_multiball(self):

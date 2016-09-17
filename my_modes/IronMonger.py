@@ -242,7 +242,7 @@ class IronMonger(procgame.game.AdvancedMode):
         if not self.orbit_quiet:
             self.orbit_quiet = True
             self.game.sound.play('helicopter')
-            self.delay(delay=1,handler=self.orbit_noise_reset)
+            self.delay(delay=5,handler=self.orbit_noise_reset)
 
     def spinner_noise(self):
         if self.game.monger_toy.status == "UP" or self.game.monger_multiball.running:
