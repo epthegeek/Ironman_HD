@@ -62,6 +62,7 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_hit(3)
 
     def drone_hit(self,target):
+        print self.drone_tracking
         # is the target lit?
         if self.drone_tracking[target] == True:
             self.drone_tracking[target] = False
@@ -75,6 +76,9 @@ class Drones(procgame.game.AdvancedMode):
             if self.drones_for_mb <= 0:
                 # time to do WM Multiball
                 self.game.warmachine.light_multiball()
+                # Turn all the drones off
+                for n in range (0,4,1):
+                    self.drone_tracking[n] = False
             # If not, do the normal display
             else:
                 self.drone_hit_display(target,self.drone_value)

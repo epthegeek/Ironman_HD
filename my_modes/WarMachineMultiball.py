@@ -26,30 +26,43 @@ class WarMachineMultiball(procgame.game.Mode):
         self.top = dmd.HDTextLayer(1920 / 2, 100, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=9,interior_color=(64, 64, 255))
         self.bottom = dmd.HDTextLayer(1920 / 2, 350, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=9,interior_color=(255,255,0))
         self.text_display = dmd.GroupedLayer(1920,800,[metal_backdrop,self.top,self.bottom],opaque=True)
-        self.main_text_info = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
+        self.main_text_info = dmd.HDTextLayer(1920 / 2, 565, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
         # group layers for the main display
         super_1 = dmd.HDTextLayer(1130, 110,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=9,interior_color=(224,0,0)).set_text("SHOOT",blink_frames=10)
         super_2 = dmd.HDTextLayer(1130, 280,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=9,interior_color=(224,0,0)).set_text("WAR",blink_frames=10)
         super_3 = dmd.HDTextLayer(1130, 450,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=9,interior_color=(224,0,0)).set_text("MACHINE",blink_frames=10)
         wm_backdrop = self.game.animations['war_machine_bg']
         self.super_main = dmd.GroupedLayer(1920,800,[wm_backdrop,super_3,super_2,super_1],opaque=True)
+        # drones
+        self.drone_0_layer = self.game.animations['drone_0_sm']
+        self.drone_0_layer.set_target_position(183,75)
+        self.drone_1_layer = self.game.animations['drone_1_sm']
+        self.drone_1_layer.set_target_position(585,75)
+        self.drone_2_layer = self.game.animations['drone_2_sm']
+        self.drone_2_layer.set_target_position(997,75)
+        self.drone_3_layer = self.game.animations['drone_3_sm']
+        self.drone_3_layer.set_target_position(1366,75)
+        self.drone_layers = [self.drone_0_layer, self.drone_1_layer, self.drone_2_layer,self.drone_3_layer]
         drones_main_layers = []
-        for layer in self.game.drones.drone_layers:
+        drones_main_layers.append(metal_backdrop)
+        for layer in self.drone_layers:
             drones_main_layers.append(layer)
         drones_main_layers.append(self.main_text_info)
         self.drones_main = dmd.GroupedLayer(1920,800,drones_main_layers,opaque=True)
         self.valid = [True,True]
         self.left_arrow = self.game.animations['left_arrow']
+        self.left_arrow.set_target_position(220,140)
         self.left_mid_arrow = self.game.animations['left_mid_arrow']
-        self.left_mid_arrow.set_target_position(384,0)
+        self.left_mid_arrow.set_target_position(520,140)
         self.center_arrow = self.game.animations['center_arrow']
-        self.center_arrow.set_target_position(768,0)
+        self.center_arrow.set_target_position(823,140)
         self.right_mid_arrow = self.game.animations['right_mid_arrow']
-        self.right_mid_arrow.set_target_position(1152,0)
+        self.right_mid_arrow.set_target_position(1122,140)
         self.right_arrow = self.game.animations['right_arrow']
-        self.right_arrow.set_target_position(1536,0)
+        self.right_arrow.set_target_position(1420,140)
         self.arrows = [self.left_arrow, self.left_mid_arrow,self.center_arrow,self.right_mid_arrow,self.right_arrow]
         big5_list = []
+        big5_list.append(metal_backdrop)
         for layer in self.arrows:
             big5_list.append(layer)
         big5_list.append(self.main_text_info)
@@ -57,11 +70,11 @@ class WarMachineMultiball(procgame.game.Mode):
 
         #
         # text layers for intro display
-        intro_1 = dmd.HDTextLayer(1850, 650,self.game.fonts['default'],"right",line_color=(0,0,0),line_width=6,interior_color=(224,224,224))
+        intro_1 = dmd.HDTextLayer(70, 650,self.game.fonts['default'],"left",line_color=(0,0,0),line_width=6,interior_color=(224,224,224))
         intro_1.set_text("MULTIBALL",blink_frames=6)
-        intro_2 = dmd.HDTextLayer(1850, 550,self.game.fonts['default'],"right",line_color=(0,0,0),line_width=6,interior_color=(224,224,224))
+        intro_2 = dmd.HDTextLayer(70, 550,self.game.fonts['default'],"left",line_color=(0,0,0),line_width=6,interior_color=(224,224,224))
         intro_2.set_text("MACHINE",blink_frames=6)
-        intro_3 = dmd.HDTextLayer(1850, 450,self.game.fonts['default'],"right",line_color=(0,0,0),line_width=6,interior_color=(224,224,224))
+        intro_3 = dmd.HDTextLayer(70, 450,self.game.fonts['default'],"left",line_color=(0,0,0),line_width=6,interior_color=(224,224,224))
         intro_3.set_text("WAR",blink_frames=6)
         self.intro_movie = self.game.animations['war_machine_ready']
         self.intro = dmd.GroupedLayer(1920,800,[self.intro_movie,intro_1,intro_2,intro_3],opaque = True)
@@ -131,19 +144,23 @@ class WarMachineMultiball(procgame.game.Mode):
         return procgame.game.SwitchStop
 
     def sw_warMachineOpto_active(self,sw):
+        # TODO: for the first 20 seconds, any shot to war machine should add a ball
         self.game.coils.warMachineKicker.pulse()
         # always make the noise
         self.game.sound.play('wm_explosion')
         # if the ball goes up into the war machine
         if self.super == True:
-            # TODO: need to make this adjust to what it should really do points wise
             points = self.super_jp_value
             self.game.score(points)
             self.jackpot_display('super',points)
             # Turn the super back off
             self.super = False
+            # reset the super for the next round
+            self.super_jp_value = 0
         else:
             pass
+        # raise the drone jackpot by some amount - every time
+        self.game.drones.raise_jackpot()
         return procgame.game.SwitchStop
 
     def drone_hit(self,target):
@@ -276,9 +293,9 @@ class WarMachineMultiball(procgame.game.Mode):
     def update_main_layers(self):
         for x in range (0,4,1):
             if self.drone_jackpots[x]:
-                self.game.drones.drone_layers[x].enabled = True
+                self.drone_layers[x].enabled = True
             else:
-                self.game.drones.drone_layers[x].enabled = False
+                self.drone_layers[x].enabled = False
         for x in range (0,5,1):
             if self.big5_jackpots[x]:
                 self.arrows[x].enabled = True
@@ -300,9 +317,9 @@ class WarMachineMultiball(procgame.game.Mode):
 
     def end_multiball(self):
         self.running = False
-        # reset the drone layers for use outside of MB
-        for layer in self.game.drones.drone_layers:
-            layer.enabled = True
+        # reset the drone targets
+        for n in range (0,4,1):
+            self.game.drones.drone_tracking[n] = True
         self.unload()
 
     def make_invalid(self,orbit):

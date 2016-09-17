@@ -53,6 +53,18 @@ Animations:
 - key: 'drone_3_image'
   file: 'drone_3.jpg'
   holdLastFrame: True
+- key: 'drone_0_sm'
+  file: 'drone_0_sm.png'
+  holdLastFrame: True
+- key: 'drone_1_sm'
+  file: 'drone_1_sm.png'
+  holdLastFrame: True
+- key: 'drone_2_sm'
+  file: 'drone_2_sm.png'
+  holdLastFrame: True
+- key: 'drone_3_sm'
+  file: 'drone_3_sm.png'
+  holdLastFrame: True
 - key: 'explosion'
   file: 'explosion.mp4'
   holdLastFrame: False
