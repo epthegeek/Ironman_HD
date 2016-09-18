@@ -37,6 +37,11 @@ class WhiplashMultiball(procgame.game.Mode):
         self.line_2 = dmd.HDTextLayer(1920/2, 100, self.game.fonts['default'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
         self.jackpot_text = dmd.GroupedLayer(1920,800,[self.line_1,self.line_2],opaque=True)
         self.jackpot_count = [5,10]
+        title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(96,96,86),line_width=3,interior_color=(224,224,224))
+        title.set_text("WHIPLASH MULTIBALL")
+        self.info_line = dmd.HDTextLayer(1920 / 2, 650, self.game.fonts['default'], "center", line_color=(96, 96, 96), line_width=3,interior_color=(224, 224, 224))
+        self.score_line = dmd.HDTextLayer(1920 / 2, 250, self.game.fonts['main_score'], "center", line_color=(96, 96, 96), line_width=3,interior_color=(224, 0, 0))
+        self.main_display = dmd.GroupedLayer(1920,800,[title,self.score_line,self.info_line],opaque=True)
 
     def mode_started(self):
         self.jackpot_index = 0
@@ -49,6 +54,10 @@ class WhiplashMultiball(procgame.game.Mode):
         # starts with 5 jackpots
         self.jackpots_left = 5
         self.super_count = 0
+        # fire off the score update
+        self.update_score_layer()
+        # update the info line
+        self.update_info_layer(self.jackpots_left)
 
     def evt_ball_ending(self):
         if self.running:
@@ -69,17 +78,18 @@ class WhiplashMultiball(procgame.game.Mode):
 
     def start_multiball(self,type):
         self.type = type
+        self.running = True
         # play some music
         self.game.sound.play_music('whiplash_mb',loops=-1)
         # do the display
         self.start_movies[self.type].reset()
-        self.start_movies[self.type].add_frame_listener(-1,self.main_display)
+        self.start_movies[self.type].add_frame_listener(-1,self.do_main_display)
         self.layer = self.start_movies[self.type]
         # set the total score to zero
         self.total_points = 0
 
-    def main_display(self):
-        self.clear_layer()
+    def do_main_display(self):
+        self.layer = self.main_display
 
     def jackpot_shot(self):
         self.cancel_delayed("clear")
@@ -127,12 +137,15 @@ class WhiplashMultiball(procgame.game.Mode):
             self.jackpots_left = self.jackpot_count[self.round]
         else:
             self.jackpots_left -= 1
-            if self.jackpots_left == 1:
+            if self.jackpots_left == 0:
+                self.update_info_layer()
                 self.super = True
                 if self.round == 0:
                     self.jackpot_value = 500000
                 else:
                     self.jackpot_value = 3000000
+            else:
+                self.update_info_layer(self.jackpots_left)
 
     def tick_jackpot_index(self):
         self.jackpot_index += 1
@@ -147,7 +160,22 @@ class WhiplashMultiball(procgame.game.Mode):
         self.line_2.set_text(text)
         self.line_1.set_text(self.game.score_display.format_score(value))
         self.layer = self.jackpot_text
-        self.delay("clear",delay=2,handler=self.clear_layer)
+        self.delay("clear",delay=2,handler=self.do_main_display)
+
+    def update_score_layer(self):
+        p = self.game.current_player()
+        self.score_line.set_text(self.game.score_display.format_score(p.score))
+        if self.running:
+            self.delay(delay=0.2,handler=self.update_score_layer)
+
+    def update_info_layer(self,string="SUPER JACKPOT IS LIT"):
+        if string != "SUPER JACKPOT IS LIT":
+            if self.jackpots_left == 1:
+                string = str(self.jackpots_left) + " JACKPOTS REMAINING"
+            else:
+                string = str(self.jackpots_left) + " JACKPOT REMAINING"
+
+        self.info_line.set_text(string)
 
     def end_multiball(self):
         self.running = False
