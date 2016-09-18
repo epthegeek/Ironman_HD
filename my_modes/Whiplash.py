@@ -91,7 +91,7 @@ class Whiplash(procgame.game.AdvancedMode):
         else:
             quotes = self.track_2
         if quotes[self.hits_for_mb]:
-            self.game.sound.play_voice(quotes[self.hits_for_mb])
+            self.game.sound.play_voice(quotes[self.hits_for_mb],action=procgame.sound.PLAY_NOTBUSY)
 
     def whiplash_text_display(self,type="normal"):
         print "TEXT DISPLAY TYPE " + type

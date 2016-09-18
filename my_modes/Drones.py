@@ -110,7 +110,7 @@ class Drones(procgame.game.AdvancedMode):
             # otherwise, it's a thunk
             self.drone_thunk(target)
 
-    def add(self,target):
+    def add(self,target=5,display=False):
         candidates = []
         # step through the values
         for x in range(0, 4, 1):
@@ -125,6 +125,32 @@ class Drones(procgame.game.AdvancedMode):
         drone = random.choice(candidates)
         self.drone_tracking[drone] = True
         self.update_lamps()
+        if display:
+            self.drone_added_display(drone)
+
+    def drone_added_display(self,drone):
+        # layer without the new drone
+        layers_off = []
+        layers_on = []
+        for n in range(0,4,1):
+            # if the drone is lit
+            if self.drone_tracking[n]:
+                # if it matches the one that just got added, its in the on list
+                if n == drone:
+                    layers_on.append(self.drone_layers[n])
+                # otherwise it's in both
+                else:
+                    layers_on.append(self.drone_layers[n])
+                    layers_off.append(self.drone_layers[n])
+        self.text.set_text("DRONE ADDED")
+        layers_off.append(self.text)
+        layers_on.append(self.text)
+        off = dmd.GroupedLayer(1920,800,layers_off)
+        on = dmd.GroupedLayer(1920,800,layers_on)
+        self.layer = dmd.ScriptedLayer(1920,800,[{'layer':off,'seconds':0.2},{'layer':on,'seconds':0.2}], opaque=True)
+        self.delay("clear",delay=2,handler=self.clear_layer)
+        # play the quote for adding the drone
+        self.game.sound.play_voice('drone_added',action=procgame.sound.PLAY_FORCE)
 
     def drone_thunk(self,target):
         self.game.sound.play('drone_thunk')

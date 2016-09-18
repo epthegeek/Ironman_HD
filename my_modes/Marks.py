@@ -52,7 +52,7 @@ class Marks(procgame.game.AdvancedMode):
             self.finished = True
         # play a quote
         print "PLAYING VOICE " + str(self.mark_quotes[self.player_mark])
-        self.game.sound.play_voice(self.mark_quotes[self.player_mark])
+        self.game.sound.play_voice(self.mark_quotes[self.player_mark],action=procgame.sound.PLAY_QUEUED)
         # play the video
         self.game.animations[self.mark_movies[self.player_mark]].reset()
         anim = self.game.animations[self.mark_movies[self.player_mark]]

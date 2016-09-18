@@ -221,7 +221,7 @@ class WarMachineMultiball(procgame.game.Mode):
         # change the music
         self.game.sound.play_music('war_machine_mb',loops=-1)
         # audio callout?
-        self.game.sound.play_voice('war_machine_multiball')
+        self.game.sound.play_voice('war_machine_multiball',action=procgame.sound.PLAY_FORCE)
 
         # launch balls
        # self.game.trough.launch_and_autoplunge_balls(1)

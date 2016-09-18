@@ -4,11 +4,17 @@ from procgame.game import AdvancedMode
 import pygame
 from pygame.locals import *
 from pygame.font import *
+from procgame import dmd
 
 class WarMachine(procgame.game.AdvancedMode):
     def __init__(self, game):
         super(WarMachine, self).__init__(game=game, priority=11, mode_type=AdvancedMode.Game)
         self.myID = "WarMachine"
+        metal_backdrop = self.game.animations['war_machine_bg_blank']
+        top = dmd.HDTextLayer(1920 / 2, 100, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=9,interior_color=(64, 64, 255))
+        top.set_text("JACKPOT NOW")
+        self.jp_now_text = dmd.HDTextLayer(1920 / 2, 350, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=9,interior_color=(255,255,0))
+        self.jp_now_display = dmd.GroupedLayer(1920,800,[metal_backdrop,top,self.jp_now_text],opaque=True)
 
 
     def evt_ball_starting(self):
@@ -42,9 +48,11 @@ class WarMachine(procgame.game.AdvancedMode):
             self.game.modes.add(self.game.wm_multiball)
         # this option is add a drone if needed
         elif sum(self.game.drones.drone_tracking) < 4:
-            self.game.drones.add()
+            self.game.drones.add(display=True)
         else:
-            # do the raise jackpot display
+            self.jp_now_text.set_text(self.game.score_display.format_score(self.game.drones.drone_jp_value),blink_frames=10)
+            self.layer = self.jp_now_display
+            self.delay(delay=2,handler=self.clear_layer)
             pass
 
 
@@ -54,7 +62,7 @@ class WarMachine(procgame.game.AdvancedMode):
         self.layer = self.game.animations['war_machine_start']
         # change the music
         self.game.sound.play_music('war_machine_ready',loops=-1)
-        self.delay(delay=0.5,handler=lambda:self.game.sound.play_voice('war_machine_ready'))
+        self.delay(delay=0.5,handler=lambda:self.game.sound.play_voice('war_machine_ready'),action=procgame.sound.PLAY_QUEUED)
         self.delay(delay=3.6,handler=self.clear_layer)
         # update the lamps?
 

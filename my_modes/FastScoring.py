@@ -30,14 +30,25 @@ class FastScoring(procgame.game.Mode):
         self.timer_layer = dmd.HDTextLayer(1920/2, 120, self.game.fonts['bebas500'], "center", line_color=(0,0,0), line_width=8,interior_color=(255, 0, 0))
         timer_box = self.game.animations['timer_box']
         timer_box.set_target_position(731,164)
-        title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(96,96,86),line_width=3,interior_color=(224,224,224))
+        title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
         title.set_text("FAST SCORING")
-        bottom1 = dmd.HDTextLayer(1920/2,650,self.game.fonts['default'],"center",line_color=(96,96,96),line_width=3,interior_color=(224,224,224))
+        bottom1 = dmd.HDTextLayer(1920/2,650,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
         bottom1.set_text("IRONMAN TARGETS RAISE VALUE")
-        self.bottom2 = dmd.HDTextLayer(1920/2,650,self.game.fonts['default'],"center",line_color=(96,96,96),line_width=3,interior_color=(224,224,224))
+        self.bottom2 = dmd.HDTextLayer(1920/2,650,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
         self.bottom2.set_text("ALL SWITCHES SCORE 10,000 POINTS")
         info_line = dmd.ScriptedLayer(1920,800,[{'layer':bottom1,'seconds':2},{'layer':self.bottom2,'seconds':2}])
-        self.display = dmd.GroupedLayer(1920, 800, [backdrop, banner,title,info_line,timer_box,self.timer_layer,self.score1,self.score2,self.score3,self.score4,self.score5,self.score6], opaque=True)
+        self.display = dmd.GroupedLayer(1920, 800, [backdrop,
+                                                    banner,
+                                                    title,
+                                                    info_line,
+                                                    timer_box,
+                                                    self.timer_layer,
+                                                    self.score1,
+                                                    self.score2,
+                                                    self.score3,
+                                                    self.score4,
+                                                    self.score5,
+                                                    self.score6], opaque=True)
         self.names = ['fast5','fast4','fast3','fast2','fast1','fast0']
         self.timer_start_value = 41
 
@@ -47,7 +58,7 @@ class FastScoring(procgame.game.Mode):
         # play the sound and quote
         self.game.sound.play('scoring_mode_riff')
         duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
-        self.delay(delay=duration,handler=lambda: self.game.sound.play_voice('fast_scoring'))
+        self.delay(delay=duration,handler=lambda: self.game.sound.play_voice('fast_scoring'),action=procgame.sound.PLAY_FORCE)
         self.running = True
         # set the starting value
         self.switch_value = 10000 + (5000 * self.fast_scoring_runs)
@@ -77,6 +88,7 @@ class FastScoring(procgame.game.Mode):
         # cancel any pending delay
         self.cancel_delayed(self.names[score_number])
         self.reset_layer(self.score_layers[score_number],self.game.score_display.format_score(self.switch_value))
+        self.sm_boom.reset()
         self.delay(name=self.names[score_number],delay=1,handler=lambda: self.disable_layer(self.score_layers[score_number]))
 
    # def disable_explosion(self):

@@ -278,7 +278,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
             else:
                 # ironman scoring
                 quote = 'tut_ironman_scoring'
-        self.game.sound.play_voice(quote)
+        self.delay(delay=0.7,handler=lambda: self.game.sound.play_voice(quote, action=procgame.sound.PLAY_NOTBUSY))
 
     def end_target_mode(self):
         # reset the tracking for the next one

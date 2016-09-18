@@ -102,7 +102,7 @@ class Shields(procgame.game.AdvancedMode):
         #self.game.sound.play('shields_collected')
         duration = self.game.sound.sounds['shields_collected']['sound_list'][0].get_length()
         # play a quote
-        self.delay(delay=(duration -1) ,handler=lambda: self.game.sound.play_voice('shields_completed'))
+        self.delay(delay=(duration -1) ,handler=lambda: self.game.sound.play_voice('shields_completed'),action=procgame.sound.PLAY_NOTBUSY)
         self.shield_awards_pending += 1
         # flash the lights a bit
         self.flash_lights()

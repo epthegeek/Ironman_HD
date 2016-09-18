@@ -395,8 +395,9 @@ Animations:
 - key: 'war_machine_bg_blank'
   file: 'war_machine_backdrop_blank.png'
   holdLastFrame: True
-- key: 'small_explosion'
-  file: 'explosion-4.mp4'
+- key: 'wm_explosion'
+  file: 'large_fireball.mp4'
+  holdLastFrame: True
   streamingMovie: True
 Fonts:
   FontStyles:
