@@ -11,9 +11,9 @@ class WarMachine(procgame.game.AdvancedMode):
         super(WarMachine, self).__init__(game=game, priority=11, mode_type=AdvancedMode.Game)
         self.myID = "WarMachine"
         metal_backdrop = self.game.animations['war_machine_bg_blank']
-        top = dmd.HDTextLayer(1920 / 2, 100, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=9,interior_color=(64, 64, 255))
+        top = dmd.HDTextLayer(1920 / 2, 100, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=4,interior_color=(64, 64, 255))
         top.set_text("JACKPOT NOW")
-        self.jp_now_text = dmd.HDTextLayer(1920 / 2, 350, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=9,interior_color=(255,255,0))
+        self.jp_now_text = dmd.HDTextLayer(1920 / 2, 350, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=4,interior_color=(255,255,0))
         self.jp_now_display = dmd.GroupedLayer(1920,800,[metal_backdrop,top,self.jp_now_text],opaque=True)
 
 
@@ -52,7 +52,7 @@ class WarMachine(procgame.game.AdvancedMode):
         else:
             self.jp_now_text.set_text(self.game.score_display.format_score(self.game.drones.drone_jp_value),blink_frames=10)
             self.layer = self.jp_now_display
-            self.delay(delay=2,handler=self.clear_layer)
+            self.delay(delay=5,handler=self.clear_layer)
             pass
 
 

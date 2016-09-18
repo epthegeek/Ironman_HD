@@ -9,7 +9,7 @@ from pygame.font import *
 class MongerMultiball(procgame.game.Mode):
 
     def __init__(self,game):
-        super(MongerMultiball, self).__init__(game=game, priority=50)
+        super(MongerMultiball, self).__init__(game=game, priority=51)
         self.myID = "MongerMultiball"
         self.toy_status = None
         self.running = False

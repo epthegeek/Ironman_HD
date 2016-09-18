@@ -15,7 +15,7 @@ UserInterface:
         - 0
   text:
     color: [192, 192,0]
-    y_center: 0.3
+    y_center: 0.8
 Animations:
 - key: 'ironman_flyby_right_movie'
   file: 'ironman_flyby_right.mp4'
@@ -122,6 +122,12 @@ Animations:
   file: 'ironman_land_n_stand.mp4'
   streamingMovie: True
   holdLastFrame: True
+- key: 'whiplash_still'
+  file: 'whiplash_1_still.png'
+  holdLastFrame: True
+- key: 'mega_whiplash_still'
+  file: 'whiplash_mk2_still.png'
+  holdLastFrame: True
 - key: 'whiplash_1_movie'
   file: 'whiplash_hands_working.mp4'
   streamingMovie: True
@@ -142,11 +148,35 @@ Animations:
   file: 'whiplash_laughing.mp4'
   streamingMovie: True
   holdLastFrame: True
+- key: 'whiplash_1b_movie'
+  file: 'whiplash_2_1.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_2b_movie'
+  file: 'whiplash_2_2.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_3b_movie'
+  file: 'whiplash_2_3.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_4b_movie'
+  file: 'whiplash_2_second_last.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'whiplash_5b_movie'
+  file: 'whiplash_2_last.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'mega_whiplash_face'
+  file: 'mega_whiplash_face.mp4'
+  streamingMovie: True
+  holdLastFrame: True
 - key: 'whiplash_ready_movie'
   file: 'whiplash_pick_up_arc.mp4'
   holdLastFrame: True
   streamingMovie: True
-- key: 'whiplash_start_movie'
+- key: 'whiplash_start'
   file: 'whiplash_mb_start.mp4'
   holdLastFrame: True
   streamingMovie: True
@@ -293,6 +323,50 @@ Animations:
   file: 'whiplash_jackpot_5.mp4'
   holdLastFrame: True
   streamingMovie: True
+- key: 'whiplash_jp_1b'
+  file: 'mega_whiplash_strike-1.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_2b'
+  file: 'mega_whiplash_strike-2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_3b'
+  file: 'mega_whiplash_strike-3.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_4b'
+  file: 'mega_whiplash_strike-4.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_5b'
+  file: 'mega_whiplash_strike-5.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_jp_6b'
+  file: 'mega_whiplash_strike-6.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'mega_whiplash_super'
+  file: 'mega_whiplash_super_0.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'mega_whiplash_super_2'
+  file: 'mega_whiplash_super.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_super'
+  file: 'whiplash_super.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'whiplash_super_2'
+  file: 'whiplash_super_2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'mega_whiplash_start'
+  file: 'mega_whiplash_whips_out.mp4'
+  holdLastFrame: True
+  streamingMovie: True
 - key: 'monger_rise'
   file: 'monger_crawl_out.mp4'
   holdLastFrame: True
@@ -431,7 +505,10 @@ Fonts:
       - 255
       - 255
   HDFonts:
-  - key: 'whiplash_large'
+  - key: 'whiplash_450'
+    file: 'WOODCUTTER_STORM.ttf'
+    size: 450
+  - key: 'whiplash_300'
     file: 'WOODCUTTER_STORM.ttf'
     size: 300
   - key: 'default'
@@ -452,6 +529,21 @@ Fonts:
   - key: 'bebas500'
     file: 'BebasNeue.otf'
     size: 500
+  - key: 'demo1'
+    file: 'War is Over.ttf'
+    size: 350
+  - key: 'demo2'
+    file: 'Heavy_Metal_Box.ttf'
+    size: 150
+  - key: 'demo3'
+    file: 'Warpaint.ttf'
+    size: 350
+  - key: 'demo4'
+    file: 'Mechanical Machine.ttf'
+    size: 350
+  - key: 'demo5'
+    file: 'Plane Crash.ttf'
+    size: 250
 Audio:
   Music:
     - key: 'ball_1_shooter_lane'

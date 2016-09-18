@@ -60,9 +60,9 @@ class IMGame(SkeletonGame):
 
         self.monger_toy = MongerToy(game=self) # pri 20
 
-        self.monger_multiball = MongerMultiball(game=self) # pri 50
-        self.whiplash_multiball = WhiplashMultiball(game=self) # pri 50
+        self.whiplash_multiball = WhiplashMultiball(game=self) # pri 49
         self.wm_multiball = WarMachineMultiball(game=self) # pri 50
+        self.monger_multiball = MongerMultiball(game=self) # pri 51
 
         self.skillshot = Skillshot(game=self)
 
