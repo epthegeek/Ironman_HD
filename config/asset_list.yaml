@@ -128,6 +128,12 @@ Animations:
 - key: 'mega_whiplash_still'
   file: 'whiplash_mk2_still.png'
   holdLastFrame: True
+- key: 'whiplash_mb_bg'
+  file: 'whiplash_mb_bg.png'
+  holdLastFrame: True
+- key: 'whiplash_mk2_mb_bg'
+  file: 'whiplash_mb_mk2_bg.png'
+  holdLastFrame: True
 - key: 'whiplash_1_movie'
   file: 'whiplash_hands_working.mp4'
   streamingMovie: True
@@ -495,15 +501,34 @@ Fonts:
       - 0
       - 0
       - 0
-  - key: whiplash
+  - key: whiplash_mb_0
     interior_color:
-      - 12
-      - 117
-      - 2
+      - 169
+      - 42
+      - 0
+    line_width: 5
     line_color:
+      - 203
+      - 197
+      - 55
+    fill_color:
+      - 0
+      - 0
+      - 0
+  - key: whiplash_mb_1
+    interior_color:
+      - 0
+      - 39
+      - 129
+    line_width: 5
+    line_color:
+      - 141
       - 196
       - 255
-      - 255
+    fill_color:
+      - 0
+      - 0
+      - 0
   HDFonts:
   - key: 'whiplash_450'
     file: 'WOODCUTTER_STORM.ttf'

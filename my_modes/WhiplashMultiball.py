@@ -33,15 +33,22 @@ class WhiplashMultiball(procgame.game.Mode):
                    self.game.animations['mega_whiplash_super_2']]
         self.super_movies = [super_1, super_2]
         self.type = 0
-        self.line_1 = dmd.HDTextLayer(1920/2, 200, self.game.fonts['whiplash_300'], "center",line_color=(196, 255, 255), line_width=5, interior_color=(12, 117, 2))
-        self.line_2 = dmd.HDTextLayer(1920/2, 100, self.game.fonts['default'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
-        self.jackpot_text = dmd.GroupedLayer(1920,800,[self.line_1,self.line_2],opaque=True)
+        bg = self.game.animations['whiplash_mb_bg']
+        bg_mk2 = self.game.animations['whiplash_mk2_mb_bg']
+        self.line_1 = dmd.HDTextLayer(1920/2, 300, self.game.fonts['whiplash_300'], "center",line_color=(203,197,55), line_width=5, interior_color=(169,42,0))
+        self.line_2 = dmd.HDTextLayer(1920/2, 200, self.game.fonts['default'], "center", line_color=(96,96,86), line_width=3,interior_color=(224,224,224))
+        jp_text_1 = dmd.GroupedLayer(1920,800,[bg,self.line_1,self.line_2],opaque=True)
+        jp_text_2 = dmd.GroupedLayer(1920,800,[bg_mk2,self.line_1,self.line_2],opaque=True)
+        self.jackpot_text = [jp_text_1,jp_text_2]
         self.jackpot_count = [5,10]
-        title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(96,96,86),line_width=3,interior_color=(224,224,224))
+        title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
         title.set_text("WHIPLASH MULTIBALL")
-        self.info_line = dmd.HDTextLayer(1920 / 2, 650, self.game.fonts['default'], "center", line_color=(96, 96, 96), line_width=3,interior_color=(224, 224, 224))
-        self.score_line = dmd.HDTextLayer(1920 / 2, 200, self.game.fonts['main_score'], "center", line_color=(96, 96, 96), line_width=3,interior_color=(224, 0, 0))
-        self.main_display = dmd.GroupedLayer(1920,800,[title,self.score_line,self.info_line],opaque=True)
+        self.info_line = dmd.HDTextLayer(1920 / 2, 650, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=5,interior_color=(224, 224, 224))
+        self.score_line = dmd.HDTextLayer(1920 / 2, 200, self.game.fonts['main_score'], "center", line_color=(0,0,0), line_width=5,interior_color=(224, 0, 0))
+        main_1 = dmd.GroupedLayer(1920,800,[bg,title,self.score_line,self.info_line],opaque=True)
+        main_2 = dmd.GroupedLayer(1920,800,[bg_mk2,title,self.score_line,self.info_line],opaque=True)
+        self.main_display = [main_1,main_2]
+        self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
 
     def mode_started(self):
         self.jackpot_index = 0
@@ -76,6 +83,13 @@ class WhiplashMultiball(procgame.game.Mode):
 
     def start_multiball(self,type):
         self.type = type
+        # set the colors?
+        if type == 0:
+            self.line_1.interior_color = (169.42,0)
+            self.line_1.line_color = (203,197,55)
+        else:
+            self.line_1.interior_color = (40,109,204)
+            self.line_2.line_color = (160,156,201)
         self.running = True
         # bring in the switch blocker
         if self.game.mb_switch_stop not in self.game.modes:
@@ -92,7 +106,7 @@ class WhiplashMultiball(procgame.game.Mode):
         self.total_points = 0
 
     def do_main_display(self):
-        self.layer = self.main_display
+        self.layer = self.main_display[self.type]
 
     def big5_jackpot_shot(self):
         if not self.super:
@@ -167,8 +181,8 @@ class WhiplashMultiball(procgame.game.Mode):
 
     def show_jp_value(self,text,value):
         self.line_2.set_text(text)
-        self.line_1.set_text(self.game.score_display.format_score(value))
-        self.layer = self.jackpot_text
+        self.line_1.set_text(self.game.score_display.format_score(value),style=self.styles[self.type])
+        self.layer = self.jackpot_text[self.type]
         self.delay("clear",delay=2,handler=self.do_main_display)
 
     def update_score_layer(self):

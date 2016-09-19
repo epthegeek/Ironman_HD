@@ -30,8 +30,8 @@ class Whiplash(procgame.game.AdvancedMode):
         self.voice_tracks = [track_1,track_2]
         # layers for the hits left display
         self.line_1 = dmd.HDTextLayer(1600, 100, self.game.fonts['whiplash_450'], "center",line_color=(196, 255, 255), line_width=5, interior_color=(12, 117, 2))
-        self.line_2 = dmd.HDTextLayer(1600, 500, self.game.fonts['default'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
-        self.line_3 = dmd.HDTextLayer(1600, 620, self.game.fonts['default'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
+        self.line_2 = dmd.HDTextLayer(1600, 500, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
+        self.line_3 = dmd.HDTextLayer(1600, 620, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
         # layers for is ready display
         ready_1 = dmd.HDTextLayer(1500, 110,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("WHIPLASH",blink_frames=10)
         ready_2 = dmd.HDTextLayer(1500, 280,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("IS",blink_frames=10)
@@ -50,6 +50,7 @@ class Whiplash(procgame.game.AdvancedMode):
         ready_v2 = dmd.GroupedLayer(1920,800,[bg_2,ready_1,ready_2,ready_3],opaque=True)
         self.ready_layers = [ready_v1,ready_v2]
         self.whiplash_type = 0
+        self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
 
     def evt_ball_starting(self):
         self.hits = self.game.getPlayerState('whiplash_hits')
@@ -147,10 +148,10 @@ class Whiplash(procgame.game.AdvancedMode):
             if self.hits_for_mb == 1:
                 words = "MORE HIT"
             else:
-                words = "MORE HITS"
-            self.line_1.set_text(str(self.hits_for_mb))
+                words = "MORE HITS TO"
+            self.line_1.set_text(str(self.hits_for_mb),style=self.styles[self.whiplash_type])
             self.line_2.set_text(words)
-            self.line_3.set_text("FOR MULTIBALL")
+            self.line_3.set_text("LIGHT WHIPLASH")
             layer = self.hits_left_layers[self.whiplash_type]
         # new
         self.layer = dmd.TransitionLayer(anim, layer, dmd.Transition.TYPE_CROSSFADE,dmd.Transition.PARAM_NORTH,lengthInFrames=48)
