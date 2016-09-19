@@ -77,6 +77,9 @@ class WhiplashMultiball(procgame.game.Mode):
     def start_multiball(self,type):
         self.type = type
         self.running = True
+        # bring in the switch blocker
+        if self.game.mb_switch_stop not in self.game.modes:
+            self.game.modes.add(self.game.mb_switch_stop)
         # fire off the score update
         self.update_score_layer()
         # play some music
@@ -91,7 +94,11 @@ class WhiplashMultiball(procgame.game.Mode):
     def do_main_display(self):
         self.layer = self.main_display
 
-    def jackpot_shot(self):
+    def big5_jackpot_shot(self):
+        if not self.super:
+            self.jackpot_shot()
+
+    def jackpot_shot(self,):
         self.cancel_delayed("clear")
         # set the points to score to the current JP value
         points = self.jackpot_value
@@ -186,4 +193,6 @@ class WhiplashMultiball(procgame.game.Mode):
             self.game.whiplash.whiplash_type = 1
         else:
             self.game.whiplash.whiplash.type = 0
+        # check the switch block
+        self.game.mb_switch_stop.check_remove()
         self.unload()

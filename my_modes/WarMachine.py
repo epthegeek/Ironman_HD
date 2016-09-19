@@ -62,7 +62,7 @@ class WarMachine(procgame.game.AdvancedMode):
         self.layer = self.game.animations['war_machine_start']
         # change the music
         self.game.sound.play_music('war_machine_ready',loops=-1)
-        self.delay(delay=0.5,handler=lambda:self.game.sound.play_voice('war_machine_ready'),action=procgame.sound.PLAY_QUEUED)
+        self.delay(delay=0.5,handler=lambda:self.game.sound.play_voice('war_machine_ready',action=procgame.sound.PLAY_QUEUED))
         self.delay(delay=3.6,handler=self.clear_layer)
         # update the lamps?
 

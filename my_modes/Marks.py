@@ -9,7 +9,7 @@ from pygame.font import *
 class Marks(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(Marks, self).__init__(game=game, priority=15, mode_type=AdvancedMode.Game)
+        super(Marks, self).__init__(game=game, priority=45, mode_type=AdvancedMode.Game)
         self.myID = "Marks"
         self.hold = False
         self.movie_index = 0
@@ -36,14 +36,14 @@ class Marks(procgame.game.AdvancedMode):
     def evt_ball_starting(self):
         self.player_mark = self.game.getPlayerState('marks')
         self.finished = self.game.getPlayerState('marks_finished')
-        self.mode_status = self.game.getPlayerState('mode_status')
+        self.mode_master_status = self.game.getPlayerState('mode_master_status')
         # if ball mode count makes it to 5, then DOD is lit
         self.ball_mode_count = 0
 
     def evt_ball_ending(self):
         self.game.setPlayerState('marks',self.player_mark)
         self.game.setPlayerState('marks_finiahed', self.finished)
-        self.game.setPlayerState('mode_status', self.mode_status)
+        self.game.setPlayerState('mode_master_status', self.mode_master_status)
 
     def completed(self):
         print "MARK COMPLETED"
@@ -83,10 +83,10 @@ class Marks(procgame.game.AdvancedMode):
             # update the mode lamps on lower numbers
             else:
                 # status 1 means it ran
-                if self.mode_status[n] == 1:
+                if self.mode_master_status[n] == 1:
                     self.mode_lamps[n].enable()
                 # status 2 means it's qualified for DOD multiball
-                elif self.mode_status[n] == 2:
+                elif self.mode_master_status[n] == 2:
                     self.mode_lamps[n].schedule(0x0F0F0F0F)
                 # anything else and the light stays off
                 else:

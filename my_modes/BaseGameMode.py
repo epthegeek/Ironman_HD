@@ -11,6 +11,10 @@ class BaseGameMode(procgame.game.AdvancedMode):
         super(BaseGameMode, self).__init__(game=game, priority=5, mode_type=AdvancedMode.Game)
         self.black = self.game.animations['black']
 
+    def evt_game_starting(self):
+        print "GAME STARTING WOOT WOOT"
+        self.game.mb_switch_stop.setup()
+
     # player added event
     def evt_player_added(self, player):
         # Stores/sets data for the player for the game
@@ -69,7 +73,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('marks',0)
         player.setState('marks_finished', False)
         # for tracking not done/started/done on the 5 main mode lights
-        player.setState('mode_status', [0,0,0,0,0])
+        player.setState('mode_master_status', [0,0,0,0,0])
         # for tracking if player has a mark level from shields
         player.setState('shield_mark',False)
         player.setState('ss_value',100000)
@@ -84,6 +88,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.bonus_x = 0
         # load the skill shot
         self.game.modes.add(self.game.skillshot)
+        self.modes_this_ball = [0,0,0,0,0]
 
     def ballsaved(self):
         self.game.log("BaseGameMode: BALL SAVED from Trough Callback")

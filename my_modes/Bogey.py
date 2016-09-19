@@ -9,7 +9,7 @@ from pygame.font import *
 class Bogey(procgame.game.Mode):
 
     def __init__(self,game):
-        super(Bogey, self).__init__(game=game, priority=15)
+        super(Bogey, self).__init__(game=game, priority=45)
         self.myID = "Bogey"
         self.running = False
         self.bogey_lamps = [self.game.lamps['leftRamp100k'],

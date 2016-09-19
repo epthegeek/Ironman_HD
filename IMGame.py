@@ -56,12 +56,13 @@ class IMGame(SkeletonGame):
         self.warmachine = WarMachine(game=self) # pri 10
         self.monger = IronMonger(game=self)
 
-        self.bogey = Bogey(game=self) # pri 15
-        self.mark = Marks(game=self) # pri 15
-
         self.monger_toy = MongerToy(game=self) # pri 20
 
-        self.mb_switch_stop = MBSwitchStop(game=self) # pri 48
+        self.mb_switch_stop = MBSwitchStop(game=self) # pri 40
+
+        self.bogey = Bogey(game=self) # pri 45
+        self.mark = Marks(game=self) # pri 45
+
         self.whiplash_multiball = WhiplashMultiball(game=self) # pri 49
         self.wm_multiball = WarMachineMultiball(game=self) # pri 50
         self.monger_multiball = MongerMultiball(game=self) # pri 51

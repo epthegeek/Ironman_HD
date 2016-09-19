@@ -49,7 +49,6 @@ class WarMachineMultiball(procgame.game.Mode):
             drones_main_layers.append(layer)
         drones_main_layers.append(self.main_text_info)
         self.drones_main = dmd.GroupedLayer(1920,800,drones_main_layers,opaque=True)
-        self.valid = [True,True]
         self.left_arrow = self.game.animations['left_arrow']
         self.left_arrow.set_target_position(220,140)
         self.left_mid_arrow = self.game.animations['left_mid_arrow']
@@ -86,6 +85,9 @@ class WarMachineMultiball(procgame.game.Mode):
         self.jp_idx = 0
         self.d_jp_idx = 0
         self.super_jp_value = 0
+        # add the switch filter
+        if self.game.mb_switch_stop not in self.game.modes:
+            self.game.modes.add(self.game.mb_switch_stop)
 
     def evt_ball_ending(self):
         if self.running:
@@ -109,44 +111,6 @@ class WarMachineMultiball(procgame.game.Mode):
 
     def sw_droneTarget3_active(self,sw):
         self.drone_hit(3)
-        return procgame.game.SwitchStop
-
-    def sw_leftSpinner_active(self,sw):
-        self.game.monger.spinner_noise()
-        return procgame.game.SwitchStop
-
-    def sw_rightSpinner_active(self,sw):
-        self.game.monger.spinner_noise()
-        return procgame.game.SwitchStop
-
-    def sw_leftOrbit_active(self,sw):
-        if self.big5_jackpots[0]:
-            if self.valid[0]:
-                self.make_invalid(1)
-                self.double_jp_hit(0)
-        else:
-            self.game.monger.orbit_noise()
-        return procgame.game.SwitchStop
-
-    def sw_leftRampExit_active(self,sw):
-        self.double_jp_hit(1)
-        return procgame.game.SwitchStop
-
-    def sw_centerSpinner_active(self,sw):
-        self.double_jp_hit(2)
-        return procgame.game.SwitchStop
-
-    def sw_rightRampExit_active(self,sw):
-        self.double_jp_hit(3)
-        return procgame.game.SwitchStop
-
-    def sw_rightOrbit_active(self,sw):
-        if self.big5_jackpots[4]:
-            if self.valid[1]:
-                self.make_invalid(0)
-                self.double_jp_hit(4)
-        else:
-            self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
 
     def sw_warMachineOpto_active(self,sw):
@@ -326,12 +290,7 @@ class WarMachineMultiball(procgame.game.Mode):
         # reset the drone targets
         for n in range (0,4,1):
             self.game.drones.drone_tracking[n] = True
+        # check for the switch stop
+        self.game.mb_switch_stop.check_remove()
         self.unload()
-
-    def make_invalid(self,orbit):
-        self.valid[orbit] = False
-        self.delay(delay=1,handler=lambda: self.validate(orbit))
-
-    def validate(self,orbit):
-        self.valid[orbit] = True
 
