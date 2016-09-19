@@ -8,7 +8,7 @@ from procgame import dmd
 
 class WarMachine(procgame.game.AdvancedMode):
     def __init__(self, game):
-        super(WarMachine, self).__init__(game=game, priority=11, mode_type=AdvancedMode.Game)
+        super(WarMachine, self).__init__(game=game, priority=16, mode_type=AdvancedMode.Game)
         self.myID = "WarMachine"
         metal_backdrop = self.game.animations['war_machine_bg_blank']
         top = dmd.HDTextLayer(1920 / 2, 100, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=4,interior_color=(64, 64, 255))

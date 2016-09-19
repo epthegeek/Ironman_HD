@@ -9,7 +9,7 @@ from pygame.font import *
 class Bogey(procgame.game.Mode):
 
     def __init__(self,game):
-        super(Bogey, self).__init__(game=game, priority=45)
+        super(Bogey, self).__init__(game=game, priority=12)
         self.myID = "Bogey"
         self.running = False
         self.bogey_lamps = [self.game.lamps['leftRamp100k'],
@@ -181,6 +181,7 @@ class Bogey(procgame.game.Mode):
         score = dmd.HDTextLayer(1920/2,325,self.game.fonts['main_score'],"center",line_color=[64,64,0],line_width=6,interior_color=[192,192,0])
         score.set_text(self.game.score_display.format_score(self.total))
         self.layer = dmd.GroupedLayer(1920,800,[bg,text,text2,score])
+        self.running = False
         self.delay(delay=3,handler=self.unload)
 
     def mode_display(self):

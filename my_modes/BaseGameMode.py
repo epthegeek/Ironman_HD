@@ -69,7 +69,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('whiplash_mb_count',0)
         player.setState('whiplash_status', "OPEN")
         # used to toggle between whiplash and mk2
-        player.setState('whiplash_type', 1)
+        player.setState('whiplash_type', 0)
         player.setState('marks',0)
         player.setState('marks_finished', False)
         # for tracking not done/started/done on the 5 main mode lights

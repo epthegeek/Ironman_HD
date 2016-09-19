@@ -17,6 +17,7 @@ class MBSwitchStop(procgame.game.Mode):
         self.WM = self.game.wm_multiball
         self.MO = self.game.monger_multiball
         self.WL = self.game.whiplash_multiball
+        self.BO = self.game.bogey
 
     def mode_started(self):
         self.valid = [True,True,True]
@@ -48,40 +49,47 @@ class MBSwitchStop(procgame.game.Mode):
         return procgame.game.SwitchStop
 
     def sw_leftRampExit_active(self, sw):
-        if self.WM.running:
-            self.WM.double_jp_hit(1)
+        # pass the hit to bogey if bogey is running
+        if self.BO.running:
+            self.game.bogey.bogey_hit()
         if self.WL.running:
             self.WL.big5_jackpot_shot()
+        if self.WM.running:
+            self.WM.double_jp_hit(1)
         return procgame.game.SwitchStop
 
     def sw_centerSpinner_active(self, sw):
         if self.valid:
             self.make_invalid(1)
-            if self.WM.running:
-                self.WM.double_jp_hit(2)
             if self.WL.running:
                 self.WL.big5_jackpot_shot()
+            if self.WM.running:
+                self.WM.double_jp_hit(2)
         return procgame.game.SwitchStop
 
     def sw_rightRampExit_active(self, sw):
-        if self.WM.running:
-            self.WM.double_jp_hit(3)
+        # pass the hit to bogey if bogey is running
+        if self.BO.running:
+            self.game.bogey.bogey_hit()
         if self.WL.running:
             self.WL.big5_jackpot_shot()
+        if self.WM.running:
+            self.WM.double_jp_hit(3)
         return procgame.game.SwitchStop
 
     def sw_rightOrbit_active(self, sw):
         noisy = True
         if self.valid[2]:
             self.make_invalid(0)
+        # check whiplash
+        if self.WL.running:
+            self.WL.big5_jackpot_shot()
+            noisy = False
         # Check War Machine
         if self.WM.running:
             if self.WM.big5_jackpots[4]:
                 self.WM.double_jp_hit(4)
                 noisy = False
-        if self.WL.running:
-            self.WL.big5_jackpot_shot()
-            noisy = False
         if noisy:
             self.game.monger.orbit_noise()
         return procgame.game.SwitchStop

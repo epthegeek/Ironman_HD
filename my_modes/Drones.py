@@ -10,7 +10,7 @@ from procgame import dmd
 class Drones(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(Drones, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(Drones, self).__init__(game=game, priority=15, mode_type=AdvancedMode.Game)
         self.myID = "Drones"
         self.drone_lamps = [self.game.lamps['droneTarget0'],
                             self.game.lamps['droneTarget1'],

@@ -9,7 +9,7 @@ from procgame import dmd
 class IronmanTargets(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(IronmanTargets, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(IronmanTargets, self).__init__(game=game, priority=15, mode_type=AdvancedMode.Game)
         self.myID = "IronmanTargets"
         self.rampDoubled = "NONE"
         self.left_targets = [0,1,2,3]

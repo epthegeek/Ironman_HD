@@ -48,19 +48,23 @@ class IMGame(SkeletonGame):
         self.fast_scoring = FastScoring(game=self) # pri 9
 
         self.ramps = Ramps(game=self) # pri 10
-        self.im_targets = IronmanTargets(game=self) # pri 10
-        self.shields = Shields(game=self) # pri 10
-        self.drones = Drones(game=self) # pri 10
-        self.whiplash = Whiplash(game=self) # pri 10
         self.pops = Pops(game=self) # pri 10
-        self.warmachine = WarMachine(game=self) # pri 10
-        self.monger = IronMonger(game=self)
+        self.shields = Shields(game=self) # pri 10
+
+        self.bogey = Bogey(game=self) # pri 12
+
+        self.im_targets = IronmanTargets(game=self) # pri 15
+        self.drones = Drones(game=self) # pri 15
+        self.whiplash = Whiplash(game=self) # pri 15
+
+        self.warmachine = WarMachine(game=self) # pri 16
+
+        self.monger = IronMonger(game=self) # pri 17
 
         self.monger_toy = MongerToy(game=self) # pri 20
 
         self.mb_switch_stop = MBSwitchStop(game=self) # pri 40
 
-        self.bogey = Bogey(game=self) # pri 45
         self.mark = Marks(game=self) # pri 45
 
         self.whiplash_multiball = WhiplashMultiball(game=self) # pri 49

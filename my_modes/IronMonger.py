@@ -9,7 +9,7 @@ from procgame import dmd
 class IronMonger(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(IronMonger, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(IronMonger, self).__init__(game=game, priority=17, mode_type=AdvancedMode.Game)
         self.myID = "IronMonger"
         self.monger_lamps = ["Placeholder",
                              self.game.lamps['mongerM'],

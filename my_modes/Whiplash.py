@@ -9,7 +9,7 @@ from pygame.font import *
 class Whiplash(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(Whiplash, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(Whiplash, self).__init__(game=game, priority=15, mode_type=AdvancedMode.Game)
         self.myID = "Whiplash"
         self.hold = False
         self.movie_index = 0
