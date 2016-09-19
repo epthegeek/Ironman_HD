@@ -27,6 +27,7 @@ from my_modes import MongerMultiball
 from my_modes import WhiplashMultiball
 from my_modes import WarMachineMultiball
 from my_modes import Skillshot
+from my_modes import MBSwitchStop
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -60,6 +61,7 @@ class IMGame(SkeletonGame):
 
         self.monger_toy = MongerToy(game=self) # pri 20
 
+        self.mb_switch_stop = MBSwitchStop(game=self) # pri 48
         self.whiplash_multiball = WhiplashMultiball(game=self) # pri 49
         self.wm_multiball = WarMachineMultiball(game=self) # pri 50
         self.monger_multiball = MongerMultiball(game=self) # pri 51

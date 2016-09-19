@@ -33,9 +33,9 @@ class Whiplash(procgame.game.AdvancedMode):
         self.line_2 = dmd.HDTextLayer(1600, 500, self.game.fonts['default'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
         self.line_3 = dmd.HDTextLayer(1600, 620, self.game.fonts['default'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
         # layers for is ready display
-        ready_1 = dmd.HDTextLayer(1500, 110,self.game.fonts['bebas200'],"center",line_color=(252,246,63),line_width=4,interior_color=(252,205,63)).set_text("WHIPLASH",blink_frames=10)
-        ready_2 = dmd.HDTextLayer(1500, 280,self.game.fonts['bebas200'],"center",line_color=(252,246,63),line_width=4,interior_color=(252,205,63)).set_text("IS",blink_frames=10)
-        ready_3 = dmd.HDTextLayer(1500, 450,self.game.fonts['bebas200'],"center",line_color=(252,246,63),line_width=4,interior_color=(252,205,63)).set_text("READY",blink_frames=10)
+        ready_1 = dmd.HDTextLayer(1500, 110,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("WHIPLASH",blink_frames=10)
+        ready_2 = dmd.HDTextLayer(1500, 280,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("IS",blink_frames=10)
+        ready_3 = dmd.HDTextLayer(1500, 450,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("READY",blink_frames=10)
         # backgrounds
         bg_1 = self.game.animations['whiplash_still']
         bg_2 = self.game.animations['mega_whiplash_still']
