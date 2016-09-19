@@ -9,7 +9,7 @@ from pygame.font import *
 class Ramps(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(Ramps, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(Ramps, self).__init__(game=game, priority=11, mode_type=AdvancedMode.Game)
         self.myID = "Ramps"
         self.pointValues = [100000, 200000, 300000, 400000]
         self.rampMadeAnimations = ['bogey_1_movie', 'bogey_2_movie', 'bogey_3_movie', 'bogey_4_movie']

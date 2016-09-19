@@ -9,7 +9,7 @@ from procgame import dmd
 
 class Shields(procgame.game.AdvancedMode):
     def __init__(self, game):
-        super(Shields, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
+        super(Shields, self).__init__(game=game, priority=11, mode_type=AdvancedMode.Game)
         self.myID = "Shields"
         self.shield_lamps = [self.game.lamps.topLeftLane,
                              self.game.lamps.topRightLane,

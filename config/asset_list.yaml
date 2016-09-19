@@ -479,6 +479,18 @@ Animations:
   file: 'large_fireball.mp4'
   holdLastFrame: True
   streamingMovie: True
+- key: 'pops_back'
+  file: 'pops_backdrop.png'
+  holdLastFrame: True
+- key: 'pop_left'
+  file: 'r_ul_on.jpg'
+  holdLastFrame: True
+- key: 'pop_right'
+  file: 'r_ur_on.jpg'
+  holdLastFrame: True
+- key: 'pop_bottom'
+  file: 'r_bot_on.jpg'
+  holdLastFrame: True
 Fonts:
   FontStyles:
   - key: gold

@@ -47,9 +47,9 @@ class IMGame(SkeletonGame):
 
         self.fast_scoring = FastScoring(game=self) # pri 9
 
-        self.ramps = Ramps(game=self) # pri 10
         self.pops = Pops(game=self) # pri 10
-        self.shields = Shields(game=self) # pri 10
+        self.ramps = Ramps(game=self) # pri 11
+        self.shields = Shields(game=self) # pri 11
 
         self.bogey = Bogey(game=self) # pri 12
 

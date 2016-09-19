@@ -77,6 +77,10 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # for tracking if player has a mark level from shields
         player.setState('shield_mark',False)
         player.setState('ss_value',100000)
+        # pops junk
+        player.setState('pops_value', 5000)
+        player.setState('pops_jackpot', 500000)
+        player.setState('pops_level', 0)
         # and so on
         self.game.sound.play('start_button')
 

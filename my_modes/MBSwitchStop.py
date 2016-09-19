@@ -14,10 +14,11 @@ class MBSwitchStop(procgame.game.Mode):
         self.valid = [True,True,True]
 
     def setup(self):
+        # checks should be in this oder: Bogey, Whiplash, War Machine, Monger
+        self.BO = self.game.bogey
+        self.WL = self.game.whiplash_multiball
         self.WM = self.game.wm_multiball
         self.MO = self.game.monger_multiball
-        self.WL = self.game.whiplash_multiball
-        self.BO = self.game.bogey
 
     def mode_started(self):
         self.valid = [True,True,True]

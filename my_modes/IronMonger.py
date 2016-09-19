@@ -161,9 +161,6 @@ class IronMonger(procgame.game.AdvancedMode):
         self.game.modes.add(self.game.monger_multiball)
         self.game.monger_multiball.start_multiball()
 
-    def validate(self,spinner):
-        self.valid[spinner] = True
-
     def update_lamps(self):
         for lamp in self.monger_lamps:
             lamp.disable()
@@ -176,7 +173,7 @@ class IronMonger(procgame.game.AdvancedMode):
                     if n < 5:
                         pass
                     if n < self.letters and n > 4:
-                        self.monger_lamps[y].enable()
+                        self.monger_lamps[n].enable()
                     if n == self.letters:
                         self.monger_lamps[n].enable()
                         blinker = n + 1
@@ -234,9 +231,13 @@ class IronMonger(procgame.game.AdvancedMode):
         for item in list:
             self.cancel_delayed(self.delay_names[item])
 
+
     def revalidate(self,list):
         for item in list:
-            self.delay(self.delay_names[item],delay=1,handler=lambda: self.validate(item))
+            derp = self.delay(name=self.delay_names[item],delay=1,handler=self.validate,param=item)
+
+    def validate(self,spinner):
+        self.valid[spinner] = True
 
     def orbit_noise(self):
         if not self.orbit_quiet:
