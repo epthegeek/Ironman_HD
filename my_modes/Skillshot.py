@@ -24,6 +24,7 @@ class Skillshot(procgame.game.Mode):
         self.light = 0
 
     def mode_started(self):
+        self.leaving = False
         self.ss_value = self.game.getPlayerState('ss_value')
         self.light = 0
         self.hit = False
@@ -53,8 +54,6 @@ class Skillshot(procgame.game.Mode):
         self.cancel_delayed("unload")
 
     def sw_shooterLane_inactive(self,sw):
-        # start a timer to unload if nothing else happens
-        self.delay("unload",delay=15,handler=self.unload)
         # and fire the orbit post
         self.game.coils['orbitPost'].patter(on_time=4,off_time=4,original_on_time=20)
         # drop the post in 2 seconds
@@ -105,3 +104,50 @@ class Skillshot(procgame.game.Mode):
         self.game.setPlayerState('ss_value',self.ss_value)
         self.clear_layer()
         self.game.modes.remove(self)
+
+    ## Kill Switch list
+    def sw_rightSpinner_active(self):
+        self.shut_it_down_now()
+    def sw_leftSpinner_active(self):
+        self.shut_it_down_now()
+    def sw_centerSpinner_active(self):
+        self.shut_it_down_now()
+    def sw_leftSlingshot_active(self):
+        self.shut_it_down_now()
+    def sw_rightSlingshot_active(self):
+        self.shut_it_down_now()
+    def sw_droneTarget0_active(self):
+        self.shut_it_down_now()
+    def sw_droneTarget1_active(self):
+        self.shut_it_down_now()
+    def sw_droneTarget2_active(self):
+        self.shut_it_down_now()
+    def sw_droneTarget3_active(self):
+        self.shut_it_down_now()
+    def sw_leftTargetI_active(self,sw):
+        self.shut_it_down_now()
+    def sw_leftTargetR_active(self,sw):
+        self.shut_it_down_now()
+    def sw_leftTargetO_active(self,sw):
+        self.shut_it_down_now()
+    def sw_leftTargetN_active(self,sw):
+        self.shut_it_down_now()
+    def sw_rightTargetM_active(self,sw):
+        self.shut_it_down_now()
+    def sw_rightTargetA_active(self,sw):
+        self.shut_it_down_now()
+    def sw_rightTargetN_active(self,sw):
+        self.shut_it_down_now()
+    def sw_whiplashLeft_active(self,sw):
+        self.shut_it_down_now()
+    def sw_whiplashRight_active(self,sw):
+        self.shut_it_down_now()
+    def sw_rightRampEnter_active(self,sw):
+        self.shut_it_down_now()
+    def sw_leftRampEnter_active(self,sw):
+        self.shut_it_down_now()
+
+    def shut_it_down_now(self):
+        if not self.leaving:
+            self.leaving = True
+            self.unload()

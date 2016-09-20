@@ -148,6 +148,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.delay("display", delay=1.5, handler=self.clear_layer)
 
     def hit_toy(self):
+        print "TRYING TO HIT TOY - STATUS " + str(self.game.monger_toy.status)
         if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
             # score some points?
@@ -192,6 +193,7 @@ class IronMonger(procgame.game.AdvancedMode):
                     pass
 
     def set_valid_switches(self,switch):
+        print "SET VALID SWITCHES"
         # left spinner
         if switch == 0:
             # affects left spinner and left orbit
@@ -200,6 +202,7 @@ class IronMonger(procgame.game.AdvancedMode):
             self.validate(2)
         # center spinner
         elif switch == 1:
+            print "FOUND POWER ONE"
             # affects only itself
             self.process_validation([1])
         # right spinner
@@ -228,18 +231,22 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def invalidate_switches(self,list):
         for item in list:
+            print "set invalid on " + str(item)
             self.valid[item] = False
 
     def stop_valid_reset(self,list):
         for item in list:
+            print "CANCEL DELAY NAMED " + self.delay_names[item]
             self.cancel_delayed(self.delay_names[item])
 
 
     def revalidate(self,list):
         for item in list:
+            print "SETTING REVALIDATE DELAY ON " + str(item)
             self.delay(name=self.delay_names[item],delay=1,handler=self.validate,param=item)
 
     def validate(self,spinner):
+        print "MAKING TRUE NUMBER " + str(spinner)
         self.valid[spinner] = True
 
     def orbit_noise(self):

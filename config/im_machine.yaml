@@ -371,7 +371,7 @@ PRCoils:
     rightSlingshot:
         number: C18
         tags: Solenoid
-    ironMongerMotor:
+    mongerMotor:
         number: C19
         tags: Mech
     popsFlasher:

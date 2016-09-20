@@ -12,7 +12,9 @@ class MongerToy(procgame.game.AdvancedMode):
         super(MongerToy, self).__init__(game=game, priority=20, mode_type=AdvancedMode.Game)
         self.myID = "MongerToy"
         # specific monger toy status
-        self.status = None
+#        self.status = None
+        # for testing set status to down
+        self.status = "DOWN"
         self.target = "DOWN"
 
         self.monger_hit_movies = [self.game.animations['monger_hit_1'], self.game.animations['monger_hit_2'],self.game.animations['monger_hit_3'], self.game.animations['monger_hit_4']]

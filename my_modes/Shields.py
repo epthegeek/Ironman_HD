@@ -105,7 +105,10 @@ class Shields(procgame.game.AdvancedMode):
         # flash the lights a bit
         self.flash_lights()
         # do the display
-        self.bot_text.set_text(str(self.game.base_game_mode.bonus_x) + "X BONUS")
+        if self.game.base_game_mode.bonus_x == 25:
+            self.bot_text.set_text("BONUS X MAXED AT 25X")
+        else:
+            self.bot_text.set_text(str(self.game.base_game_mode.bonus_x) + "X BONUS")
         self.layer = dmd.GroupedLayer(1920,1080,[self.shield_bg,self.top_text,self.bot_text],opaque=True)
         self.delay(delay=3,handler=self.clear_layer)
         # if this player hasn't gotten a mark level from shields, add one
