@@ -48,7 +48,10 @@ class SwitchFilter(procgame.game.AdvancedMode):
                             'bottomJetBumper':170,
                             'warMachineOpto':1510,
                             'whiplashLeft':1080,
-                            'whiplashRight':1080}
+                            'whiplashRight':1080,
+                            'mongerOptoLeft':1510,
+                            'mongerOptoRight':1510,
+                            'mongerOptoCenter':1510}
 
 
     # at ball start, set the last switch and total switches to blanks

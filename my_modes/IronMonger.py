@@ -44,7 +44,6 @@ class IronMonger(procgame.game.AdvancedMode):
         self.logo_layers = [layer0,layer1,layer2,layer3,layer4,layer5,layer6,layer7,layer8,layer9,layer10]
         self.points_layer = dmd.HDTextLayer(1920 / 2, 570, self.game.fonts['bebas200'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
 
-
     def evt_ball_starting(self):
         # clear used to determine wait time on repeat hits to switches
         self.clear = True
@@ -105,18 +104,18 @@ class IronMonger(procgame.game.AdvancedMode):
         self.orbit_noise()
 
     def sw_mongerOptoLeft_active(self,sw):
-        if self.toy_valid:
-            self.toy_valid = False
-            self.hit_toy()
+        self.monger_opto_hit()
 
     def sw_mongerOptoRight_active(self,sw):
-        if self.toy_valid:
-            self.toy_valid = False
-            self.hit_toy()
+        self.monger_opto_hit()
 
     def sw_mongerOptoCenter_active(self,sw):
+        self.monger_opto_hit()
+
+    def monger_opto_hit(self):
         if self.toy_valid:
             self.toy_valid = False
+            self.delay(delay=0.5,handler=self.revalidate_toy)
             self.hit_toy()
 
     def letter_hit(self):
@@ -139,6 +138,7 @@ class IronMonger(procgame.game.AdvancedMode):
             self.game.score(points)
         # if we're already at 10 letters raise the monger
         else:
+            self.layer = None
             self.game.monger_toy.rise()
             self.game.monger_toy.monger_rise_video()
 
@@ -148,14 +148,17 @@ class IronMonger(procgame.game.AdvancedMode):
         self.delay("display", delay=1.5, handler=self.clear_layer)
 
     def hit_toy(self):
-        if self.game.monger_toy.status == "UP":
+        if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
             # score some points?
+            self.game.score(250000)
             # add a letter
             if self.toy_letters < 6:
                 self.toy_letters += 1
                 if self.toy_letters == 6:
                     self.start_multiball()
+                else:
+                    self.game.monger_toy.toy_hit_display()
 
     def start_multiball(self):
         self.game.modes.add(self.game.monger_multiball)
@@ -251,6 +254,8 @@ class IronMonger(procgame.game.AdvancedMode):
         else:
             self.game.sound.play('spinner_normal')
 
+    def revalidate_toy(self):
+        self.toy_valid = True
 
     def orbit_noise_reset(self):
         self.orbit_quiet = False

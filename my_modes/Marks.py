@@ -37,6 +37,7 @@ class Marks(procgame.game.AdvancedMode):
         self.player_mark = self.game.getPlayerState('marks')
         self.finished = self.game.getPlayerState('marks_finished')
         self.mode_master_status = self.game.getPlayerState('mode_master_status')
+        self.shield_flag = self.game.getPlayerState('shield_mark')
         # if ball mode count makes it to 5, then DOD is lit
         self.ball_mode_count = 0
 
@@ -44,8 +45,9 @@ class Marks(procgame.game.AdvancedMode):
         self.game.setPlayerState('marks',self.player_mark)
         self.game.setPlayerState('marks_finiahed', self.finished)
         self.game.setPlayerState('mode_master_status', self.mode_master_status)
+        self.game.setPlayerState('shield_mark', self.shield_flag)
 
-    def completed(self):
+    def completed(self,callback=None):
         print "MARK COMPLETED"
         # If we're playing the mark 6 - set the finished flag
         if self.player_mark == 6:
@@ -57,6 +59,9 @@ class Marks(procgame.game.AdvancedMode):
         self.game.animations[self.mark_movies[self.player_mark]].reset()
         anim = self.game.animations[self.mark_movies[self.player_mark]]
         anim.add_frame_listener(-1,self.clear_layer)
+        # this is so whatever called completed can do something after
+        if callback:
+            anim.add_frame_listener(-1, callback)
         self.text.set_text("MARK " + str(self.player_mark) + " COMPLETED")
         self.layer = dmd.GroupedLayer(1920,800,[anim,self.text],opaque=True)
 

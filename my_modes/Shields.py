@@ -27,13 +27,11 @@ class Shields(procgame.game.AdvancedMode):
         self.shield_awards_pending = self.game.getPlayerState('shield_awards_pending')
         self.shield_awards_collected = self.game.getPlayerState('shield_awards_collected')
         self.valid = True
-        self.shield_mark = self.game.getPlayerState('shield_mark')
 
     def evt_ball_ending(self):
         self.game.setPlayerState('shields',self.shields_tracking)
         self.game.setPlayerState('shield_awards_pending',self.shield_awards_pending)
         self.game.setPlayerState('shield_awards_collected', self.shield_awards_collected)
-        self.game.setPlayerState('shield_mark', self.shield_mark)
 
     ####
     ### Shields
@@ -97,7 +95,7 @@ class Shields(procgame.game.AdvancedMode):
 
     def light_shield_collect(self):
         # add the bonus multiplier
-        self.game.base_game_mode.bonus_x += 1
+        self.increase_bonus_x()
         # play a sound
         #self.game.sound.play('shields_collected')
         duration = self.game.sound.sounds['shields_collected']['sound_list'][0].get_length()
@@ -149,3 +147,7 @@ class Shields(procgame.game.AdvancedMode):
         for i in range (0,6,1):
             self.shield_lamps[i].schedule(0x00FF00FF)
 
+    def increase_bonus_x(self):
+        # bonus x maxes at 25x
+        if self.game.base_game_mode.bonus_x < 25:
+            self.game.base_game_mode.bonus_x += 1

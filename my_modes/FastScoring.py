@@ -109,7 +109,9 @@ class FastScoring(procgame.game.Mode):
 
     # increases the switch value 1000 points and updates the score layers
     def increase_value(self):
-        self.switch_value += 1000
+        # maximum value is 50k
+        if self.switch_value < 50000:
+            self.switch_value += 1000
         self.set_layer_points()
 
     # updates the info line that contains points

@@ -124,10 +124,16 @@ class Bogey(procgame.game.Mode):
         text.blink_frames = 8
         text.blink_frames_counter = 8
         self.layer = dmd.GroupedLayer(1920,800,[anim,text])
-        self.delay("display",delay=3,handler=self.get_going)
+        if self.game.mark.player_mark < 6:
+            self.game.mark.player_mark += 1
+            self.game.mark.score()
+            self.delay("display",delay=3,handler=self.game.mark.completed,param=self.get_going)
+        else:
+            self.delay("display",delay=3,handler=self.get_going)
+        # start the timer in 3 seconds regardless fo what the display is doing
+        self.delay(delay=3,handler=self.timer)
 
     def get_going(self):
-        self.timer()
         self.mode_display()
 
     def bogey_hit(self):
@@ -150,7 +156,7 @@ class Bogey(procgame.game.Mode):
         self.layer = dmd.GroupedLayer(1920,800,[anim,self.bogey_award_text,self.flash_text])
         # clear after time
         self.delay("display",delay = 3,handler=self.mode_display)
-        self.delay("display",delay = 1.4,handler=self.add_text,param=points)
+        self.delay("display",delay = 1.4,handler=self.add_text,param=self.game.score_display.format_score(points))
 
     def increase_index(self):
         if self.clip_index < 18:
@@ -192,15 +198,14 @@ class Bogey(procgame.game.Mode):
             # increase by 100k
             self.point_value += 100000
 
-    def add_text(self,string):
-        string = self.game.score_display.format_score(string)
-        if string == "":
+    def add_text(self,points):
+        if points == "":
             title = ""
         else:
             title = "BOGEY AWARD"
         self.bogey_award_text.set_text(title)
-        self.bogey_award_score.set_text(string)
-        self.bogey_award_score_dim.set_text(string)
+        self.bogey_award_score.set_text(str(points))
+        self.bogey_award_score_dim.set_text(str(points))
 
     def update_lamps(self):
         for lamp in self.bogey_lamps:

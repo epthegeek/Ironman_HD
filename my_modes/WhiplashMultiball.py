@@ -100,7 +100,14 @@ class WhiplashMultiball(procgame.game.Mode):
         self.game.sound.play_music('whiplash_mb',loops=-1)
         # do the display
         self.start_movies[self.type].reset()
-        self.start_movies[self.type].add_frame_listener(-1,self.do_main_display)
+        if self.game.mark.player_mark < 6:
+            self.game.mark.player_mark += 1
+            self.game.mark.score()
+            # add a listener to do the completed with a callback to the main display here.
+            self.start_movies[self.type].add_frame_listener(-1,self.game.mark.completed,param=self.do_main_display)
+            self.start_movies[self.type].add_frame_listener(-1,self.clear_layer)
+        else:
+            self.start_movies[self.type].add_frame_listener(-1,self.do_main_display)
         self.layer = self.start_movies[self.type]
         # set the total score to zero
         self.total_points = 0

@@ -181,7 +181,14 @@ class WarMachineMultiball(procgame.game.Mode):
         # display
         self.intro_movie.reset()
         self.layer = self.intro
-        self.delay(delay=3,handler=self.set_main_display)
+        # do the mark here - if needed
+        if self.game.mark.player_mark < 6:
+            self.game.mark.player_mark += 1
+            self.game.mark.score()
+            self.delay(delay=3,handler=self.game.mark.completed,param=self.set_main_display)
+            self.delay(delay=3,handler=self.clear_layer)
+        else:
+            self.delay(delay=3,handler=self.set_main_display)
         # change the music
         self.game.sound.play_music('war_machine_mb',loops=-1)
         # audio callout?

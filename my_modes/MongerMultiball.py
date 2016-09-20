@@ -11,7 +11,6 @@ class MongerMultiball(procgame.game.Mode):
     def __init__(self,game):
         super(MongerMultiball, self).__init__(game=game, priority=51)
         self.myID = "MongerMultiball"
-        self.toy_status = None
         self.running = False
         self.monger_lamps = ["Placeholder",
                              self.game.lamps['mongerM'],
@@ -20,6 +19,8 @@ class MongerMultiball(procgame.game.Mode):
                              self.game.lamps['mongerG'],
                              self.game.lamps['mongerE'],
                              self.game.lamps['mongerR']]
+        backdrop = self.game.animations['monger_multiball_backdrop']
+
 
     def evt_ball_ending(self):
         if self.running:
@@ -31,8 +32,6 @@ class MongerMultiball(procgame.game.Mode):
 
     def mode_started(self):
         self.running = True
-        if self.game.monger_toy.status == "UP":
-            self.toy_status = "UP"
         # reset the jacpot hit count
         self.jackpot_hits = 0
         self.jackpots_total = 0
@@ -40,11 +39,17 @@ class MongerMultiball(procgame.game.Mode):
     def start_multiball(self):
         # play the clip and the audio
         # launch the balls
-        self.game.trough.launch_and_autoplunge_balls(2)
+       # self.game.trough.launch_and_autoplunge_balls(2)
         # lower the monger after a delay?
-        self.delay(2,handler=self.game.monger_toy.fall)
+        self.delay(1,handler=self.game.monger_toy.fall)
         # release the ball
         self.game.monger.magnet("Release")
+        # up the mark
+        if self.game.mark.player_mark < 6:
+            self.game.mark.player_mark += 1
+            self.game.mark.score()
+        # after some delay, play the mark video
+        self.delay("display",delay=4,handler=self.game.mark.completed)
 
     # this needs work for now it's just unloading
     def end_multiball(self):

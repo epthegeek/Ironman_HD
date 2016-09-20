@@ -122,6 +122,7 @@ class Ramps(procgame.game.AdvancedMode):
         self.cancel_delayed("Ramp Display")
         # video clip
         video = self.game.animations[self.rampMadeAnimations[stage]]
+        video.reset()
         text = dmd.HDTextLayer(1820,550,self.game.fonts['bebas200'],"right",line_color=[2,2,2],line_width=4,interior_color=[224,128,0])
         text.set_text(self.game.score_display.format_score(points))
         text.blink_frames = 8

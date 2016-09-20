@@ -12,6 +12,7 @@ class MBSwitchStop(procgame.game.Mode):
         super(MBSwitchStop, self).__init__(game=game, priority=40)
         self.myID = "MBSwitchStop"
         self.valid = [True,True,True]
+        self.target_lights = ['leftTargetI','leftTargetR','leftTargetO','leftTargetN','rightTargetM','rightTargetA','rightTargetN']
 
     def setup(self):
         # checks should be in this oder: Bogey, Whiplash, War Machine, Monger
@@ -24,12 +25,36 @@ class MBSwitchStop(procgame.game.Mode):
         self.valid = [True,True,True]
 
     def sw_leftSpinner_active(self, sw):
+        # TODO: Check what spinners soundlike in other multiballs... default?
         self.game.monger.spinner_noise()
         return procgame.game.SwitchStop
 
     def sw_rightSpinner_active(self, sw):
         self.game.monger.spinner_noise()
         return procgame.game.SwitchStop
+
+    # Ironman targets do nothing, just blink during MB
+    def sw_leftTargetI_active(self,sw):
+        self.target_hit(0)
+
+    def sw_leftTargetR_active(self,sw):
+        self.target_hit(1)
+
+    def sw_leftTargetO_active(self,sw):
+        self.target_hit(2)
+
+    def sw_leftTargetN_active(self,sw):
+        self.target_hit(3)
+
+    def sw_rightTargetM_active(self,sw):
+        self.target_hit(4)
+
+    def sw_rightTargetA_active(self,sw):
+        self.target_hit(5)
+
+    def sw_rightTargetN_active(self,sw):
+        self.target_hit(6)
+
 
     def sw_leftOrbit_active(self, sw):
         noisy = True
@@ -95,6 +120,8 @@ class MBSwitchStop(procgame.game.Mode):
             self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
 
+    def target_hit(self,number):
+        self.game.lamps[self.target_lights[number]].pulse()
 
     def make_invalid(self, orbit):
         self.valid[orbit] = False

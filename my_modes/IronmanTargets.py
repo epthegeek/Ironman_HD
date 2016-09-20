@@ -238,7 +238,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.layer = dmd.ScriptedLayer(1920,800,[{'seconds':0.2, 'layer':off},{'seconds':0.2,'layer':on}], opaque=True)
 
         if complete:
-            self.delay(delay=2, handler=self.target_display_movie_help,param=[target,side,complete])
+            self.delay(delay=2, handler=self.target_display_movie_helper,param=[target,side,complete])
         else:
             self.delay("clear",delay=2,handler=self.clear_layer)
         #letter = ["I","R","O","N","M","A","N"]

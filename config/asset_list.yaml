@@ -491,6 +491,25 @@ Animations:
 - key: 'pop_bottom'
   file: 'r_bot_on.png'
   holdLastFrame: True
+- key: 'monger_multiball_backdrop'
+  file: 'monger_multiball_backdrop.png'
+  holdLastFrame: True
+- key: 'monger_hit_1'
+  file: 'monger_knocked_to_ground.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_2'
+  file: 'monger_crash_through_hole.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_3'
+  file: 'monger_punched_in_face.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_4'
+  file: 'monger_blasted_with_chest_reactor.mp4'
+  holdLastFrame: True
+  streamingMovie: True
 Fonts:
   FontStyles:
   - key: gold

@@ -76,7 +76,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('mode_master_status', [0,0,0,0,0])
         # for tracking if player has a mark level from shields
         player.setState('shield_mark',False)
-        player.setState('ss_value',100000)
+        player.setState('ss_value',250000)
         # pops junk
         # first pops jackpot starts at 500,000
         player.setState('pops_jackpot', 500000)

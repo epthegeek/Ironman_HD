@@ -71,9 +71,12 @@ class Skillshot(procgame.game.Mode):
     def collect_skillshot(self):
         # play the sfx
         # score the points
-        self.game.score(self.ss_value)
+        points = self.ss_value
+        self.game.score(points)
         # do the display
-        self.skillshot_display(self.ss_value)
+        self.skillshot_display(points)
+        # raise the value for next time
+        self.ss_value += 25000
 
     def skillshot_display(self,points):
         self.score_text.set_text(self.game.score_display.format_score(points))
