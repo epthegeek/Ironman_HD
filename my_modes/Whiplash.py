@@ -126,18 +126,21 @@ class Whiplash(procgame.game.AdvancedMode):
             points = 50000
 
         self.game.score(points)
-        anim.add_frame_listener(-1,lambda: self.whiplash_text_display(anim,type))
+        anim.add_frame_listener(-1,self.whiplash_text_display_helper,param=[anim,type])
         self.layer = anim
         # play a quote
         quotes = self.voice_tracks[self.whiplash_type]
         if quotes[self.hits_for_mb]:
             if quotes[self.hits_for_mb]:
-                self.delay(delay=0.6,handler=lambda: self.game.sound.play_voice(quotes[self.hits_for_mb],action=procgame.sound.PLAY_NOTBUSY))
+                self.delay(delay=0.6,handler=self.voice_helper,param=[quotes[self.hits_for_mb],procgame.sound.PLAY_NOTBUSY])
 
     def tick_movie_index(self,n):
         self.movie_index += 1
         if self.movie_index > n:
             self.movie_index = 0
+
+    def whiplash_text_display_helper(self,options):
+        self.whiplash_text_display(options[0],options[1])
 
     def whiplash_text_display(self,anim,type="normal"):
         print "TEXT DISPLAY TYPE " + type

@@ -98,7 +98,7 @@ class MBSwitchStop(procgame.game.Mode):
 
     def make_invalid(self, orbit):
         self.valid[orbit] = False
-        self.delay(delay=2, handler=lambda: self.validate(orbit))
+        self.delay(delay=2, handler=self.validate,param=orbit)
 
     def validate(self, orbit):
         self.valid[orbit] = True

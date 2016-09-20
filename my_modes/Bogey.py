@@ -150,8 +150,7 @@ class Bogey(procgame.game.Mode):
         self.layer = dmd.GroupedLayer(1920,800,[anim,self.bogey_award_text,self.flash_text])
         # clear after time
         self.delay("display",delay = 3,handler=self.mode_display)
-        self.delay("display",delay = 1.4,handler=lambda: self.add_text(self.game.score_display.format_score(points)))
-
+        self.delay("display",delay = 1.4,handler=self.add_text,param=points)
 
     def increase_index(self):
         if self.clip_index < 18:
@@ -194,6 +193,7 @@ class Bogey(procgame.game.Mode):
             self.point_value += 100000
 
     def add_text(self,string):
+        string = self.game.score_display.format_score(string)
         if string == "":
             title = ""
         else:

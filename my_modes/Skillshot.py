@@ -58,7 +58,7 @@ class Skillshot(procgame.game.Mode):
         # and fire the orbit post
         self.game.coils['orbitPost'].patter(on_time=4,off_time=4,original_on_time=20)
         # drop the post in 2 seconds
-        self.delay(delay=2,handler=lambda: self.game.coils['orbitPost'].disable())
+        self.delay(delay=2,handler=self.game.coils['orbitPost'].disable)
 
     def check_ss(self,lane):
         self.cancel_delayed("unload")

@@ -142,7 +142,7 @@ class WhiplashMultiball(procgame.game.Mode):
             anim = self.jackpot_movies[self.type][self.jackpot_index]
             toggle = False
         anim.reset()
-        anim.add_frame_listener(-1,lambda: self.show_jp_value(text,points))
+        anim.add_frame_listener(-1,self.show_jp_value_helper,param=[text,points])
         self.layer = anim
         self.tick_jackpot_index()
         # award the points
@@ -178,6 +178,9 @@ class WhiplashMultiball(procgame.game.Mode):
         else:
             if self.jackpot_index > 5:
                 self.jackpot_index = 0
+
+    def show_jp_value_helper(self,options):
+        self.show_jp_value(options[0],options[1])
 
     def show_jp_value(self,text,value):
         self.line_2.set_text(text)

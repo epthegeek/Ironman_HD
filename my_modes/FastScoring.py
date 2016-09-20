@@ -58,7 +58,7 @@ class FastScoring(procgame.game.Mode):
         # play the sound and quote
         self.game.sound.play('scoring_mode_riff')
         duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
-        self.delay(delay=duration,handler=lambda: self.game.sound.play_voice('fast_scoring'),action=procgame.sound.PLAY_FORCE)
+        self.delay(delay=duration,handler=self.voice_helper,param=['fast_scoring',procgame.sound.PLAY_FORCE])
         self.running = True
         # set the starting value
         self.switch_value = 10000 + (5000 * self.fast_scoring_runs)
@@ -71,7 +71,6 @@ class FastScoring(procgame.game.Mode):
         self.timer()
         self.layer = self.display
         self.last_score = 0
-
 
     def evt_ball_drained(self):
         self.end()
@@ -89,7 +88,7 @@ class FastScoring(procgame.game.Mode):
         self.cancel_delayed(self.names[score_number])
         self.reset_layer(self.score_layers[score_number],self.game.score_display.format_score(self.switch_value))
         self.sm_boom.reset()
-        self.delay(name=self.names[score_number],delay=1,handler=lambda: self.disable_layer(self.score_layers[score_number]))
+        self.delay(name=self.names[score_number],delay=1,handler=self.disable_layer,param=self.score_layers[score_number])
 
    # def disable_explosion(self):
    #     self.explosion.enabled = False

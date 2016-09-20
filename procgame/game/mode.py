@@ -314,6 +314,10 @@ class Mode(object):
         self.layer = None
         self.game.modes.remove(self)
 
+    # delayed voice quote helper with a list input
+    def voice_helper(self,options):
+        self.game.sound.play_voice(options[0],action=options[1])
+
     # Data structure used by the __accepted_switches array:
     class AcceptedSwitch:
         def __init__(self, name, event_type, delay, handler, param):

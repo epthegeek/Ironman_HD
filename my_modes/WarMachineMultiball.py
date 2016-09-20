@@ -223,9 +223,12 @@ class WarMachineMultiball(procgame.game.Mode):
         # play the video clip
         self.layer = self.game.animations[choice]
         # delay the jackpot callout
-        self.delay(delay=0.5,handler=lambda: self.game.sound.play_voice(voice,action=procgame.sound.PLAY_NOTBUSY))
+        self.delay(delay=0.5,handler=self.voice_helper,param=[voice,procgame.sound.PLAY_NOTBUSY])
         # go to the text display after a delay
-        self.delay("display",delay=delay,handler=lambda:self.text_portion(text,points))
+        self.delay("display",delay=delay,handler=self.text_portion_helper,param=[text,points])
+
+    def text_portion_helper(self,options):
+        self.text_portion(options[0],options[1])
 
     def text_portion(self,string,points):
         self.top.set_text(string)

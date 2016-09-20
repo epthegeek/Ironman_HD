@@ -280,25 +280,35 @@ class MovieLayer(Layer):
         # and reset the video capture position to 0
         self.movie.vc.set(cv.CV_CAP_PROP_POS_FRAMES,0)
     
-    def add_frame_listener(self, frame_index, listener):
+    def add_frame_listener(self, frame_index, listener,param=None):
         """Registers a method (``listener``) to be called when a specific 
         frame number (``frame_index``) in the animation has been reached.
         Negative numbers, like Python list indexes, indicate a number of
         frames from the last frame.  That is, a ``frame_index`` of -1 will
         trigger on the last frame of the animation.
         """
-        self.frame_listeners.append((frame_index, listener))
-    
+        self.frame_listeners.append((frame_index, listener,param))
+
     def notify_frame_listeners(self):
         for frame_listener in self.frame_listeners:
-            (index, listener) = frame_listener
-            if index >= 0 and self.frame_pointer == index:
-                listener()
-            #elif self.frame_pointer == (len(self.frames) + index):
-            elif self.frame_pointer == self.movie.frame_count + index:
+            options = frame_listener
+            index = options[0]
+            listener = options[1]
+            if options[2]:
+                param = options[2]
+            else:
+                param = None
 
-                listener()
-                
+            if index >= 0 and self.frame_pointer == index:
+                if param:
+                    listener(param)
+                else:
+                    listener()
+            elif self.frame_pointer == self.movie.frame_count + index:
+                if param:
+                    listener(param)
+                else:
+                    listener()
     
     def next_frame(self):
         """Returns the frame to be shown, or None if there is no frame."""

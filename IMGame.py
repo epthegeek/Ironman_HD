@@ -84,6 +84,7 @@ class IMGame(SkeletonGame):
         super(IMGame,self).reset()
         self.start_attract_mode()
 
+
 ## the following just set things up such that you can run Python ExampleGame.py
 ## and it will create an instance of the correct game objct and start running it!
 

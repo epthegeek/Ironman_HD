@@ -170,6 +170,9 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.game.sound.play('im_target_thunk')
         # play a sound here
 
+    def target_display_movie_helper(self,options):
+        self.target_display_movie(options[0],options[1],options[2])
+
     def target_display_movie(self,target,side,complete = False):
         self.cancel_delayed("clear")
         if not complete:
@@ -178,7 +181,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
             self.hit_index += 1
             if self.hit_index == 4:
                 self.hit_index = 0
-            self.delay(delay=2.0,handler=lambda: self.target_display(target,side,complete))
+            self.delay(delay=2.0,handler=self.target_display_helper,param=[target,side,complete])
         else:
             self.game.animations['ironman_land_and_stand'].reset()
             self.layer = self.game.animations['ironman_land_and_stand']
@@ -187,6 +190,9 @@ class IronmanTargets(procgame.game.AdvancedMode):
                 self.delay(delay=4,handler=self.game.mark.completed)
 
             self.delay("clear",delay=4,handler=self.clear_layer)
+
+    def target_display_helper(self,options):
+        self.target_display(options[0],options[1],options[2])
 
     def target_display(self,target,side,complete = False):
         self.cancel_delayed("clear")
@@ -232,7 +238,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.layer = dmd.ScriptedLayer(1920,800,[{'seconds':0.2, 'layer':off},{'seconds':0.2,'layer':on}], opaque=True)
 
         if complete:
-            self.delay(delay=2, handler=lambda: self.target_display_movie(target,side,complete))
+            self.delay(delay=2, handler=self.target_display_movie_help,param=[target,side,complete])
         else:
             self.delay("clear",delay=2,handler=self.clear_layer)
         #letter = ["I","R","O","N","M","A","N"]
@@ -278,7 +284,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
             else:
                 # ironman scoring
                 quote = 'tut_ironman_scoring'
-        self.delay(delay=0.7,handler=lambda: self.game.sound.play_voice(quote, action=procgame.sound.PLAY_NOTBUSY))
+        self.delay(delay=0.7,handler=self.voice_helper,param=[quote,procgame.sound.PLAY_NOTBUSY])
 
     def end_target_mode(self):
         # reset the tracking for the next one
