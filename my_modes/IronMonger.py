@@ -234,7 +234,7 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def revalidate(self,list):
         for item in list:
-            derp = self.delay(name=self.delay_names[item],delay=1,handler=self.validate,param=item)
+            self.delay(name=self.delay_names[item],delay=1,handler=self.validate,param=item)
 
     def validate(self,spinner):
         self.valid[spinner] = True

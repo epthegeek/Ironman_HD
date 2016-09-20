@@ -19,34 +19,54 @@ class Pops(procgame.game.AdvancedMode):
         self.right_pop_image.set_target_position(1325,0)
         self.bottom_pop_image = self.game.animations['pop_bottom']
         self.bottom_pop_image.set_target_position(330,365)
-        self.title = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
-        self.title.set_text("SUPER POPS")
-        self.p_value_text = dmd.HDTextLayer(1920/2,120,self.game.fonts['bebas200'],"center",line_color=(96,96,86),line_width=3,interior_color=(0,0,255))
-        self.info_line = dmd.HDTextLayer(1920/2,350,self.game.fonts['default'],"center",line_color=(96,96,86),line_width=3,interior_color=(224,224,224))
+        self.top_line = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
+        self.super_line = dmd.HDTextLayer(1920/2,120,self.game.fonts['bebas200'],"center",line_color=(96,96,86),line_width=3,interior_color=(0,0,255))
+        self.super_line.set_text("SUPER POPS")
+        self.p_1_points = dmd.HDTextLayer(120,480,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
+        self.p_2_points = dmd.HDTextLayer(1780,480,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
+        self.p_3_points = dmd.HDTextLayer(1920/2,310,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
         self.pop_layers = [self.left_pop_image, self.bottom_pop_image, self.right_pop_image]
-        layer_list = [self.backdrop,self.left_pop_image,self.right_pop_image,self.bottom_pop_image,self.title,self.p_value_text,self.info_line]
+        self.pop_text = [self.p_1_points,self.p_2_points,self.p_3_points]
+        self.pop_names = ['left','bottom','right']
+        layer_list = [self.backdrop,
+                      self.left_pop_image,
+                      self.right_pop_image,
+                      self.bottom_pop_image,
+                      self.top_line,
+                      self.super_line,
+                      self.p_1_points,
+                      self.p_2_points,
+                      self.p_3_points]
         self.main_display = dmd.GroupedLayer(1920,800,layer_list,opaque= True)
+        # set the values for the various levels
+        self.pop_values = [5000,7500,10000]
+        # TODO: maybe do the same for sounds? -- are sounds during super specific?
 
     def evt_ball_starting(self):
         # set all the pops as unlit
         self.pop_state = [False,False,False]
+        # pops have 3 levels - 5k, 7.5k and 10k
+        self.pop_level = [0,0,0]
         self.hits = 0
-        # need to check the logic on this - once they're all lit, how many hits?
         self.level = self.game.getPlayerState('pops_level')
+        # base hits for pops jackpot is 25 + 5each time
         self.pop_hits_for_level = ((self.level * 5) + 25)
+        # TODO: Check if the jackpot carries over ball to ball
         self.jackpot = self.game.getPlayerState('pops_jackpot')
-        self.value = self.game.getPlayerState('pops_value')
         self.super = False
-        self.super_value = 0
-        self.title.enabled = False
+        # TODO: Check if super value carries over from ball to ball if not started
+        self.super_value = self.game.getPlayerState('pops_super_value')
+        self.super_line.enabled = False
         # reset the pop images
         for layer in self.pop_layers:
             layer.enabled = False
+        # the flag for halting the increase in super pops points
+        self.super_lock = False
 
     def evt_ball_ending(self):
         self.game.setPlayerState('pops_level', self.level)
         self.game.setPlayerState('pops_jackpot', self.jackpot)
-        self.game.setPlayerState('pops_value', self.value)
+        self.game.setPlayerState('pops_super_value')
 
     def sw_leftJetBumper_active(self,sw):
         self.pop_hit(0)
@@ -55,13 +75,19 @@ class Pops(procgame.game.AdvancedMode):
     def sw_rightJetBumper_active(self,sw):
         self.pop_hit(2)
 
-    # orbits enable the pops
+    # orbits and center spinner enable the pops
     def sw_leftOrbit_active(self,sw):
         self.light_pop(0)
     def sw_centerSpinner_active(self,sw):
         self.light_pop(1)
+        self.increase_super_value(200)
     def sw_rightOrbit_active(self,sw):
         self.light_pop(2)
+    # left and right spinner increase the value of the super
+    def sw_leftSpinner(self,sw):
+        self.increase_super_value(300)
+    def sw_rightSpinner(self,sw):
+        self.increase_super_value(300)
 
     def pop_hit(self,number):
         # are they all lit?
@@ -69,18 +95,14 @@ class Pops(procgame.game.AdvancedMode):
             self.super_pop_hit(number)
         else:
             # flash the light
-            self.pop_lamps[number].pulse()
-            # check if pop is lit
-            lit = self.pop_state[number]
-            if lit:
-                points = 25000
-                # sound = some sound
-            else:
-                points = 5000
-                # sound = some other sound
+            self.game.coils['popsFlasher'].pulse()
+            # score points based on level
+            points = self.pop_values[self.pop_level[number]]
             self.game.score(points)
             # play the sound
             # do the display
+            # show the pop hit points
+            self.pop_points_display(number)
             self.do_main_display(points)
             # add the points to the jackpot
             self.jackpot += points
@@ -92,39 +114,61 @@ class Pops(procgame.game.AdvancedMode):
             self.pop_state[number] = True
             # turn on that layer
             self.pop_layers[number].enabled = True
+            # increase the pop level
+            self.pop_level[number] += 1
             # if that's the last one, turn on super
             if False not in self.pop_state:
                 self.super = True
-                self.super_value = (self.hits * 1000)
-                self.title.enabled = True
+                self.super_line.enabled = True
             self.update_lamps()
 
     def super_pop_hit(self,number):
+        # lock the pop value increase with the first super pop hit
+        if not self.super_lock:
+            self.super_lock = True
         self.pop_hits_for_level -= 1
         # if we're done, there's stuff to do.
         if self.pop_hits_for_level <= 0:
             # score points
+            self.game.score(self.super_value)
             self.game.score(self.jackpot)
             self.complete_display()
             # turn off the super layer
-            self.title.enabled = False
+            self.super_line.enabled = False
         else:
             self.game.score(self.super_value)
+            # show the pop hit points
+            self.pop_points_display(number)
             self.do_main_display(self.super_value)
+
+    def pop_points_display(self,number):
+        self.cancel_delayed(self.pop_names[number])
+        if self.super_lock:
+            points = self.super_value
+        else:
+            points = self.pop_values[self.pop_level[number]]
+        self.pop_text[number].set_text(self.game.score_display.format_score(points))
+        # set the clear
+        self.delay(self.pop_names[number],delay=0.5,handler=self.clear_pop_text,param=number)
+
+    def clear_pop_text(self,number):
+        self.pop_text[number].set_text("")
 
     def do_main_display(self,points):
         self.cancel_delayed("clear")
         # display during super
         if self.super:
-            self.p_value_text.set_text(self.game.score_display.format_score(self.super_value))
             if self.pop_hits_for_level == 1:
                 string = "1 HIT REMAINING"
             else:
                 string = str(self.pop_hits_for_level) + " HITS REMAINING"
-            self.info_line.set_text(string)
+            self.top_line.set_text(string)
+            self.super_line.set_text("SUPER POPS")
         else:
-            self.p_value_text.set_text(self.game.score_display.format_score(points))
-            self.info_line.set_text("JACKPOT VALUE: " + self.game.score_display.format_score(self.jackpot))
+            self.top_line.set_text("JACKPOT VALUE: " + self.game.score_display.format_score(self.jackpot))
+            # set the super pops layer to the player score
+            p = self.game.current_player()
+            self.super_line.set_text(self.game.score_display.format_score(p.score))
         self.layer = self.main_display
         # set the clear delay
         self.delay("clear",delay=2,handler=self.clear_layer)
@@ -135,16 +179,19 @@ class Pops(procgame.game.AdvancedMode):
         layers.append(self.left_pop_image)
         layers.append(self.right_pop_image)
         layers.append(self.bottom_pop_image)
-        line_1 = dmd.HDTextLayer(1920/2,30,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
+        line_1 = dmd.HDTextLayer(1920/2,20,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=3,interior_color=(0,224,0))
         line_1.set_text("SUPER POPS")
-        line_2 = dmd.HDTextLayer(1920/2,180,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
+        line_2 = dmd.HDTextLayer(1920/2,170,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=3,interior_color=(0,224,0))
         line_2.set_text("COMPLETED")
+        line_3 = dmd.HDTextLayer(1920/2,360,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(224,224,0))
+        line_3.set_text("JACKPOT = " + self.game.score_display.format_score(self.jackpot),blink_frames=8)
         layers.append(line_1)
         layers.append(line_2)
+        layers.append(line_3)
         self.layer = dmd.GroupedLayer(1920,1080,layers,opaque=True)
         # reset all the things
-        self.delay(delay=2,handler=self.reset_pops)
-        self.delay("clear",delay=2,handler=self.clear_layer)
+        self.delay(delay=3,handler=self.reset_pops)
+        self.delay("clear",delay=3,handler=self.clear_layer)
 
     def reset_pops(self):
         # turn off the super flag
@@ -159,9 +206,18 @@ class Pops(procgame.game.AdvancedMode):
         self.level += 1
         # set the hits for the next level
         self.pop_hits_for_level = ((self.level * 5) + 25)
-        # TODO: does the jackpot value reset?
-        # TODO: or the super value?
+        # Jackpot value resets + 100k base
+        self.jackpot = 500000 + (100000 * self.level)
+        # The super value resets to the base 20k
+        self.super_value = 20000
         self.update_lamps()
+        self.super_lock = False
+
+    def increase_super_value(self,points):
+        # TODO: Check on this - does it lock with first pop hit, or activation?
+        # super value can increase until the first super pop hit
+        if not self.super_lock:
+            self.super_value += points
 
     def update_lamps(self):
         for n in range (0,3,1):

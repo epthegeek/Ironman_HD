@@ -483,13 +483,13 @@ Animations:
   file: 'pops_backdrop.png'
   holdLastFrame: True
 - key: 'pop_left'
-  file: 'r_ul_on.jpg'
+  file: 'r_ul_on.png'
   holdLastFrame: True
 - key: 'pop_right'
-  file: 'r_ur_on.jpg'
+  file: 'r_ur_on.png'
   holdLastFrame: True
 - key: 'pop_bottom'
-  file: 'r_bot_on.jpg'
+  file: 'r_bot_on.png'
   holdLastFrame: True
 Fonts:
   FontStyles:
@@ -548,6 +548,9 @@ Fonts:
   - key: 'whiplash_300'
     file: 'WOODCUTTER_STORM.ttf'
     size: 300
+  - key: 'bebas80'
+    file: 'BebasNeue.otf'
+    size: 80
   - key: 'default'
     file: 'BebasNeue.otf'
     size: 120
