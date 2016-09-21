@@ -4,6 +4,7 @@ Sequence:
         FontStyle: gold
         Background: clouds_1
         duration: 2.0
+        lampshow: bottom-to-top
     - panning_layer:
         width: 1920
         height: 800
@@ -17,10 +18,14 @@ Sequence:
             animation_layer:
               name: stern_logo_image
         duration: 6.5
-    - Animation: 
+        lampshow: bottom-to-top
+    - Animation:
         Name: marvel_logo_movie
+        lampshow: bottom-to-top
     - animation_layer:
         name: ironman_logo_image
         duration: 3.0
-    - Animation: 
+        lampshow: bottom-to-top
+    - Animation:
         Name: ironman_flyby_right_movie
+        lampshow: bottom-to-top

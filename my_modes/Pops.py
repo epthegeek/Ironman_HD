@@ -78,16 +78,20 @@ class Pops(procgame.game.AdvancedMode):
     # orbits and center spinner enable the pops
     def sw_leftOrbit_active(self,sw):
         self.light_pop(0)
+
     def sw_centerSpinner_active(self,sw):
+        self.increase_jackpot_value(1)
         self.light_pop(1)
-        self.increase_super_value(200)
+
     def sw_rightOrbit_active(self,sw):
         self.light_pop(2)
-    # left and right spinner increase the value of the super
+
+   # left and right spinner increase the value of the super
     def sw_leftSpinner(self,sw):
-        self.increase_super_value(300)
+        self.increase_jackpot_value(0)
+
     def sw_rightSpinner(self,sw):
-        self.increase_super_value(300)
+        self.increase_jackpot_value(2)
 
     def pop_hit(self,number):
         # are they all lit?
@@ -114,8 +118,9 @@ class Pops(procgame.game.AdvancedMode):
             self.pop_state[number] = True
             # turn on that layer
             self.pop_layers[number].enabled = True
-            # increase the pop level
-            self.pop_level[number] += 1
+            # increase the pop level - max is 2
+            if self.pop_level < 2:
+                self.pop_level[number] += 1
             # if that's the last one, turn on super
             if False not in self.pop_state:
                 self.super = True
@@ -213,11 +218,8 @@ class Pops(procgame.game.AdvancedMode):
         self.update_lamps()
         self.super_lock = False
 
-    def increase_super_value(self,points):
-        # TODO: Check on this - does it lock with first pop hit, or activation?
-        # super value can increase until the first super pop hit
-        if not self.super_lock:
-            self.super_value += points
+    def increase_super_value(self,pop):
+        self.jackpot += self.pop_values[self.pop_level[pop]]
 
     def update_lamps(self):
         for n in range (0,3,1):

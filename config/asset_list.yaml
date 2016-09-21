@@ -16,6 +16,9 @@ UserInterface:
   text:
     color: [192, 192,0]
     y_center: 0.8
+LampShows:
+- key: 'bottom-to-top'
+  file: 'bottom-to-top.lampshow'
 Animations:
 - key: 'ironman_flyby_right_movie'
   file: 'ironman_flyby_right.mp4'
@@ -589,17 +592,17 @@ Fonts:
     file: 'BebasNeue.otf'
     size: 500
   - key: 'demo1'
-    file: 'War is Over.ttf'
-    size: 350
+    file: 'AVENGEANCE MIGHTIEST AVENGER.otf'
+    size: 250
   - key: 'demo2'
-    file: 'Heavy_Metal_Box.ttf'
-    size: 150
+    file: 'KOMIKAX_.ttf'
+    size: 250
   - key: 'demo3'
-    file: 'Warpaint.ttf'
-    size: 350
+    file: 'arfmoochikncheez.ttf'
+    size: 250
   - key: 'demo4'
     file: 'Mechanical Machine.ttf'
-    size: 350
+    size: 250
   - key: 'demo5'
     file: 'Plane Crash.ttf'
     size: 250
