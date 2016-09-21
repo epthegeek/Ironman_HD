@@ -20,6 +20,9 @@ class MongerMultiball(procgame.game.Mode):
                              self.game.lamps['mongerE'],
                              self.game.lamps['mongerR']]
         backdrop = self.game.animations['monger_multiball_backdrop']
+        self.start_movies = ['monger_start_1','monger_start_2','monger_start_3','monger_start_4']
+        self.start_index= 0
+        self.hit_movies = ['monger_hit_1b','monger_hit_2b','monger_hit_3b','monger_hit_4b','monger_hit_5b','monger_hit_6b']
 
 
     def evt_ball_ending(self):

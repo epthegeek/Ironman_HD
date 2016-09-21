@@ -17,7 +17,10 @@ class MongerToy(procgame.game.AdvancedMode):
         self.status = "DOWN"
         self.target = "DOWN"
 
-        self.monger_hit_movies = [self.game.animations['monger_hit_1'], self.game.animations['monger_hit_2'],self.game.animations['monger_hit_3'], self.game.animations['monger_hit_4']]
+        self.monger_hit_movies = [self.game.animations['monger_hit_1'],
+                                  self.game.animations['monger_hit_2'],
+                                  self.game.animations['monger_hit_3'],
+                                  self.game.animations['monger_hit_4']]
         self.monger_hit_idx = 0
         self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[2, 2, 2],line_width=4, interior_color=[149, 16, 201])
 

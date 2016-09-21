@@ -49,10 +49,10 @@ class SwitchFilter(procgame.game.AdvancedMode):
                             'warMachineOpto':1510,
                             'whiplashLeft':1080,
                             'whiplashRight':1080,
-                            'mongerOptoLeft':1510,
-                            'mongerOptoRight':1510,
-                            'mongerOptoCenter':1510}
-
+                            'mongerOptoLeft':0,
+                            'mongerOptoRight':0,
+                            'mongerOptoCenter':0}
+        # TODO: find out how much the monger opto switch default is
 
     # at ball start, set the last switch and total switches to blanks
     def evt_ball_starting(self):

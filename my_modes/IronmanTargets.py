@@ -23,7 +23,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
                             self.game.lamps['rightTargetsA'],
                             self.game.lamps['rightTargetsN']]
         self.letter_images = ['target_i_image','target_r_image','target_o_image','target_n1_image','target_m_image','target_a_image','target_n2_image']
-        self.hit_movies = ['hit_1_movie','hit_2_movie','hit_3_movie','hit_4_movie']
+        self.hit_movies = ['hit_1_movie','hit_2_movie','hit_3_movie','hit_4_movie','hit_5_movie','hit_6_movie']
         self.hit_index = 0
         i_layer = dmd.FrameLayer(frame=self.game.animations['target_i_image'].frames[0])
         i_layer.set_target_position(1,0)
@@ -179,7 +179,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
             self.game.animations[self.hit_movies[self.hit_index]].reset()
             self.layer = self.game.animations[self.hit_movies[self.hit_index]]
             self.hit_index += 1
-            if self.hit_index == 4:
+            if self.hit_index == 6:
                 self.hit_index = 0
             self.delay(delay=2.0,handler=self.target_display_helper,param=[target,side,complete])
         else:

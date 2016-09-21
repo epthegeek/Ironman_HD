@@ -121,6 +121,14 @@ Animations:
   file: 'ironman_double_blast.mp4'
   streamingMovie: True
   holdLastFrame: True
+- key: 'hit_5_movie'
+  file: 'ironman_fire.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_6_movie'
+  file: 'ironman_arm_rocket.mp4'
+  streamingMovie: True
+  holdLastFrame: True
 - key: 'ironman_land_and_stand'
   file: 'ironman_land_n_stand.mp4'
   streamingMovie: True
@@ -506,11 +514,59 @@ Animations:
   holdLastFrame: True
   streamingMovie: True
 - key: 'monger_hit_3'
-  file: 'monger_punched_in_face.mp4'
+  file: 'monger_crash_out_wall.mp4'
   holdLastFrame: True
   streamingMovie: True
 - key: 'monger_hit_4'
   file: 'monger_blasted_with_chest_reactor.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_mb_raise'
+  file: 'monger_and_tony_take_off_above.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_1b'
+  file: 'monger_and_tony_flying_4.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_2b'
+  file: 'monger_and_tony_flying_2.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_3b'
+  file: 'monger_and_tony_flying_5.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_4b'
+  file: 'monger_punch_in_face.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_5b'
+  file: 'monger_rip_out_neck_bits.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_hit_6b'
+  file: 'monger_electrocuted.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_start_1'
+  file: 'monger_boots.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_start_2'
+  file: 'monger_looking_up_angry.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_start_3'
+  file: 'monger_take_off_above.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'monger_start_4'
+  file: 'monger_take_off_side.mp4'
+  holdLastFrame: True
+  streamingMovie: True
+- key: 'monger_super'
+  file: 'monger_final_explosion.mp4'
   holdLastFrame: True
   streamingMovie: True
 Fonts:

@@ -57,5 +57,7 @@ keyboard_switch_map:
     j: leftJetBumper
     k: bottomJetBumper
     l: rightJetBumper
+    v: motorSwitchTop
+    b: motorSwitchBot
     1073742053: flipperLwL
     1073742049: flipperLwR
