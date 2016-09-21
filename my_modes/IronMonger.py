@@ -77,11 +77,11 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def magnet(self,input):
         if input == "Throw":
-            self.game.coils.ironmongerMagnet.pulse()
+            self.game.coils.ironMongerMagnet.pulse()
         if input == "Hold":
-            self.game.coils.ironmongerMagnet.patter(on_time=2,off_time=6,original_on_time=10)
+            self.game.coils.ironMongerMagnet.patter(on_time=2,off_time=6,original_on_time=10)
         if input == "Release":
-            self.game.coils.ironmongerMagnet.disable()
+            self.game.coils.ironMongerMagnet.disable()
 
 
     def sw_leftSpinner_active(self,sw):

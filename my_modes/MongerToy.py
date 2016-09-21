@@ -22,7 +22,7 @@ class MongerToy(procgame.game.AdvancedMode):
                                   self.game.animations['monger_hit_3'],
                                   self.game.animations['monger_hit_4']]
         self.monger_hit_idx = 0
-        self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[0, 0, 0],line_width=4, interior_color=[173, 50, 250])
+        self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[0, 0, 0],line_width=4, interior_color=[146, 24, 222])
 
     def evt_ball_starting(self):
         # check if the monger should be up for the player, and if not, raise - if up and should be down - lower
