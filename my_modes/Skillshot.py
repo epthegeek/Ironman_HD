@@ -106,23 +106,23 @@ class Skillshot(procgame.game.Mode):
         self.game.modes.remove(self)
 
     ## Kill Switch list
-    def sw_rightSpinner_active(self):
+    def sw_rightSpinner_active(self,sw):
         self.shut_it_down_now()
-    def sw_leftSpinner_active(self):
+    def sw_leftSpinner_active(self,sw):
         self.shut_it_down_now()
-    def sw_centerSpinner_active(self):
+    def sw_centerSpinner_active(self,sw):
         self.shut_it_down_now()
-    def sw_leftSlingshot_active(self):
+    def sw_leftSlingshot_active(self,sw):
         self.shut_it_down_now()
-    def sw_rightSlingshot_active(self):
+    def sw_rightSlingshot_active(self,sw):
         self.shut_it_down_now()
-    def sw_droneTarget0_active(self):
+    def sw_droneTarget0_active(self,sw):
         self.shut_it_down_now()
-    def sw_droneTarget1_active(self):
+    def sw_droneTarget1_active(self,sw):
         self.shut_it_down_now()
-    def sw_droneTarget2_active(self):
+    def sw_droneTarget2_active(self,sw):
         self.shut_it_down_now()
-    def sw_droneTarget3_active(self):
+    def sw_droneTarget3_active(self,sw):
         self.shut_it_down_now()
     def sw_leftTargetI_active(self,sw):
         self.shut_it_down_now()

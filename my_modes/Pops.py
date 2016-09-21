@@ -218,7 +218,7 @@ class Pops(procgame.game.AdvancedMode):
         self.update_lamps()
         self.super_lock = False
 
-    def increase_super_value(self,pop):
+    def increase_jackpot_value(self,pop):
         self.jackpot += self.pop_values[self.pop_level[pop]]
 
     def update_lamps(self):

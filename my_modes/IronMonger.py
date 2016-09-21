@@ -184,7 +184,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.monger_base_value = points
         self.reset_monger_value()
         self.game.monger_toy.rise()
-        anim = self.game.animations['monger_crawl_out']
+        anim = self.game.animations['monger_rise']
         anim.reset()
         anim.add_frame_listener(-1,self.clear_layer)
         self.layer = anim
