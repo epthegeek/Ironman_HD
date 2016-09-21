@@ -212,6 +212,11 @@ class IronMonger(procgame.game.AdvancedMode):
         else:
             self.spinner_points[spinner] += 7500
             self.update_spinner_score_text(spinner)
+            # set a delay for clearing
+            self.delay("display", delay=2, handler=self.reset_spinner_display, param=spinner)
+
+        # set last spinner
+        self.last_spinner = spinner
 
     def reset_spinner_display(self,spinner):
         self.cold = True
@@ -227,7 +232,7 @@ class IronMonger(procgame.game.AdvancedMode):
         if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
             # score some points?
-            points = self.game.current_monger_value
+            points = self.current_monger_value
             self.reset_monger_value()
             self.game.score(points)
             # add a letter

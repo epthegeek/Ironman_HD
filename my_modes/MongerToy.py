@@ -22,7 +22,7 @@ class MongerToy(procgame.game.AdvancedMode):
                                   self.game.animations['monger_hit_3'],
                                   self.game.animations['monger_hit_4']]
         self.monger_hit_idx = 0
-        self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[2, 2, 2],line_width=4, interior_color=[149, 16, 201])
+        self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[0, 0, 0],line_width=4, interior_color=[173, 50, 250])
 
     def evt_ball_starting(self):
         # check if the monger should be up for the player, and if not, raise - if up and should be down - lower
@@ -113,15 +113,19 @@ class MongerToy(procgame.game.AdvancedMode):
         self.delay(delay=7,handler=self.clear_layer)
 
 
-    def toy_hit_display(self):
+    def toy_hit_display(self,points):
         # cancel any pending clear
         self.cancel_delayed("clear")
         # set up the video clip
         video = self.monger_hit_movies[self.monger_hit_idx]
         video.reset()
         # set the text for the hit display
-        self.hit_score_text.set_text("250,000")
+        self.hit_score_text.set_text(str(self.game.score_display.format_score(points)))
         # make the layer
         self.layer = dmd.GroupedLayer(1920, 800, [video, self.hit_score_text], opaque=True)
         # set a clear delay
         self.delay("clear", delay=2.5, handler=self.clear_layer)
+        # up the index
+        self.monger_hit_idx += 1
+        if self.monger_hit_idx > 3:
+            self.monger_hit_idx = 0
