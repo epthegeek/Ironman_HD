@@ -569,6 +569,10 @@ Animations:
   file: 'monger_final_explosion.mp4'
   holdLastFrame: True
   streamingMovie: True
+- key: 'monger_minigun_firing'
+  file: 'monger_firing_minigun.mp4'
+  holdLastFrame: True
+  streamingMovie: True
 Fonts:
   FontStyles:
   - key: gold
