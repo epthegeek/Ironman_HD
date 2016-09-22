@@ -100,8 +100,6 @@ class IronMonger(procgame.game.AdvancedMode):
                 self.letter_hit()
 
     def sw_centerSpinner_active(self,sw):
-        print "VALIDITY CHECK"
-        print self.valid
         self.spinner_noise()
         if self.status == "UP":
             self.spinner(1)
@@ -112,8 +110,6 @@ class IronMonger(procgame.game.AdvancedMode):
                 else:
                     self.set_valid_switches(1)
                     self.letter_hit()
-            else:
-                print 'center spinner is not valid, what a bitch"'
 
     def sw_rightSpinner_active(self,sw):
         self.spinner_noise()
@@ -292,7 +288,6 @@ class IronMonger(procgame.game.AdvancedMode):
                     pass
 
     def set_valid_switches(self,switch):
-        print "SET VALID SWITCHES"
         # left spinner
         if switch == 0:
             # affects left spinner and left orbit
@@ -301,11 +296,6 @@ class IronMonger(procgame.game.AdvancedMode):
             self.validate(2)
         # center spinner
         elif switch == 1:
-            print "FOUND POWER ONE"
-            # affects only itself
-            #self.cancel_delayed("centerSpinner")
-            #self.valid[1] = False
-            #self.delay("centerSpinner", delay=1.0, handler=self.validate, param=1)
             self.process_validation([1])
 
         # right spinner
@@ -334,24 +324,17 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def invalidate_switches(self,list):
         for item in list:
-            print "set invalid on " + str(item)
             self.valid[item] = False
 
     def stop_valid_reset(self,list):
         for item in list:
-            print "CANCEL DELAY NAMED " + self.delay_names[item]
             self.cancel_delayed(self.delay_names[item])
-
 
     def revalidate(self,list):
         for item in list:
-            print "SETTING REVALIDATE DELAY ON " + str(item)
-            print "DELAY NAME " + str(self.delay_names[item])
-            print "PARAM is " + str(item)
             self.delay(name=self.delay_names[item], delay=1, handler=self.validate,param=item)
 
     def validate(self,spinner):
-        print "MAKING TRUE NUMBER " + str(spinner)
         self.valid[spinner] = True
 
     def reset_center(self):
