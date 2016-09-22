@@ -18,6 +18,8 @@ class IronMonger(procgame.game.AdvancedMode):
                              self.game.lamps['mongerG'],
                              self.game.lamps['mongerE'],
                              self.game.lamps['mongerR']]
+        self.grunts = ['monger_grunt_1','monger_grunt_2','monger_grunt_3','monger_grunt_4','monger_grunt_5','monger_grunt_6']
+        self.grunt_index = 0
         self.delay_names = ['leftSpinner','centerSpinner','rightSpinner','leftOrbit','rightOrbit']
         layer0 = dmd.FrameLayer(frame=self.game.animations['monger_logo_0'].frames[0])
         layer0.set_target_position(367,0)
@@ -74,6 +76,9 @@ class IronMonger(procgame.game.AdvancedMode):
         self.game.setPlayerState('monger_battles', self.battles)
         self.game.setPlayerState('monger_status', self.status)
         self.game.setPlayerState('toy_letters', self.toy_letters)
+        # if we end the ball in multiball, re-set status
+        if self.status == "MB":
+            self.status = "OPEN"
 
     def magnet(self,input):
         if input == "Throw":
@@ -231,6 +236,12 @@ class IronMonger(procgame.game.AdvancedMode):
         print "TRYING TO HIT TOY - STATUS " + str(self.game.monger_toy.status)
         if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
+            self.game.sound.play('monger_clank')
+            # play a grunt too
+            self.delay(delay=0.2,handler=self.game.sound.play,param=self.grunts[self.grunt_index])
+            self.grunt_index += 1
+            if self.grunt_index > 5:
+                self.grunt_index = 0
             # score some points?
             points = self.current_monger_value
             self.reset_monger_value()
@@ -244,6 +255,7 @@ class IronMonger(procgame.game.AdvancedMode):
                     self.game.monger_toy.toy_hit_display(points)
 
     def start_multiball(self):
+        self.status = "MB"
         self.game.modes.add(self.game.monger_multiball)
         self.game.monger_multiball.start_multiball()
 

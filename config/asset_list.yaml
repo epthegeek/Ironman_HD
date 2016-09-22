@@ -677,6 +677,14 @@ Audio:
       file: 'Sound-03F7.wav'
     - key: 'whiplash_mb'
       file: 'Sound-03F6.wav'
+    - key: 'bogey'
+      file: 'Sound-0405.wav'
+    - key: 'monger_ready'
+      file: 'Sound-0409.wav'
+    - key: 'monger_mb'
+      file: 'Sound-03FF.wav'
+    - key: 'general_gameplay'
+      file: 'Sound-03FA.wav'
   Effects:
     - key: 'scoring_mode_start'
       file: 'Sound-004A.wav'
@@ -761,6 +769,27 @@ Audio:
       volume: 1
     - key: 'wm_djp_5'
       file: 'Sound-0056.wav'
+      volume: 1
+    - key: 'monger_clank'
+      file: 'Sound-00BE.wav'
+      volume: 1
+    - key: 'monger_grunt_1'
+      file: 'Sound-0161.wav'
+      volume: 1
+    - key: 'monger_grunt_2'
+      file: 'Sound-0168.wav'
+      volume: 1
+    - key: 'monger_grunt_3'
+      file: 'Sound-266.wav'
+      volume: 1
+    - key: 'monger_grunt_4'
+      file: 'Sound-26B.wav'
+      volume: 1
+    - key: 'monger_grunt_5'
+      file: 'Sound-26C.wav'
+      volume: 1
+    - key: 'monger_grunt_6'
+      file: 'Sound-26E.wav'
       volume: 1
   Voice:
     - key: 'mark_1_completed'

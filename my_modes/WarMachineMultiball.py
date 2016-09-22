@@ -190,8 +190,8 @@ class WarMachineMultiball(procgame.game.Mode):
         else:
             self.delay(delay=3,handler=self.set_main_display)
         # change the music
-        self.game.sound.play_music('war_machine_mb',loops=-1)
-        # audio callout?
+        self.game.base_game_mode.set_music()
+        # audio callout
         self.game.sound.play_voice('war_machine_multiball',action=procgame.sound.PLAY_FORCE)
 
         # launch balls

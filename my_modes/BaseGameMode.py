@@ -125,3 +125,30 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # play a sound
         self.game.sound.play('slingshot_clank')
 
+    # music controller
+    def set_music(self):
+        start_time = 0
+        if self.game.monger_multiball.running:
+            # play the monger mb music
+            song = 'monger_mb'
+        elif self.game.wm_multiball.running:
+            # play the war machine multiball music
+            song = 'war_machine_mb'
+        elif self.game.whiplash_multiball.running:
+            # play the whiplash multiball music
+            song = 'whiplash_mb'
+        # boey trumps monger ready
+        elif self.game.bogey.running:
+            song = 'bogey'
+        # if no multiball is running, but monger is up - that's the tune
+        elif self.game.monger.status == "UP":
+            song = 'monger_ready'
+        # if monger isn't up, but war machine is ready, do that:
+        elif self.game.war_machine.multiball_status == "READY":
+            song = 'war_machine_ready'
+        # last resort is the general gameplay loop
+        else:
+            song = 'general_gameplay'
+            start_time = 37
+        # turn it up, man
+        self.game.sound.play_music(song, start_time=start_time, loops=-1)

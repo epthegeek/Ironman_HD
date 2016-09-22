@@ -98,6 +98,8 @@ class Skillshot(procgame.game.Mode):
             self.game.lamps['topRightLane'].enable()
 
     def unload(self):
+        # switch to the general gameplay music
+        self.game.base_game_mode.set_music()
         # drop the post just to be safe
         self.game.coils['orbitPost'].disable()
         self.wipe_delays()

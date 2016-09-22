@@ -97,7 +97,7 @@ class WhiplashMultiball(procgame.game.Mode):
         # fire off the score update
         self.update_score_layer()
         # play some music
-        self.game.sound.play_music('whiplash_mb',loops=-1)
+        self.game.base_game_mode.set_music()
         # do the display
         self.start_movies[self.type].reset()
         if self.game.mark.player_mark < 6:
