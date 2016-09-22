@@ -780,16 +780,16 @@ Audio:
       file: 'Sound-0168.wav'
       volume: 1
     - key: 'monger_grunt_3'
-      file: 'Sound-266.wav'
+      file: 'Sound-0266.wav'
       volume: 1
     - key: 'monger_grunt_4'
-      file: 'Sound-26B.wav'
+      file: 'Sound-026B.wav'
       volume: 1
     - key: 'monger_grunt_5'
-      file: 'Sound-26C.wav'
+      file: 'Sound-026C.wav'
       volume: 1
     - key: 'monger_grunt_6'
-      file: 'Sound-26E.wav'
+      file: 'Sound-026E.wav'
       volume: 1
   Voice:
     - key: 'mark_1_completed'

@@ -53,7 +53,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.last_spinner = 0
         self.cold = True
         self.spinner_anim = self.game.animations['monger_minigun_firing']
-        self.spinner_text_layer = dmd.HDTextLayer(1920 / 2, 570, self.game.fonts['bebas200'], "center", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
+        self.spinner_text_layer = dmd.HDTextLayer(1870, 30, self.game.fonts['bebas200'], "right", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
         self.spinner_display  = dmd.GroupedLayer(1920,800,[self.spinner_anim, self.spinner_text_layer],opaque=True)
 
     def evt_ball_starting(self):
@@ -61,7 +61,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.clear = True
         self.letters = self.game.getPlayerState('monger_letters')
         self.battles = self.game.getPlayerState('monger_battles')
-        ## Status goes "OPEN" then "READY" then "UP" then "MB"
+        ## Status goes "OPEN" then "READY" then "UP" then "MB" then "RUNNING"
         self.status = self.game.getPlayerState('monger_status')
         # for locking out spinners based on conditions
         self.valid = [True,True,True,True,True]
@@ -77,7 +77,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.game.setPlayerState('monger_status', self.status)
         self.game.setPlayerState('toy_letters', self.toy_letters)
         # if we end the ball in multiball, re-set status
-        if self.status == "MB":
+        if self.status == "MB" or self.status == "RUNNING":
             self.status = "OPEN"
 
     def magnet(self,input):
@@ -99,6 +99,8 @@ class IronMonger(procgame.game.AdvancedMode):
                 self.letter_hit()
 
     def sw_centerSpinner_active(self,sw):
+        print "VALIDITY CHECK"
+        print self.valid
         self.spinner_noise()
         if self.status == "UP":
             self.spinner(1)
@@ -109,6 +111,8 @@ class IronMonger(procgame.game.AdvancedMode):
                 else:
                     self.set_valid_switches(1)
                     self.letter_hit()
+            else:
+                print 'center spinner is not valid, what a bitch"'
 
     def sw_rightSpinner_active(self,sw):
         self.spinner_noise()
@@ -174,10 +178,10 @@ class IronMonger(procgame.game.AdvancedMode):
             # score the points
             self.game.score(points)
         # if we're already at 10 letters raise the monger
-        else:
-            self.layer = None
-            self.game.monger_toy.rise()
-            self.game.monger_toy.monger_rise_video()
+#        else:
+#            self.layer = None
+#            self.game.monger_toy.rise()
+#            self.game.monger_toy.monger_rise_video()
 
     def monger_ready_display(self):
         self.points_layer.set_text("IRON MONGER READY")
@@ -185,6 +189,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.delay("display", delay=1.5, handler=self.clear_layer)
 
     def raise_monger(self,points):
+        self.cancel_delayed("display")
         self.status = "UP"
         self.monger_base_value = points
         self.reset_monger_value()
@@ -233,7 +238,6 @@ class IronMonger(procgame.game.AdvancedMode):
         self.spinner_text_layer.set_text(text)
 
     def hit_toy(self):
-        print "TRYING TO HIT TOY - STATUS " + str(self.game.monger_toy.status)
         if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
             self.game.sound.play('monger_clank')
@@ -298,9 +302,10 @@ class IronMonger(procgame.game.AdvancedMode):
         elif switch == 1:
             print "FOUND POWER ONE"
             # affects only itself
-            self.cancel_delayed(self.delay_names[1])
+            self.cancel_delayed("centerSpinner")
             self.valid[1] = False
-            self.delay(name=self.delay_names[1], delay=1, handler=self.validate, param=1)
+            self.delay("centerSpinner", delay=1, handler=self.reset_center)
+
         # right spinner
         elif switch == 2:
             # affects right spinner and right orbit
@@ -344,6 +349,9 @@ class IronMonger(procgame.game.AdvancedMode):
     def validate(self,spinner):
         print "MAKING TRUE NUMBER " + str(spinner)
         self.valid[spinner] = True
+
+    def reset_center(self):
+        self.valid[1] = True
 
     def orbit_noise(self):
         if not self.orbit_quiet:

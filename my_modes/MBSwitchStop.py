@@ -69,6 +69,9 @@ class MBSwitchStop(procgame.game.Mode):
             if self.WL.running:
                 self.WL.big5_jackpot_shot()
                 noisy = False
+            # check iron monger
+            if self.MO.running:
+                self.MO.orbit_hit()
         # if nothing hits, play the orbit noise
         if noisy:
             self.game.monger.orbit_noise()
@@ -91,6 +94,8 @@ class MBSwitchStop(procgame.game.Mode):
                 self.WL.big5_jackpot_shot()
             if self.WM.running:
                 self.WM.double_jp_hit(2)
+            if self.MO.running:
+                self.MO.center_spinner_hit()
         return procgame.game.SwitchStop
 
     def sw_rightRampExit_active(self, sw):
@@ -116,6 +121,9 @@ class MBSwitchStop(procgame.game.Mode):
             if self.WM.big5_jackpots[4]:
                 self.WM.double_jp_hit(4)
                 noisy = False
+        # check iron monger
+        if self.MO.running:
+            self.MO.orbit_hit()
         if noisy:
             self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
