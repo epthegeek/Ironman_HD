@@ -302,9 +302,10 @@ class IronMonger(procgame.game.AdvancedMode):
         elif switch == 1:
             print "FOUND POWER ONE"
             # affects only itself
-            self.cancel_delayed("centerSpinner")
-            self.valid[1] = False
-            self.delay("centerSpinner", delay=1, handler=self.reset_center)
+            #self.cancel_delayed("centerSpinner")
+            #self.valid[1] = False
+            #self.delay("centerSpinner", delay=1.0, handler=self.validate, param=1)
+            self.process_validation([1])
 
         # right spinner
         elif switch == 2:
@@ -344,6 +345,8 @@ class IronMonger(procgame.game.AdvancedMode):
     def revalidate(self,list):
         for item in list:
             print "SETTING REVALIDATE DELAY ON " + str(item)
+            print "DELAY NAME " + str(self.delay_names[item])
+            print "PARAM is " + str(item)
             self.delay(name=self.delay_names[item], delay=1, handler=self.validate,param=item)
 
     def validate(self,spinner):
