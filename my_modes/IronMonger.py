@@ -55,6 +55,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.spinner_anim = self.game.animations['monger_minigun_firing']
         self.spinner_text_layer = dmd.HDTextLayer(1870, 30, self.game.fonts['bebas200'], "right", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
         self.spinner_display  = dmd.GroupedLayer(1920,800,[self.spinner_anim, self.spinner_text_layer],opaque=True)
+        self.valid = [True,True,True,True,True,True]
 
     def evt_ball_starting(self):
         # clear used to determine wait time on repeat hits to switches
@@ -64,7 +65,7 @@ class IronMonger(procgame.game.AdvancedMode):
         ## Status goes "OPEN" then "READY" then "UP" then "MB" then "RUNNING"
         self.status = self.game.getPlayerState('monger_status')
         # for locking out spinners based on conditions
-        self.valid = [True,True,True,True,True]
+        self.valid = [True,True,True,True,True,True]
         self.toy_valid = True
         self.toy_letters = self.game.getPlayerState('toy_letters')
         self.orbit_quiet = False
@@ -328,8 +329,8 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def process_validation(self,list):
         self.stop_valid_reset(list)
-        self.invalidate_switches(list)
-        self.revalidate(list)
+        self.delay(delay=0.1,handler=self.invalidate_switches,param=list)
+        self.delay(delay=0.2,handler=self.revalidate,param=list)
 
     def invalidate_switches(self,list):
         for item in list:
