@@ -111,6 +111,8 @@ class WhiplashMultiball(procgame.game.Mode):
         self.layer = self.start_movies[self.type]
         # set the total score to zero
         self.total_points = 0
+        # light the mode light
+        self.game.mark.mode_light(3)
 
     def do_main_display(self):
         self.layer = self.main_display[self.type]
@@ -123,6 +125,9 @@ class WhiplashMultiball(procgame.game.Mode):
         self.cancel_delayed("clear")
         # set the points to score to the current JP value
         points = self.jackpot_value
+        # if we're at the 3 million jackpot - complete the mode
+        if self.points == 3000000:
+            self.game.mark.mode_completed(3)
         # play the movie - if we're on super jackpot set it to that
         if self.super:
             text = "SUPER JACKPOT"

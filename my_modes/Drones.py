@@ -68,6 +68,13 @@ class Drones(procgame.game.AdvancedMode):
             # then we've got a hit
             # count the hit
             self.drone_total += 1
+
+            # if we're at 8, light the mode, if we're at 16, complete it
+            if self.drone_total == 8:
+                self.game.mark.mode_light(4)
+            elif self.drone_total == 16:
+                self.game.mark.mode_completed(4)
+
             self.drones_for_mb -= 1
             # play the sound effect
             self.game.sound.play('drone_hit')

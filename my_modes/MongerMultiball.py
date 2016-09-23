@@ -74,7 +74,10 @@ class MongerMultiball(procgame.game.Mode):
         self.update_score_layer()
         # change the music
         self.game.base.set_music()
+        # make sure the toy is ready for hits
         self.toy_valid = True
+        # update the mode light
+        self.game.mark.mode_light(2)
 
     def sw_mongerOptoLeft_active(self,sw):
         self.monger_opto_hit()
@@ -139,8 +142,11 @@ class MongerMultiball(procgame.game.Mode):
 
     def center_spinner_hit(self):
         if self.super:
+            # award the super jackpot
             self.super = False
             self.super_display = True
+            # turn on the mode complete light
+            self.game.mark.mode_completed(1)
             # score the points
             self.game.score(3000000)
             # play the animations

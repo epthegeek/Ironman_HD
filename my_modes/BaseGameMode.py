@@ -73,7 +73,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('marks',0)
         player.setState('marks_finished', False)
         # for tracking not done/started/done on the 5 main mode lights
-        player.setState('mode_master_status', [0,0,0,0,0])
+        player.setState('modes_finished', [False,False,False,False,False])
         # for tracking if player has a mark level from shields
         player.setState('shield_mark',False)
         player.setState('ss_value',250000)

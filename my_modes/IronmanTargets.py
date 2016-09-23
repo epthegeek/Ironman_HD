@@ -247,7 +247,16 @@ class IronmanTargets(procgame.game.AdvancedMode):
         #self.game.displayText(letter[target])
 
     def start_target_mode(self):
+        # count the completion
         self.completions += 1
+
+        ## update the mode status
+        if self.completions >= 3:
+            self.game.mark.mode_completed(0)
+        else:
+            self.game.mark.mode_light(0)
+
+        # load the relevant mode
         if self.completions < 3:
             if self.completions == 1:
                 self.game.modes.add(self.game.fast_scoring)

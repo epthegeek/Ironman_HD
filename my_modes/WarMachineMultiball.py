@@ -88,6 +88,8 @@ class WarMachineMultiball(procgame.game.Mode):
         # add the switch filter
         if self.game.mb_switch_stop not in self.game.modes:
             self.game.modes.add(self.game.mb_switch_stop)
+        # add the mode light
+        self.game.mark.mode_light(1)
 
     def evt_ball_ending(self):
         if self.running:
@@ -209,6 +211,9 @@ class WarMachineMultiball(procgame.game.Mode):
             delay = 3
             # reset the drone jackpots
             self.jackpots_init('drone',True)
+            # complete the mode light
+            self.game.mark.mode_completed(1)
+
         elif type == self.d_jp_movies:
             text = "DOUBLE JACKPOT"
             choice = self.d_jp_movies[self.d_jp_idx]

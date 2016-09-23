@@ -36,15 +36,25 @@ class Marks(procgame.game.AdvancedMode):
     def evt_ball_starting(self):
         self.player_mark = self.game.getPlayerState('marks')
         self.finished = self.game.getPlayerState('marks_finished')
-        self.mode_master_status = self.game.getPlayerState('mode_master_status')
+        self.modes_finished = self.game.getPlayerState('modes_finished')
         self.shield_flag = self.game.getPlayerState('shield_mark')
         # if ball mode count makes it to 5, then DOD is lit
         self.ball_mode_count = 0
+        # modes: Ironman, War Machine, War Monger, Whiplash, Drones.
+        self.modes_lit = [False,False,False,False,False]
+
+    def mode_light(self,number):
+        self.modes_lit[number] = True
+        self.update_lamps()
+
+    def mode_complete(self,number):
+        self.modes_finished[number] = True
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('marks',self.player_mark)
         self.game.setPlayerState('marks_finiahed', self.finished)
-        self.game.setPlayerState('mode_master_status', self.mode_master_status)
+        self.game.setPlayerState('modes_finished', self.modes_finished)
         self.game.setPlayerState('shield_mark', self.shield_flag)
 
     def completed(self,callback=None):
@@ -64,6 +74,7 @@ class Marks(procgame.game.AdvancedMode):
             anim.add_frame_listener(-1, callback)
         self.text.set_text("MARK " + str(self.player_mark) + " COMPLETED")
         self.layer = dmd.GroupedLayer(1920,800,[anim,self.text],opaque=True)
+        self.update_lamps()
 
     def score(self):
         print "MARK SCORE"
@@ -80,20 +91,21 @@ class Marks(procgame.game.AdvancedMode):
                 pass
             else:
                 self.mode_lamps[n].disable()
-        # and enable what should be on
+
+        # and enable what should be on for marks
         for n in range(0,self.player_mark,1):
             self.mark_lamps[n].enable()
             if n == 5:
                 self.game.coils.mark6Flasher.schedule(0x0F0F0F0F)
-            # update the mode lamps on lower numbers
-            else:
-                # status 1 means it ran
-                if self.mode_master_status[n] == 1:
-                    self.mode_lamps[n].enable()
+
+        for n in range (0,5,1):
+        # Check modes finished first
+            if self.modes_finished[n]:
+                self.mode_lamps[n].schedule(0x0F0F0F0F)
                 # status 2 means it's qualified for DOD multiball
-                elif self.mode_master_status[n] == 2:
-                    self.mode_lamps[n].schedule(0x0F0F0F0F)
-                # anything else and the light stays off
-                else:
-                    pass
+            elif self.modes_lit[n]:
+                self.mode_lamps[n].enable()
+            # anything else and the light stays off
+            else:
+                pass
 
