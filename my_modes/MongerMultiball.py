@@ -73,7 +73,7 @@ class MongerMultiball(procgame.game.Mode):
         # start the score update
         self.update_score_layer()
         # change the music
-        self.game.base_game_mode.set_music()
+        self.game.base.set_music()
         self.toy_valid = True
 
     def sw_mongerOptoLeft_active(self,sw):

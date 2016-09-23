@@ -78,6 +78,9 @@ class Skillshot(procgame.game.Mode):
         self.ss_value += 25000
 
     def skillshot_display(self,points):
+        # play the sound
+        self.game.sound.play('skillshot_collect')
+        # do the display part
         self.score_text.set_text(self.game.score_display.format_score(points))
         self.layer = self.display
         self.delay(delay=3, handler=self.unload)
@@ -99,7 +102,7 @@ class Skillshot(procgame.game.Mode):
 
     def unload(self):
         # switch to the general gameplay music
-        self.game.base_game_mode.set_music()
+        self.game.base.set_music()
         # drop the post just to be safe
         self.game.coils['orbitPost'].disable()
         self.wipe_delays()

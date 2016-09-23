@@ -663,6 +663,10 @@ PRLamps:
         number: L63
         label: Right Orbit Weapon Advance
         tags: Playfield
+    playfieldGI:
+        number: G01
+        tags: gi
+        label: 'GI Playfield'
 
 PRBallSave:
     pulseCoils: [leftJetBumper, rightJetBumper, bottomJetBumper,leftSling,rightSling]

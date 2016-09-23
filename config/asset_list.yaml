@@ -791,6 +791,9 @@ Audio:
     - key: 'monger_grunt_6'
       file: 'Sound-026E.wav'
       volume: 1
+    - key: 'skillshot_collect'
+      file: 'Sound-0026.wav'
+      volume: 1
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'

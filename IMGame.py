@@ -40,10 +40,11 @@ class IMGame(SkeletonGame):
         # required definitions
         self.curr_file_path = curr_file_path
         self.trough_count = 4
+        self.giState = "OFF"
         
         super(IMGame, self).__init__('config/im_machine.yaml',self.curr_file_path)
        
-        self.base_game_mode = BaseGameMode(game=self) # pri 5
+        self.base = BaseGameMode(game=self) # pri 5
 
         self.fast_scoring = FastScoring(game=self) # pri 9
 
@@ -82,7 +83,19 @@ class IMGame(SkeletonGame):
     def reset(self):
         # reset the monger toy?
         super(IMGame,self).reset()
+        # turn on the GI
+        self.gi_control("ON")
         self.start_attract_mode()
+
+    ## GI LAMPS
+
+    def gi_control(self, state):
+        if state == "OFF":
+            self.giState = "OFF"
+            self.lamps['playfieldGI'].disable()
+        else:
+            self.giState = "ON"
+            self.lamps['playfieldGI'].enable()
 
 
 ## the following just set things up such that you can run Python ExampleGame.py

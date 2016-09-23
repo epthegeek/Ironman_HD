@@ -86,6 +86,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
     # target_hit checks to see if mode should start - if not, passes on to activate
     def target_hit(self,target):
+        # flash the IM flashers
+        self.flasher_pulse()
         if self.scoring_mode_running:
             if self.game.fast_scoring.running:
                 self.game.fast_scoring.increase_value()
@@ -291,6 +293,10 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.left_tracking = [False,False,False,False]
         self.right_tracking = [False,False,False]
         self.scoring_mode_running = False
+
+    def flasher_pulse(self):
+        self.game.coils['leftRampBottomFlasher'].pulse()
+        self.game.coils['rightRampBottomFlasher'].pulse()
 
     def update_lamps(self):
         # default state for unlit lamps is blinking
