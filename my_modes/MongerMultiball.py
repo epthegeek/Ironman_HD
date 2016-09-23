@@ -119,6 +119,7 @@ class MongerMultiball(procgame.game.Mode):
 
     def start_multiball(self):
         # play the clip and the audio
+        self.game.sound.play('monger_big_yell')
         video = random.choice(self.start_movies)
         anim = self.game.animations[video]
         anim.reset()

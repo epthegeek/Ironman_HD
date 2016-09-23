@@ -794,6 +794,21 @@ Audio:
     - key: 'skillshot_collect'
       file: 'Sound-0026.wav'
       volume: 1
+    - key: 'mogner_big_yell'
+      file: 'Sound-016E.wav'
+      volume: 1
+    - key: 'whiplash_jp_hit_1'
+      file: 'Sound-00C1.wav'
+      volume: 1
+    - key: 'whiplash_jp_hit_2'
+      file: 'Sound-00C2.wav'
+      volume: 1
+    - key: 'whiplash_jp_hit_3'
+      file: 'Sound-00C3.wav'
+      volume: 1
+    - key: 'whiplash_jp_hit_4'
+      file: 'Sound-00C4.wav'
+      volume: 1
   Voice:
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'

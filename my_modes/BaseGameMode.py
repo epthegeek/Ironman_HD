@@ -127,7 +127,6 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     # music controller
     def set_music(self):
-        start_time = 0
         if self.game.monger_multiball.running:
             # play the monger mb music
             song = 'monger_mb'
@@ -149,7 +148,5 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # last resort is the general gameplay loop
         else:
             song = 'general_gameplay'
-            start_time = 37
         # turn it up, man
-#        self.game.sound.play_music(song, start_time=start_time, loops=-1)
         self.game.sound.play_music(song,loops=-1)

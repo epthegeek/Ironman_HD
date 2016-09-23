@@ -49,6 +49,7 @@ class WhiplashMultiball(procgame.game.Mode):
         main_2 = dmd.GroupedLayer(1920,800,[bg_mk2,title,self.score_line,self.info_line],opaque=True)
         self.main_display = [main_1,main_2]
         self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
+        self.jp_hit_sounds = ['whiplash_jp_hit_1','whiplash_jp_hit_2','whiplash_jp_hit_3','whiplash_jp_hit_4']
 
     def mode_started(self):
         self.jackpot_index = 0
@@ -149,16 +150,21 @@ class WhiplashMultiball(procgame.game.Mode):
                 toggle = True
                 self.jackpot_value = 250000
         else:
-
             text = "JACKPOT"
             anim = self.jackpot_movies[self.type][self.jackpot_index]
             toggle = False
+
         anim.reset()
         anim.add_frame_listener(-1,self.show_jp_value_helper,param=[text,points])
         self.layer = anim
         self.tick_jackpot_index()
         # award the points
         self.game.score(points)
+        # play a hit noise
+        self.game.sound.play(self.jp_hit_sounds[self.jp_sound_index])
+        self.jp_sound_index += 1
+        if self.jp_sound_index == 4:
+            self.jp_sound_index = 0
         # are we toggling to the next phase?
         if toggle:
             # if we're in the 0 round, there are 2 shots
