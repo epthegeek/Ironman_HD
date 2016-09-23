@@ -13,7 +13,18 @@ class Marks(procgame.game.AdvancedMode):
         self.myID = "Marks"
         self.hold = False
         self.movie_index = 0
-        self.mark_movies = ['derp','mark_1_movie','mark_2_movie','mark_3_movie','mark_4_movie','mark_5_movie','mark_6_movie']
+        # used to signal jericho
+        self.finished = False
+        # used for do or die hurry up
+        self.dod = False
+        # used for do or die mb
+        self.dod_mb = False
+        self.mark_movies = ['derp','mark_1_movie',
+                            'mark_2_movie',
+                            'mark_3_movie',
+                            'mark_4_movie',
+                            'mark_5_movie',
+                            'mark_6_movie']
         self.mark_quotes = ['derp','mark_1_completed',
                             'mark_2_completed',
                             'mark_3_completed',
@@ -31,7 +42,7 @@ class Marks(procgame.game.AdvancedMode):
                            self.game.lamps['progressIronMonger'],
                            self.game.lamps['progressWhiplash'],
                            self.game.lamps['progressDrones']]
-        self.text = dmd.HDTextLayer(1890, 640, self.game.fonts['default'], "right", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
+        self.text = dmd.HDTextLayer(1890, 640, self.game.fonts['default'], "right", line_color=(0, 0, 0), line_width=3, interior_color=(224, 224, 224))
 
     def evt_ball_starting(self):
         self.player_mark = self.game.getPlayerState('marks')
@@ -43,19 +54,39 @@ class Marks(procgame.game.AdvancedMode):
         # modes: Ironman, War Machine, War Monger, Whiplash, Drones.
         self.modes_lit = [False,False,False,False,False]
 
-    def mode_light(self,number):
-        self.modes_lit[number] = True
-        self.update_lamps()
-
-    def mode_complete(self,number):
-        self.modes_finished[number] = True
-        self.update_lamps()
-
     def evt_ball_ending(self):
         self.game.setPlayerState('marks',self.player_mark)
         self.game.setPlayerState('marks_finiahed', self.finished)
         self.game.setPlayerState('modes_finished', self.modes_finished)
         self.game.setPlayerState('shield_mark', self.shield_flag)
+
+    def mode_light(self,number):
+        # update the flag
+        self.modes_lit[number] = True
+        # update the lamps
+        self.update_lamps()
+        # check for do or die
+        self.check_do_or_die()
+
+    def mode_completed(self,number):
+        # set the flag
+        self.modes_finished[number] = True
+        #update the lamps
+        self.update_lamps()
+        # see if it's done
+        self.check_do_or_die()
+
+    def check_do_or_die(self):
+        if False not in self.modes_lit:
+            self.light_do_or_die()
+        if False not in self.modes_finished():
+            self.light_do_or_die_mb()
+
+    def light_do_or_die(self):
+        print "Whoa, DOD"
+
+    def light_do_or_die_mb(self):
+        print "Whoa, DOD MB"
 
     def completed(self,callback=None):
         print "MARK COMPLETED"
@@ -99,7 +130,7 @@ class Marks(procgame.game.AdvancedMode):
                 self.game.coils.mark6Flasher.schedule(0x0F0F0F0F)
 
         for n in range (0,5,1):
-        # Check modes finished first
+            # Check modes finished first
             if self.modes_finished[n]:
                 self.mode_lamps[n].schedule(0x0F0F0F0F)
                 # status 2 means it's qualified for DOD multiball
@@ -108,4 +139,3 @@ class Marks(procgame.game.AdvancedMode):
             # anything else and the light stays off
             else:
                 pass
-
