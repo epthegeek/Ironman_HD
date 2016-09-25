@@ -21,6 +21,8 @@ class Shields(procgame.game.AdvancedMode):
         self.top_text = dmd.HDTextLayer(1920 / 2, 230, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(224, 224, 224))
         self.bot_text = dmd.HDTextLayer(1920 / 2, 450, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(0, 192, 0))
         self.top_text.set_text("SHIELD IS LIT")
+        self.valid = True
+        self.shield_tracking = [False,False,False,False,False,False]
 
     def evt_ball_starting(self):
         self.shield_tracking = self.game.getPlayerState('shields')

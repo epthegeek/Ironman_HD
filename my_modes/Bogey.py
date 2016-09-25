@@ -98,9 +98,12 @@ class Bogey(procgame.game.Mode):
         # flash the arrows and ramps
         self.update_lamps()
         # change the music
+        self.game.base.set_music()
         # play the audio bit
 
         self.start_bogey_display()
+        # update the lamps
+        self.update_lamps()
 
     def mode_stopped(self):
         self.running = False
@@ -187,6 +190,7 @@ class Bogey(procgame.game.Mode):
         score.set_text(self.game.score_display.format_score(self.total))
         self.layer = dmd.GroupedLayer(1920,800,[bg,text,text2,score])
         self.running = False
+        self.game.base.set_music()
         self.delay(delay=3,handler=self.unload)
 
     def mode_display(self):

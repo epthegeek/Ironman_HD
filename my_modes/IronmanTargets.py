@@ -42,10 +42,13 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.left_layers = [i_layer,r_layer,o_layer,n1_layer]
         self.right_layers = [m_layer,a_layer,n2_layer]
         self.mode_titles = ["FAST SCORING", "DOUBLE SCORING", "IRONMAN SCORING"]
+        self.left_tracking = [False,False,False,False]
+        self.right_tracking = [False,False,False]
 
 
     # read the current player information
     def evt_ball_starting(self):
+        # TODO: check if targets hit stay ball to ball
         self.left_tracking = self.game.getPlayerState('im_left_targets')
         self.right_tracking = self.game.getPlayerState('im_right_targets')
         self.completions = self.game.getPlayerState('im_targets_completions')
@@ -53,6 +56,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.last_value = self.game.getPlayerState('im_last_value')
         self.scoring_mode_running = False
         self.target_virgin = self.game.getPlayerState('target_virgin')
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('im_left_targets',self.left_tracking)
@@ -131,7 +135,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
                         self.target_display(n,side,data[0])
                     else:
                         self.target_display_movie(n,side,data[0])
-                    #self.update_lamps()
+                    self.update_lamps()
                     # score points
                     self.game.score(data[1])
                     break
@@ -310,15 +314,15 @@ class IronmanTargets(procgame.game.AdvancedMode):
     def update_lamps(self):
         # default state for unlit lamps is blinking
         for lamp in self.left_lamps:
-            lamp.schedule(0x224AC244) # 0010 0010 0100 1011 1101 0010 0100 0100
+            lamp.schedule(0x0F0F0F0F)
         for lamp in self.right_lamps:
-            lamp.schedule(0x224AC244)
+            lamp.schedule(0x0F0F0F0F)
         # if they're done, flash slower - a nice pulse fade would be good eventually
-        if True not in self.left_tracking and True not in self.right_tracking:
+        if False not in self.left_tracking and False not in self.right_tracking:
             for lamp in self.left_lamps:
-                lamp.schedule(0x00FF00FF)
+                lamp.schedule(0x00FF00FF)  # 0010 0010 0100 1011 1101 0010 0100 0100
             for lamp in self.right_lamps:
-                lamp.schedule(0x00FF00FF)
+                lamp.schedule(0x00FF00FF)  # 0010 0010 0100 1011 1101 0010 0100 0100
         # otherwise turn on what should be on
         else:
             for n in range (0,4,1):

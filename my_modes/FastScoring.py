@@ -87,7 +87,6 @@ class FastScoring(procgame.game.Mode):
         # cancel any pending delay
         self.cancel_delayed(self.names[score_number])
         self.reset_layer(self.score_layers[score_number],self.game.score_display.format_score(self.switch_value))
-        self.sm_boom.reset()
         self.delay(name=self.names[score_number],delay=1,handler=self.disable_layer,param=self.score_layers[score_number])
 
    # def disable_explosion(self):

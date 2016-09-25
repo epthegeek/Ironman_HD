@@ -29,6 +29,7 @@ class Skillshot(procgame.game.Mode):
         self.light = 0
         self.hit = False
         self.right_orbit_count = 0
+        self.update_lamps()
 
     def sw_flipperLwL_active(self,sw):
         self.change_lane()
@@ -61,6 +62,7 @@ class Skillshot(procgame.game.Mode):
 
     def check_ss(self,lane):
         self.cancel_delayed("unload")
+        self.game.shields.update_lamps()
         if self.light == lane:
             self.hit = True
             self.collect_skillshot()
@@ -93,11 +95,17 @@ class Skillshot(procgame.game.Mode):
         self.update_lamps()
 
     def update_lamps(self):
+        print "SKILLSHOT LAMP UPDATE"
         self.game.lamps['topLeftLane'].disable()
         self.game.lamps['topRightLane'].disable()
+        other_shields = [self.game.lamps['leftOutlane'],self.game.lamps['leftReturnLane'],self.game.lamps['rightReturnLane'],self.game.lamps['rightOutlane']]
+        for lamp in other_shields:
+            lamp.disable()
         if self.light == 0:
+            print "SS: TURN ON LEFT LIGHT"
             self.game.lamps['topLeftLane'].enable()
         else:
+            print "SS: TURN ON RIGHT LIGHT"
             self.game.lamps['topRightLane'].enable()
 
     def unload(self):
@@ -109,6 +117,7 @@ class Skillshot(procgame.game.Mode):
         self.game.setPlayerState('ss_value',self.ss_value)
         self.clear_layer()
         self.game.modes.remove(self)
+        self.game.shields.update_lamps()
 
     ## Kill Switch list
     def sw_rightSpinner_active(self,sw):

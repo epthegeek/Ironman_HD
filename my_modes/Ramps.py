@@ -27,6 +27,7 @@ class Ramps(procgame.game.AdvancedMode):
                          '400000': 'four_hundred_th',
                          '600000': 'six_hundred_th',
                          '800000': 'eight_hundred_th'}
+        self.ramp_stage = [0,0]
 
     def evt_ball_starting(self):
         # set the ramp doubler back to none
@@ -35,6 +36,7 @@ class Ramps(procgame.game.AdvancedMode):
         self.ramp_shots = self.game.getPlayerState('ramp_shots')
         self.bogey_rounds = self.game.getPlayerState('bogey_rounds')
         self.bogey_status = self.game.getPlayerState('bogey_status')
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('ramp_stage',[self.ramp_stage])
@@ -116,6 +118,7 @@ class Ramps(procgame.game.AdvancedMode):
 
             # start the clear double timer
             self.delay("End Ramp Double", delay=4, handler=self.end_ramp_double)
+            self.update_lamps()
 
 
     def ramp_made_display(self, stage, points):
@@ -146,36 +149,33 @@ class Ramps(procgame.game.AdvancedMode):
 
 
     def update_lamps(self):
-        for n in range(0,3,1):
-            self.left_ramp_lamps[n].disable()
-            self.right_ramp_lamps[n].disable()
+        for lamp in self.left_ramp_lamps:
+            lamp.disable()
+        for lamp in self.right_ramp_lamps:
+            lamp.disable()
+
         # if both ramps add up to 8, we're ready for bogey and they should all flash
-        if sum(self.ramp_stage[0] + self.ramp_stage[1]) == 8:
-            for n in range(0,3,1):
-                self.left_ramp_lamps[n].schedule(0x0F0F0F0F)
-                self.right_ramp_lamps[n].schedule(0x0F0F0F0F)
+        if (self.ramp_stage[0] + self.ramp_stage[1]) == 8:
+            for n in range(0,4,1):
+                self.left_ramp_lamps[n].schedule(0x00FF00FF)
+                self.right_ramp_lamps[n].schedule(0x00FF00FF)
         # otherwise step through and make the right lamps solid & blink
         else:
-            blinker = 5
-            for n in (0,3,1):
-                if self.ramp_stage[0] < n:
+            blinker = False
+            for n in range (0,4,1):
+                if self.ramp_stage[0] == n:
+                    blinker = True
+                    self.left_ramp_lamps[n].schedule(0x0F0F0F0F)
+                elif not blinker:
                     self.left_ramp_lamps[n].enable()
-                elif self.ramp_stage[0] == n:
-                    self.left_ramp_lamps[n].enable()
-                    blinker = (n+1)
-                elif self.ramp_stage[0] == blinker:
-                    self.left_ramp_lamps[n].schedule(0x00FF00FF)
                 else:
                     pass
-            blinker = 5
-            for n in (0,3,1):
-                if self.ramp_stage[1] < n:
+            blinker = False
+            for n in range (0,4,1):
+                if self.ramp_stage[1] == n:
+                    blinker = True
+                    self.right_ramp_lamps[n].schedule(0x0F0F0F0F)
+                elif not blinker:
                     self.right_ramp_lamps[n].enable()
-                elif self.ramp_stage[1] == n:
-                    self.right_ramp_lamps[n].enable()
-                    blinker = (n+1)
-                elif self.ramp_stage[1] == blinker:
-                    self.right_ramp_lamps[n].schedule(0x00FF00FF)
                 else:
                     pass
-

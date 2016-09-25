@@ -265,6 +265,7 @@ class Trough(Mode):
         return ball_count
 
     def is_full(self):
+        print self.position_switchnames
         return self.num_balls() == self.game.num_balls_total
 
     def launch_and_autoplunge_balls(self, num):

@@ -13,6 +13,9 @@ class Pops(procgame.game.AdvancedMode):
         super(Pops, self).__init__(game=game, priority=10, mode_type=AdvancedMode.Game)
         self.myID = "Pops"
         self.pop_lamps = [self.game.lamps['leftJetBumper'],self.game.lamps['bottomJetBumper'],self.game.lamps['rightJetBumper']]
+        self.orbit_lamps = [self.game.lamps['leftOrbitWeaponAdvance'],
+                            self.game.lamps['centerShotWeaponAdvance'],
+                            self.game.lamps['rightOrbitWeaponAdvance']]
         self.backdrop = self.game.animations['pops_back']
         self.left_pop_image = self.game.animations['pop_left']
         self.right_pop_image = self.game.animations['pop_right']
@@ -40,6 +43,8 @@ class Pops(procgame.game.AdvancedMode):
         self.main_display = dmd.GroupedLayer(1920,800,layer_list,opaque= True)
         # set the values for the various levels
         self.pop_values = [5000,7500,10000]
+        # default pop state
+        self.pop_state = [False,False,False]
         # TODO: maybe do the same for sounds? -- are sounds during super specific?
 
     def evt_ball_starting(self):
@@ -62,6 +67,7 @@ class Pops(procgame.game.AdvancedMode):
             layer.enabled = False
         # the flag for halting the increase in super pops points
         self.super_lock = False
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('pops_level', self.level)
@@ -225,5 +231,12 @@ class Pops(procgame.game.AdvancedMode):
         for n in range (0,3,1):
             if self.pop_state[n] == 1:
                 self.pop_lamps[n].enable()
+                self.orbit_lamps[n].disable()
             else:
                 self.pop_lamps[n].disable()
+                self.orbit_lamps[n].enable()
+
+    def disable_lamps(self):
+        for n in range (0,3,1):
+            self.pop_lamps[n].disable()
+            self.orbit_lamps[n].disable()

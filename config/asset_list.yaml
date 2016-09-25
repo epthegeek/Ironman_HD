@@ -19,6 +19,8 @@ UserInterface:
 LampShows:
 - key: 'bottom-to-top'
   file: 'bottom-to-top.lampshow'
+- key: 'cycle'
+  file: 'cycle.lampshow'
 Animations:
 - key: 'ironman_flyby_right_movie'
   file: 'ironman_flyby_right.mp4'
@@ -673,18 +675,25 @@ Audio:
       volume: 1
     - key: 'war_machine_ready'
       file: 'Sound-0402.wav'
+      volume: 1
     - key: 'war_machine_mb'
       file: 'Sound-03F7.wav'
+      volume: 1
     - key: 'whiplash_mb'
       file: 'Sound-03F6.wav'
+      volume: 1
     - key: 'bogey'
       file: 'Sound-0405.wav'
+      volume: 1
     - key: 'monger_ready'
       file: 'Sound-0409.wav'
+      volume: 1
     - key: 'monger_mb'
       file: 'Sound-03FF.wav'
+      volume: 1
     - key: 'general_gameplay'
       file: 'Sound-03FA.wav'
+      volume: 1
   Effects:
     - key: 'scoring_mode_start'
       file: 'Sound-004A.wav'

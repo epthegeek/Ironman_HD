@@ -63,6 +63,7 @@ class IMGame(SkeletonGame):
         self.monger = IronMonger(game=self) # pri 17
 
         self.monger_toy = MongerToy(game=self) # pri 20
+        self.modes.add(self.monger_toy)
 
         self.mb_switch_stop = MBSwitchStop(game=self) # pri 40
 
@@ -85,6 +86,9 @@ class IMGame(SkeletonGame):
         super(IMGame,self).reset()
         # turn on the GI
         self.gi_control("ON")
+        # turn off all the lamps
+        for lamp in self.lamps:
+            lamp.disable()
         self.start_attract_mode()
 
     ## GI LAMPS

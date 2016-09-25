@@ -98,15 +98,15 @@ PRSwitches:
         number: SD28
     dipSW5:
         number: SD29
-    dipSW6:
+    motorSwitchTop:
         number: SD30
     dipSW7:
         number: SD31
-    dibSW8:
+    motorSwitchBot:
         number: SD32
 
     #Matrix Switches
-    motorSwitchTop:
+    motorSwitch1:
         number: S01
         label: Monger Motor Switch Top Position
         tags: Standard,1,1
@@ -114,7 +114,7 @@ PRSwitches:
         number: S02
         label: Monger Motor Switch
         tags: Standard,2,1
-    motorSwitchBot:
+    motorSwitchTop:
         number: S03
         label: Monger Motor Switch Bottom Position
         tags: Standard,3,1
@@ -182,23 +182,19 @@ PRSwitches:
     trough1:
         number: S18
         label: Trough Ball 4
-        tags: Standard,2,2
-        type: 'NC'
+        tags: Standard,2,2,trough
     trough2:
         number: S19
         label: Trough Ball 3
-        tags: Standard,2,3
-        type: 'NC'
+        tags: Standard,2,3,trough
     trough3:
         number: S20
         label: Trough Ball 2
-        tags: Standard,2,4
-        type: 'NC'
+        tags: Standard,2,4,trough
     trough4:
         number: S21
         label: Trough Ball 1
-        tags: Standard,2,5
-        type: 'NC'
+        tags: Standard,2,5,trough
     troughEject:
         number: S22
         label: Trough Stack
@@ -211,7 +207,7 @@ PRSwitches:
     leftOutlane:
         number: S24
         label: Left Outlane
-        tags: Standard,2,8,Bonus
+        tags: Standard,2,8,Bonus,early_save
     leftReturnLane:
         number: S25
         label: left Return Lane
@@ -232,7 +228,7 @@ PRSwitches:
     rightOutlane:
         number: S29
         label: Right Outlane
-        tags: Standard,2,13,Bonus
+        tags: Standard,2,13,Bonus,early_save
     leftJetBumper:
         number: S30
         label: Left Pop Bumper

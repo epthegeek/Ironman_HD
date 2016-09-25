@@ -43,6 +43,9 @@ class Marks(procgame.game.AdvancedMode):
                            self.game.lamps['progressWhiplash'],
                            self.game.lamps['progressDrones']]
         self.text = dmd.HDTextLayer(1890, 640, self.game.fonts['default'], "right", line_color=(0, 0, 0), line_width=3, interior_color=(224, 224, 224))
+        self.player_mark = 0
+        self.modes_finished = [False,False,False,False,False]
+        self.modes_lit = [False,False,False,False,False]
 
     def evt_ball_starting(self):
         self.player_mark = self.game.getPlayerState('marks')
@@ -53,12 +56,14 @@ class Marks(procgame.game.AdvancedMode):
         self.ball_mode_count = 0
         # modes: Ironman, War Machine, War Monger, Whiplash, Drones.
         self.modes_lit = [False,False,False,False,False]
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('marks',self.player_mark)
         self.game.setPlayerState('marks_finiahed', self.finished)
         self.game.setPlayerState('modes_finished', self.modes_finished)
         self.game.setPlayerState('shield_mark', self.shield_flag)
+        self.disable_lamps()
 
     def mode_light(self,number):
         # update the flag
@@ -79,7 +84,7 @@ class Marks(procgame.game.AdvancedMode):
     def check_do_or_die(self):
         if False not in self.modes_lit:
             self.light_do_or_die()
-        if False not in self.modes_finished():
+        if False not in self.modes_finished:
             self.light_do_or_die_mb()
 
     def light_do_or_die(self):
@@ -114,20 +119,13 @@ class Marks(procgame.game.AdvancedMode):
         pass
 
     def update_lamps(self):
-        # reset
-        for n in range(0,6,1):
-            self.mark_lamps[n].disable()
-            self.game.coils.mark6Flasher.disable()
-            if n == 5:
-                pass
-            else:
-                self.mode_lamps[n].disable()
+        self.disable_lamps()
 
         # and enable what should be on for marks
         for n in range(0,self.player_mark,1):
             self.mark_lamps[n].enable()
             if n == 5:
-                self.game.coils.mark6Flasher.schedule(0x0F0F0F0F)
+                self.game.coils.mark6Flasher.schedule(0x00010001)
 
         for n in range (0,5,1):
             # Check modes finished first
@@ -139,3 +137,15 @@ class Marks(procgame.game.AdvancedMode):
             # anything else and the light stays off
             else:
                 pass
+
+    def disable_lamps(self):
+        # reset
+        for n in range(0, 6, 1):
+            self.mark_lamps[n].disable()
+            self.game.coils.mark6Flasher.disable()
+            # mode lamps have no 6th light
+            if n == 5:
+                pass
+            else:
+                self.mode_lamps[n].disable()
+

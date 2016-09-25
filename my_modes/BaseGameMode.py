@@ -45,6 +45,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('toy_letters', 0)
         # bogey ramps progress
         player.setState('ramp_stage',[0,0])
+        player.setState('ramp_stage',[0,0])
         player.setState('ramp_shots',[0,0])
         player.setState('bogey_status', "OPEN")
         player.setState('bogey_rounds',0)
@@ -85,6 +86,8 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('pops_level', 0)
         # and so on
         self.game.sound.play('start_button')
+        # call a lamp update?
+        self.game.update_lamps()
 
     def evt_ball_starting(self):
         self.game.sound.play_music('ball_1_shooter_lane',loops=-1)

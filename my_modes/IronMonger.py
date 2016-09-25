@@ -11,13 +11,13 @@ class IronMonger(procgame.game.AdvancedMode):
     def __init__(self,game):
         super(IronMonger, self).__init__(game=game, priority=17, mode_type=AdvancedMode.Game)
         self.myID = "IronMonger"
-        self.monger_lamps = ["Placeholder",
-                             self.game.lamps['mongerM'],
+        self.monger_lamps = [self.game.lamps['mongerM'],
                              self.game.lamps['mongerO'],
                              self.game.lamps['mongerN'],
                              self.game.lamps['mongerG'],
                              self.game.lamps['mongerE'],
                              self.game.lamps['mongerR']]
+        self.orbit_lamps = [self.game.lamps['leftOrbitMonger'],self.game.lamps['centerShotMonger'],self.game.lamps['rightOrbitMonger']]
         self.grunts = ['monger_grunt_1','monger_grunt_2','monger_grunt_3','monger_grunt_4','monger_grunt_5','monger_grunt_6']
         self.grunt_index = 0
         self.delay_names = ['leftSpinner','centerSpinner','rightSpinner','leftOrbit','rightOrbit']
@@ -56,6 +56,9 @@ class IronMonger(procgame.game.AdvancedMode):
         self.spinner_text_layer = dmd.HDTextLayer(1870, 30, self.game.fonts['bebas200'], "right", line_color=(96, 96, 86), line_width=3,interior_color=(224, 224, 224))
         self.spinner_display  = dmd.GroupedLayer(1920,800,[self.spinner_anim, self.spinner_text_layer],opaque=True)
         self.valid = [True,True,True,True,True,True]
+        self.status = "OPEN"
+        self.letters = 0
+        self.toy_letters = 0
 
     def evt_ball_starting(self):
         # clear used to determine wait time on repeat hits to switches
@@ -71,6 +74,8 @@ class IronMonger(procgame.game.AdvancedMode):
         self.orbit_quiet = False
         # set the last spinner out of scope
         self.last_spinner = 4
+        # update the lamps
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('monger_letters', self.letters)
@@ -80,6 +85,7 @@ class IronMonger(procgame.game.AdvancedMode):
         # if we end the ball in multiball, re-set status
         if self.status == "MB" or self.status == "RUNNING":
             self.status = "OPEN"
+        self.disable_lamps()
 
     def magnet(self,input):
         if input == "Throw":
@@ -179,6 +185,7 @@ class IronMonger(procgame.game.AdvancedMode):
 #            self.layer = None
 #            self.game.monger_toy.rise()
 #            self.game.monger_toy.monger_rise_video()
+        self.update_lamps()
 
     def monger_ready_display(self):
         self.points_layer.set_text("IRON MONGER READY")
@@ -254,6 +261,7 @@ class IronMonger(procgame.game.AdvancedMode):
                     self.start_multiball()
                 else:
                     self.game.monger_toy.toy_hit_display(points)
+        self.update_lamps()
 
     def start_multiball(self):
         self.status = "MB"
@@ -261,31 +269,45 @@ class IronMonger(procgame.game.AdvancedMode):
         self.game.monger_multiball.start_multiball()
 
     def update_lamps(self):
-        for lamp in self.monger_lamps:
-            lamp.disable()
+        self.disable_lamps()
         if self.status == "OPEN":
-            if self.letters < 4:
+            # flash the monger rectangles
+            for lamp in self.orbit_lamps:
+                lamp.schedule(0x00FF00FF)
+            # there are no lamps for letters 1 through 4
+            if self.letters <= 4:
                 pass
+            # if we're over 4 letters, it's time to do some shit
             else:
-                blinker = 12
-                for n in range (1, 12, 1):
-                    if n < 5:
-                        pass
-                    if n < self.letters and n > 4:
+                local_letters = self.letters - 5
+                blinker = 6
+                for n in range (0, 6, 1):
+                    if n < local_letters:
                         self.monger_lamps[n].enable()
-                    if n == self.letters:
+                    elif n == local_letters:
                         self.monger_lamps[n].enable()
                         blinker = n + 1
-                    if n == blinker:
-                        self.monger_lamps[n].schedule(0x00FF00FF)
+                    elif n == blinker:
+                        self.monger_lamps[n].schedule(0x0F0F0F0F)
                     else:
                         pass
+        if self.status == "READY":
+            for lamp in self.monger_lamps:
+                lamp.schedule(0x0F0F0F0F)
+            for lamp in self.orbit_lamps:
+                lamp.schedule(0x0F0F0F0F)
         if self.status == "UP":
             for n in range(1, 8, 1):
                 if n <= self.toy_letters:
                     self.monger_lamps[n].enable()
                 else:
                     pass
+
+    def disable_lamps(self):
+        for lamp in self.monger_lamps:
+            lamp.disable()
+        for lamp in self.orbit_lamps:
+            lamp.disable()
 
     def set_valid_switches(self,switch):
         # left spinner

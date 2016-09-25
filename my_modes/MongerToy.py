@@ -9,12 +9,12 @@ from procgame import dmd
 class MongerToy(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(MongerToy, self).__init__(game=game, priority=20, mode_type=AdvancedMode.Game)
+        super(MongerToy, self).__init__(game=game, priority=20, mode_type=AdvancedMode.System)
         self.myID = "MongerToy"
         # specific monger toy status
 #        self.status = None
         # for testing set status to down
-        self.status = "DOWN"
+        self.status = "INIT"
         self.target = "DOWN"
 
         self.monger_hit_movies = [self.game.animations['monger_hit_1'],
@@ -23,6 +23,8 @@ class MongerToy(procgame.game.AdvancedMode):
                                   self.game.animations['monger_hit_4']]
         self.monger_hit_idx = 0
         self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[0, 0, 0],line_width=4, interior_color=[146, 24, 222])
+        # lower the monger
+        self.reset_toy()
 
     def evt_ball_starting(self):
         # check if the monger should be up for the player, and if not, raise - if up and should be down - lower
@@ -47,7 +49,7 @@ class MongerToy(procgame.game.AdvancedMode):
 
     def sw_motorSwitchBot_active(self,sw):
         if self.status == "MOVING" and self.target == "DOWN":
-            self.game.coilsmongerMotor.disable()
+            self.game.coils.mongerMotor.disable()
             self.status = "DOWN"
 
     # Blocking whiplash hits when the toy is up
@@ -94,8 +96,10 @@ class MongerToy(procgame.game.AdvancedMode):
             pass
 
     def reset_toy(self):
+        if self.status == "INIT" and self.game.switches['motorSwitchBot'].is_active():
+            pass
         # if the toy is already down, fine
-        if self.status == "DOWN":
+        elif self.status == "DOWN":
             pass
         # if not, or we don't know, cycle until it is
         else:

@@ -32,6 +32,7 @@ class Drones(procgame.game.AdvancedMode):
         self.text = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['default'], "center", line_color=(0, 0, 0), line_width=6,interior_color=(224, 224, 224))
         self.score_text = dmd.HDTextLayer(1920 / 2, 620, self.game.fonts['bebas200'], "center", line_color=(0, 0, 0), line_width=6, interior_color=(64, 64, 224))
         self.text_positions = [300,750,1180,1620]
+        self.drone_tracking = [True,True,True,True]
 
     def evt_ball_starting(self):
         self.drone_tracking = self.game.getPlayerState('drone_targets')
@@ -40,6 +41,7 @@ class Drones(procgame.game.AdvancedMode):
         self.drones_for_mb = self.game.getPlayerState('drones_for_mb')
         self.drone_value = self.game.getPlayerState('drone_value')
         self.drone_jp_value = self.game.getPlayerState('drone_jp_value')
+        self.update_lamps()
 
     def evt_ball_ending(self):
         self.game.setPlayerState('drone_targets', self.drone_tracking)
@@ -113,6 +115,8 @@ class Drones(procgame.game.AdvancedMode):
                 if sum(self.drone_tracking) <= 1:
                     # add another drone
                     self.add(target)
+            # update the lamps
+            self.update_lamps()
         else:
             # otherwise, it's a thunk
             self.drone_thunk(target)
@@ -192,7 +196,7 @@ class Drones(procgame.game.AdvancedMode):
             lamp.disable()
         for n in range (0,4,1):
             if self.drone_tracking[n] == True:
-                self.drone_lamps[n].enable()
+                self.drone_lamps[n].schedule(0x0F0F0F0F)
 
     def set_explosion_position(self,target):
         self.explosion_layer.reset()
