@@ -140,13 +140,17 @@ class Shields(procgame.game.AdvancedMode):
             self.shield_tracking = items
             self.update_lamps()
 
-    def update_lamps(self):
-        if self.valid:
-            for i in range (0,6,1):
-                if self.shield_tracking[i] == True:
-                    self.shield_lamps[i].enable()
-                else:
-                    self.shield_lamps[i].disable()
+    def update_lamps(self,force=False):
+        # if the skillshot is in the mode stack, don't do this
+        if self.game.skillshot in self.game.modes and not force:
+            pass
+        else:
+            if self.valid:
+                for i in range (0,6,1):
+                    if self.shield_tracking[i] == True:
+                        self.shield_lamps[i].enable()
+                    else:
+                        self.shield_lamps[i].disable()
 
     def flash_lights(self):
         for i in range (0,6,1):

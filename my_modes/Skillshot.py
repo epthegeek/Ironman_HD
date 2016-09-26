@@ -117,7 +117,7 @@ class Skillshot(procgame.game.Mode):
         self.game.setPlayerState('ss_value',self.ss_value)
         self.clear_layer()
         self.game.modes.remove(self)
-        self.game.shields.update_lamps()
+        self.game.shields.update_lamps(force=True)
 
     ## Kill Switch list
     def sw_rightSpinner_active(self,sw):
