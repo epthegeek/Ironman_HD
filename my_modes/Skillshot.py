@@ -59,6 +59,8 @@ class Skillshot(procgame.game.Mode):
         self.game.coils['orbitPost'].patter(on_time=4,off_time=4,original_on_time=20)
         # drop the post in 2 seconds
         self.delay(delay=2,handler=self.game.coils['orbitPost'].disable)
+        # trying merged lampshow
+        self.game.lampctrl.play_show('bottom-to-top', repeat=False,merge=True)
 
     def check_ss(self,lane):
         self.cancel_delayed("unload")

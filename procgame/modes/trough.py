@@ -262,6 +262,8 @@ class Trough(Mode):
         for switch in self.position_switchnames:
             if self.game.switches[switch].is_active():
                 ball_count += 1
+        # added to make fakepinproc fucking work
+        #ball_count = 4
         return ball_count
 
     def is_full(self):

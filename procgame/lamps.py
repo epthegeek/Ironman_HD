@@ -197,7 +197,7 @@ class LampShow(object):
         self.t0 = None
         self.last_time = -.5
         
-    def load(self, filename):
+    def load(self, filename,merge = False):
         """Reads lines from the given ``filename`` in to create tracks within the lamp show.  A lamp show 
         generally consists of several lines of text, one for each driver, spaced so as to show a textual
         representation of the lamp activity over time.
@@ -213,8 +213,18 @@ class LampShow(object):
         f = open(filename, 'r')
         for line in f.readlines():
             if line[0] != '#':
-                self.tracks.append(LampShowTrack(line))
-        
+                # newshits for merged lightshow
+                if merge:
+                    mylist = line.replace(' ', '').split('|')
+                    if 'active' in self.game.lamps[mylist[0]].tags:
+                        pass
+                    else:
+                        self.tracks.append(LampShowTrack(line))
+                else:
+                    self.tracks.append(LampShowTrack(line))
+                ## end of the new shit - also uncoment that next line if removed
+                # self.tracks.append(LampShowTrack(line))
+
     def tick(self):
         """Instructs the lamp show to advance based on the system clock and update the drivers associated with its tracks."""
         if self.t0 == None:
@@ -257,12 +267,12 @@ class LampShowMode(game.Mode):
         self.show_over = True
         self.logger = logging.getLogger('game.lamps')
 
-    def load(self, filename, repeat=False, callback='None'):
+    def load(self, filename, repeat=False, callback='None', merge = False):
         """Load a new lamp show."""
         self.callback = callback
         self.repeat = repeat
         self.lampshow.reset()
-        self.lampshow.load(filename)
+        self.lampshow.load(filename,merge)
         self.restart()
 
     def restart(self):
@@ -301,7 +311,7 @@ class LampController(object):
     def register_show(self, key, show_file):
                 self.shows[key] = show_file
 
-    def play_show(self, key, repeat=False, callback='None'):
+    def play_show(self, key, repeat=False, callback='None',merge = False):
         # Always stop any previously running show first.
         self.stop_show()
         if(key not in self.shows):
