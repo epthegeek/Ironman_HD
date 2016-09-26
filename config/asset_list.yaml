@@ -670,8 +670,14 @@ Fonts:
     size: 250
 Audio:
   Music:
-    - key: 'ball_1_shooter_lane'
+    - key: 'main_shooter_lane'
       file: 'Sound-03F8.wav'
+      volume: 1
+    - key: 'wm_ready_shooter_lane'
+      file: 'Sound-0401.wav'
+      volume: 1
+    - key: 'monger_ready_shooter_lane'
+      file: 'Sound-0408.wav'
       volume: 1
     - key: 'war_machine_ready'
       file: 'Sound-0402.wav'
@@ -693,6 +699,9 @@ Audio:
       volume: 1
     - key: 'general_gameplay'
       file: 'Sound-03FA.wav'
+      volume: 1
+    - key: 'game_over'
+      file: 'Sound-0406.wav'
       volume: 1
   Effects:
     - key: 'scoring_mode_start'
@@ -742,6 +751,12 @@ Audio:
       volume: 1
     - key: 'im_target_hit'
       file: 'Sound-005B.wav'
+      volume: 1
+    - key: 'im_target_hit'
+      file: 'Sound-005C.wav'
+      volume: 1
+    - key: 'im_target_hit'
+      file: 'Sound-005D.wav'
       volume: 1
     - key: 'electric_buzz_1'
       file: 'Sound-0061.wav'
@@ -817,6 +832,42 @@ Audio:
       volume: 1
     - key: 'whiplash_jp_hit_4'
       file: 'Sound-00C4.wav'
+      volume: 1
+    - key: 'pops_0'
+      file: 'Sound-009A.wav'
+      volume: 1
+    - key: 'pops_0'
+      file: 'Sound-009C.wav'
+      volume: 1
+    - key: 'pops_0'
+      file: 'Sound-009D.wav'
+      volume: 1
+    - key: 'pops_1'
+      file: 'Sound-00B2.wav'
+      volume: 1
+    - key: 'pops_1'
+      file: 'Sound-00B3.wav'
+      volume: 1
+    - key: 'pops_1'
+      file: 'Sound-00B4.wav'
+      volume: 1
+    - key: 'pops_1'
+      file: 'Sound-00B5.wav'
+      volume: 1
+    - key: 'pops_super'
+      file: 'Sound-00A6.wav'
+      volume: 1
+    - key: 'fast_scoring'
+      file: 'Sound-00AC.wav'
+      volume: 1
+    - key: 'fast_scoring'
+      file: 'Sound-00AD.wav'
+      volume: 1
+    - key: 'fast_scoring'
+      file: 'Sound-00AE.wav'
+      volume: 1
+    - key: 'fast_scoring'
+      file: 'Sound-00AF.wav'
       volume: 1
   Voice:
     - key: 'mark_1_completed'
@@ -962,4 +1013,181 @@ Audio:
       volume: 1
     - key: 'super_jackpot'
       file: 'Sound-02E1.wav'
+      volume: 1
+    - key: 'drone_tutorial'
+      file: 'Sound-03AF.wav'
+      volume: 1
+    - key: 'drone_tutorial'
+      file: 'Sound-03B0.wav'
+      volume: 1
+    - key: 'spinner_tutorial'
+      file: 'Sound-0347.wav'
+      volume: 1
+    - key: 'im_script0a'
+      file: 'Sound-0159.wav'
+      volume: 1
+    - key: 'im_script0b'
+      file: 'Sound-0248.wav'
+      volume: 1
+    - key: 'im_script1a'
+      file: 'Sound-0142.wav'
+      volume: 1
+    - key: 'im_script1b'
+      file: 'Sound-022B.wav'
+      volume: 1
+    - key: 'im_script2a'
+      file: 'Sound-0151.wav'
+      volume: 1
+    - key: 'im_script2b'
+      file: 'Sound-0152.wav'
+      volume: 1
+    - key: 'im_script2c'
+      file: 'Sound-0153.wav'
+      volume: 1
+    - key: 'im_script3a'
+      file: 'Sound-020C.wav'
+      volume: 1
+    - key: 'im_script3b'
+      file: 'Sound-020D.wav'
+      volume: 1
+    - key: 'im_script3c'
+      file: 'Sound-020E.wav'
+      volume: 1
+    - key: 'im_script4a'
+      file: 'Sound-0240.wav'
+      volume: 1
+    - key: 'im_script4b'
+      file: 'Sound-0241.wav'
+      volume: 1
+    - key: 'im_script4c'
+      file: 'Sound-0242.wav'
+      volume: 1
+    - key: 'im_script5a'
+      file: 'Sound-011D.wav'
+      volume: 1
+    - key: 'im_script5b'
+      file: 'Sound-011E.wav'
+      volume: 1
+    - key: 'im_script7a'
+      file: 'Sound-01A3.wav'
+      volume: 1
+    - key: 'im_script7b'
+      file: 'Sound-01A4.wav'
+      volume: 1
+    - key: 'im_script7c'
+      file: 'Sound-01A5.wav'
+      volume: 1
+    - key: 'im_script7d'
+      file: 'Sound-01A6.wav'
+      volume: 1
+    - key: 'im_script7e'
+      file: 'Sound-01A7.wav'
+      volume: 1
+    - key: 'im_script8a'
+      file: 'Sound-0143.wav'
+      volume: 1
+    - key: 'im_script8b'
+      file: 'Sound-0144.wav'
+      volume: 1
+    - key: 'im_script8c'
+      file: 'Sound-0145.wav'
+      volume: 1
+    - key: 'im_script8d'
+      file: 'Sound-0146.wav'
+      volume: 1
+    - key: 'im_script8e'
+      file: 'Sound-0147.wav'
+      volume: 1
+    - key: 'im_script9a'
+      file: 'Sound-0224.wav'
+      volume: 1
+    - key: 'im_script9b'
+      file: 'Sound-017F.wav'
+      volume: 1
+    - key: 'im_script9c'
+      file: 'Sound-0225.wav'
+      volume: 1
+    - key: 'im_script9d'
+      file: 'Sound-0234.wav'
+      volume: 1
+    - key: 'im_script9e'
+      file: 'Sound-0235.wav'
+      volume: 1
+    - key: 'im_script9f'
+      file: 'Sound-0236.wav'
+      volume: 1
+    - key: 'im_script9g'
+      file: 'Sound-0237.wav'
+      volume: 1
+    - key: 'immb_script0a'
+      file: 'Sound-0276.wav'
+      volume: 1
+    - key: 'immb_script0b'
+      file: 'Sound-0277.wav'
+      volume: 1
+    - key: 'immb_script0c'
+      file: 'Sound-0271.wav'
+      volume: 1
+    - key: 'immb_script0d'
+      file: 'Sound-0272.wav'
+      volume: 1
+    - key: 'immb_script0e'
+      file: 'Sound-0273.wav'
+      volume: 1
+    - key: 'immb_script1a'
+      file: 'Sound-026F.wav'
+      volume: 1
+    - key: 'immb_script1b'
+      file: 'Sound-0270.wav'
+      volume: 1
+    - key: 'immb_script1c'
+      file: 'Sound-0271.wav'
+      volume: 1
+    - key: 'immb_script1d'
+      file: 'Sound-0272.wav'
+      volume: 1
+    - key: 'immb_script1e'
+      file: 'Sound-0273.wav'
+      volume: 1
+    - key: 'immb_script3a'
+      file: 'Sound-0252.wav'
+      volume: 1
+    - key: 'immb_script3b'
+      file: 'Sound-0253.wav'
+      volume: 1
+    - key: 'immb_script3c'
+      file: 'Sound-0254.wav'
+      volume: 1
+    - key: 'immb_script3d'
+      file: 'Sound-0255.wav'
+      volume: 1
+    - key: 'immb_script4a'
+      file: 'Sound-0257.wav'
+      volume: 1
+    - key: 'immb_script4b'
+      file: 'Sound-0258.wav'
+      volume: 1
+    - key: 'immb_script4c'
+      file: 'Sound-025E.wav'
+      volume: 1
+    - key: 'immb_script4d'
+      file: 'Sound-024B.wav'
+      volume: 1
+    - key: 'repeat_raise'
+      file: 'Sound-0256.wav'
+      volume: 1
+    - key: 'repeat_raise'
+      file: 'Sound-0265.wav'
+      volume: 1
+    - key: 'repeat_raise'
+      file: 'Sound-0268.wav'
+      volume: 1
+    - key: 'monger_complete'
+      file: 'Sound-032E.wav'
+      volume: 1
+    - key: 'monger_complete'
+      file: 'Sound-032F.wav'
+      volume: 1
+    - key: 'monger_raise_quote'
+      file: 'Sound-0249.wav'
       volume: 1

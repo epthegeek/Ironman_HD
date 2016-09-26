@@ -170,7 +170,7 @@ class Drones(procgame.game.AdvancedMode):
     def drone_hit_display(self,target,value):
         self.cancel_delayed("clear")
         # play a delayed quote for the drone
-        self.delay(delay=self.quote_delay,handler=self.voice_helper,param=[self.drone_quotes[target],procgame.sound.PLAY_NOTBUSY])
+        self.delay(delay=self.quote_delay,handler=self.drone_hit_quote,param=target)
         self.set_explosion_position(target)
         self.score_text.set_text(str(value) + "K",blink_frames = 8)
         self.score_text.set_target_position(self.text_positions[target],170)
@@ -190,6 +190,16 @@ class Drones(procgame.game.AdvancedMode):
         self.layer = dmd.GroupedLayer(1920,800,list,opaque=True)
 
         self.delay("clear",delay=3,handler=self.clear_layer)
+
+    def drone_hit_quote(self,target):
+        if self.game.base.tutorials[1]:
+            clip = 'drone_tutorial'
+        else:
+            clip = self.drone_quotes[target]
+        duration = self.voice_helper([clip,procgame.sound.PLAY_NOTBUSY])
+        # if the tutorial clip played, set the flag
+        if duration > 0 and self.game.base.tutorials[1]:
+            self.game.base.tutorials[1] = False
 
     def update_lamps(self):
         for lamp in self.drone_lamps:

@@ -77,9 +77,6 @@ class FastScoring(procgame.game.Mode):
 
     def switch_hit(self):
         # should do something to the display
-        #self.explosion.reset()
-        #self.explosion.enabled = True
-        #self.explosion.add_frame_listener(-1,self.disable_explosion)
         # and score points
         self.game.score(self.switch_value)
         # randomly select a layer
@@ -88,9 +85,8 @@ class FastScoring(procgame.game.Mode):
         self.cancel_delayed(self.names[score_number])
         self.reset_layer(self.score_layers[score_number],self.game.score_display.format_score(self.switch_value))
         self.delay(name=self.names[score_number],delay=1,handler=self.disable_layer,param=self.score_layers[score_number])
-
-   # def disable_explosion(self):
-   #     self.explosion.enabled = False
+        # play the fast scoring sound effect - just jumble that crap with the other sounds for now
+        self.game.sound.play('fast_scoring')
 
     def end(self):
         self.layer = None

@@ -26,7 +26,8 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # set the completion total to 0
         player.setState('im_targets_completions',0)
         player.setState('fast_scoring_runs',0)
-        player.setState('target_virgin', True)
+        # tutorial quotes: 0 = IM Targets, 1 = Drones, 2 = Spinners
+        player.setState('tutorials', [True,True,True])
         player.setState('im_mode_index',0)
         player.setState('im_last_value',125000)
         # shields stat blank
@@ -41,7 +42,11 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('monger_letters', value)
         # add a counter for times monger has been battled
         player.setState('monger_battles',0)
+        # tracker for the quote scripts for spinners and monger MB
+        player.setState('monger_script',[None, 9, None, 9])
         player.setState('monger_status', "OPEN")
+        # slot to hold the base value of moner shots in case it spreads across more than one ball
+        player.setState('monger_base_value', 100000)
         player.setState('toy_letters', 0)
         # bogey ramps progress
         player.setState('ramp_stage',[0,0])
@@ -90,7 +95,15 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.game.update_lamps()
 
     def evt_ball_starting(self):
-        self.game.sound.play_music('ball_1_shooter_lane',loops=-1)
+        # Shooter lane music selection
+        if self.game.monger.status == "UP":
+            song = 'monger_ready_shooter_lane'
+        elif self.game.warmachine.multiball_status == "READY":
+            song = 'wm_ready_shooter_lane'
+        else:
+            song = 'main_shooter_lane'
+        # start the music
+        self.game.sound.play_music(song,loops=-1)
         # ball saver?
         #self.game.ball_saver_enable(num_balls_to_save=1, time=5, now=True, allow_multiple_saves=False,callback=self.ballsaved)
         # reset bonus x
@@ -98,6 +111,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # load the skill shot
         self.game.modes.add(self.game.skillshot)
         self.modes_this_ball = [0,0,0,0,0]
+        self.tut_status = self.game.getPlayerState('tutorials')
 
     def ballsaved(self):
         self.game.log("BaseGameMode: BALL SAVED from Trough Callback")
@@ -111,12 +125,15 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     def evt_ball_ending(self, (shoot_again, last_ball)):
         self.game.sound.stop_music()
+        self.game.setPlayerState('tutorials', self.tut_status)
         self.game.log("BaseGameMode trough changed notification ('ball_ending - again=%s, last=%s')" % (shoot_again,last_ball))
         return 2
 
     def evt_game_ending(self):
         self.game.log("BaseGameMode changed notification ('game_ending')")
         self.game.displayText("GAME OVER", 'gameover')
+        # play the outro song once
+        self.game.sound.play_music('game_over')
         return 2
 
     # slings

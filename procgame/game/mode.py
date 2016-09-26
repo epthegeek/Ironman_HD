@@ -316,7 +316,8 @@ class Mode(object):
 
     # delayed voice quote helper with a list input
     def voice_helper(self,options):
-        self.game.sound.play_voice(options[0],action=options[1])
+        duration = self.game.sound.play_voice(options[0],action=options[1])
+        return duration
 
     # Data structure used by the __accepted_switches array:
     class AcceptedSwitch:

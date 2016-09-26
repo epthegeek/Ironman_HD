@@ -30,7 +30,12 @@ class Pops(procgame.game.AdvancedMode):
         self.p_3_points = dmd.HDTextLayer(1920/2,310,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
         self.pop_layers = [self.left_pop_image, self.bottom_pop_image, self.right_pop_image]
         self.pop_text = [self.p_1_points,self.p_2_points,self.p_3_points]
+        # pop names used for delays
         self.pop_names = ['left','bottom','right']
+        # pop sound names based on level
+        self.pop_sounds = ['pops_0','pops_1','pops_1']
+        # set the values for the various levels
+        self.pop_values = [5000,7500,10000]
         layer_list = [self.backdrop,
                       self.left_pop_image,
                       self.right_pop_image,
@@ -41,11 +46,10 @@ class Pops(procgame.game.AdvancedMode):
                       self.p_2_points,
                       self.p_3_points]
         self.main_display = dmd.GroupedLayer(1920,800,layer_list,opaque= True)
-        # set the values for the various levels
-        self.pop_values = [5000,7500,10000]
         # default pop state
         self.pop_state = [False,False,False]
         # TODO: maybe do the same for sounds? -- are sounds during super specific?
+        self.super_boom = True
 
     def evt_ball_starting(self):
         # set all the pops as unlit
@@ -67,7 +71,9 @@ class Pops(procgame.game.AdvancedMode):
             layer.enabled = False
         # the flag for halting the increase in super pops points
         self.super_lock = False
+        self.super_boom = True
         self.update_lamps()
+
 
     def evt_ball_ending(self):
         self.game.setPlayerState('pops_level', self.level)
@@ -118,6 +124,8 @@ class Pops(procgame.game.AdvancedMode):
             self.jackpot += points
             # add the hit
             self.hits += 1
+        # play a sound - pop sounds play WITH the super explosion
+        self.game.sound.play(self.pop_sounds[self.pop_level[number]])
 
     def light_pop(self,number):
         if self.pop_state[number] == False:
@@ -151,6 +159,15 @@ class Pops(procgame.game.AdvancedMode):
             # show the pop hit points
             self.pop_points_display(number)
             self.do_main_display(self.super_value)
+        # if it's ok to play the super explosion, do that
+        if self.super_boom:
+            self.super_boom = False
+            self.game.sound.play('pop_super')
+            # set a delay for the next allowed super boom
+            self.delay(delay=4.5,handler=self.reset_super_boom)
+
+    def reset_super_boom(self):
+        self.super_boom = True
 
     def pop_points_display(self,number):
         self.cancel_delayed(self.pop_names[number])

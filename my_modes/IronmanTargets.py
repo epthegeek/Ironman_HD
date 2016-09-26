@@ -55,7 +55,6 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.mode_index = self.game.getPlayerState('im_mode_index')
         self.last_value = self.game.getPlayerState('im_last_value')
         self.scoring_mode_running = False
-        self.target_virgin = self.game.getPlayerState('target_virgin')
         self.update_lamps()
 
     def evt_ball_ending(self):
@@ -64,7 +63,6 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.game.setPlayerState('im_targets_completions',self.completions)
         self.game.setPlayerState('im_mode_index',self.mode_index)
         self.game.setPlayerState('im_last_value')
-        self.game.getPlayerState('target_virgin', self.target_virgin)
         self.scoring_mode_running = False
 
     def sw_leftTargetI_active(self,sw):
@@ -128,9 +126,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
                     # for now play a generic sound
                     self.game.sound.play('im_target_hit')
                     # if this is the first target of a set, play the tutorial quote
-                    if self.target_virgin:
-                        self.target_virgin = False
-                        self.tutorial_quote()
+                    if self.game.base.tutorials[0]:
+                        self.delay(delay=0.7,handler=self.tutorial_quote)
                     if data[0]:
                         self.target_display(n,side,data[0])
                     else:
@@ -299,13 +296,18 @@ class IronmanTargets(procgame.game.AdvancedMode):
             else:
                 # ironman scoring
                 quote = 'tut_ironman_scoring'
-        self.delay(delay=0.7,handler=self.voice_helper,param=[quote,procgame.sound.PLAY_NOTBUSY])
+        duration = self.voice_helper([quote,procgame.sound.PLAY_NOTBUSY])
+        #if it successfully plays, set the flag
+        if duration > 0:
+            self.game.base.tutorials[0] = False
 
     def end_target_mode(self):
         # reset the tracking for the next one
         self.left_tracking = [False,False,False,False]
         self.right_tracking = [False,False,False]
         self.scoring_mode_running = False
+        # reset the tutorial flag for the next scoring mode
+        self.game.base.tutorials[0] = True
 
     def flasher_pulse(self):
         self.game.coils['leftRampBottomFlasher'].pulse()

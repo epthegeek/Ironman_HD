@@ -14,6 +14,7 @@ class MongerMultiball(procgame.game.Mode):
         super(MongerMultiball, self).__init__(game=game, priority=51)
         self.myID = "MongerMultiball"
         self.running = False
+        self.loop_count = 0
         self.monger_lamps = ["Placeholder",
                              self.game.lamps['mongerM'],
                              self.game.lamps['mongerO'],
@@ -49,6 +50,11 @@ class MongerMultiball(procgame.game.Mode):
         self.intro_3.set_text("IRON",blink_frames=6)
         self.toy_valid = True
 
+        script0 = ['immb_script0a','immb_script0b','immb_sript0c','immb_script0d','immb_script0e']
+        script1 = ['immb_script1a', 'immb_script1b', 'immb_sript1c', 'immb_script1d', 'immb_script1e']
+        script2 = ['immb_script2a', 'immb_script2b', 'immb_sript2c', 'immb_script2d']
+        script3 = ['immb_script3a', 'immb_script3b', 'immb_sript3c', 'immb_script3d']
+        self.scripts = [script0, script1, script2, script3]
 
     def evt_ball_ending(self):
         if self.running:
@@ -78,6 +84,7 @@ class MongerMultiball(procgame.game.Mode):
         self.toy_valid = True
         # update the mode light
         self.game.mark.mode_light(2)
+        self.loop_count = 0
 
     def sw_mongerOptoLeft_active(self,sw):
         self.monger_opto_hit()
@@ -106,6 +113,8 @@ class MongerMultiball(procgame.game.Mode):
             anim.reset()
             anim.add_frame_listener(-1, self.set_main_display)
             self.layer = dmd.GroupedLayer(1920,800,[anim,self.points_layer],opaque=True)
+            # play a script quote
+            self.delay(delay=2,handler=self.script_quote)
             # tick up the jackpots
             self.jackpot_hits += 1
             self.jackpots_total += 1
@@ -178,6 +187,14 @@ class MongerMultiball(procgame.game.Mode):
         anim.reset()
         anim.add_frame_listener(-1,self.set_main_display)
         self.layer = anim
+        # pick out a script
+        self.selected_script = random.choice(self.scripts)
+        self.script_index = 0
+        # play a quote - from the 2nd raise on
+        # TODO: Does it say anything on the first one?
+        if self.loop_count > 0:
+            self.game.play_voice('repeat_raise',action=procgame.sound.PLAY_NOTBUSY)
+        self.loop_count += 1
 
     def lower_monger(self):
         self.monger_status = "DOWN"
@@ -205,6 +222,15 @@ class MongerMultiball(procgame.game.Mode):
         # set the monger status
         self.monger_status = "DOWN"
         self.set_main_display()
+
+    def script_quote(self):
+        # play the voice clip for this players script at this players index
+        # if there are quotes left in the script
+        if len(self.selected_script) < (self.script_index + 1):
+            duration = self.voice_helper([self.selected_script[self.script_index], procgame.sound.PLAY_NOTBUSY])
+            # if the quote played, update the index
+            if duration > 0:
+                self.script_index += 1
 
 
     # this needs work for now it's just unloading

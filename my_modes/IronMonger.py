@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 from procgame import dmd
+import random
 
 class IronMonger(procgame.game.AdvancedMode):
 
@@ -59,14 +60,40 @@ class IronMonger(procgame.game.AdvancedMode):
         self.status = "OPEN"
         self.letters = 0
         self.toy_letters = 0
+        # script sets for the orbit shots
+        script0 = ['im_script0a','spinner_tutorial','im_script0b']
+        script1 = ['im_script1a','spinner_tutorial','im_script1b']
+        script2 = ['im_script2a','spinner_tutorial','im_script2b','im_script2c']
+        script3 = ['im_script3a','spinner_tutorial','im_script3b','im_script3c']
+        script4 = ['im_script4a','spinner_tutorial','im_script4b','im_script4c']
+        script5 = ['spinner_tutorial','im_script5a','im_script5b']
+        self.first_scripts = [script0, script1, script2, script3, script4, script5]
+        self.first_scripts_index = 0
+        script1b = ['im_script7a', 'im_script7b', 'im_script7c', 'im_script7d', 'im_script7e']
+        script2b = ['im_script8a', 'im_script8b', 'im_script8c', 'im_script8d', 'im_script8e']
+        script3b = ['im_script9a', 'im_script9b', 'im_script9c', 'im_script9d', 'im_script9e','im_script9f','im_script9g']
+        self.second_scripts = [script1b,script2b,script3b]
+        self.second_scripts_index = 0
 
     def evt_ball_starting(self):
         # clear used to determine wait time on repeat hits to switches
         self.clear = True
         self.letters = self.game.getPlayerState('monger_letters')
         self.battles = self.game.getPlayerState('monger_battles')
+        self.script_details = self.game.getPlayerState('monger_script')
+        # if this player doesn't have a selected script, set one and reset
+        if self.script_details[1] == 9:
+            if self.battles == 0:
+                options = self.first_scripts
+            else:
+                options = self.second_scripts
+            self.script_details[0] = random.choice(options)
+            self.script_details[1] = 0
         ## Status goes "OPEN" then "READY" then "UP" then "MB" then "RUNNING"
         self.status = self.game.getPlayerState('monger_status')
+        self.monger_base_value = self.game.getPlayerState('monger_base_value')
+        if self.status == "READY":
+            self.raise_monger()
         # for locking out spinners based on conditions
         self.valid = [True,True,True,True,True,True]
         self.toy_valid = True
@@ -82,6 +109,8 @@ class IronMonger(procgame.game.AdvancedMode):
         self.game.setPlayerState('monger_battles', self.battles)
         self.game.setPlayerState('monger_status', self.status)
         self.game.setPlayerState('toy_letters', self.toy_letters)
+        self.game.setPlayerState('monger_script')
+        self.game.setPlayerState('monger_base_value', self.monger_base_value)
         # if we end the ball in multiball, re-set status
         if self.status == "MB" or self.status == "RUNNING":
             self.status = "OPEN"
@@ -113,6 +142,7 @@ class IronMonger(procgame.game.AdvancedMode):
             if self.valid[1]:
                 if self.status == "READY":
                     self.raise_monger(150000)
+                    self.delay(delay=2, handler=self.raise_quote)
                 else:
                     self.set_valid_switches(1)
                     self.letter_hit()
@@ -130,6 +160,7 @@ class IronMonger(procgame.game.AdvancedMode):
         if self.valid[3]:
             if self.status == "READY":
                 self.raise_monger(100000)
+                self.delay(delay=2,handler=self.raise_quote)
             else:
                 self.set_valid_switches(3)
                 self.letter_hit()
@@ -140,6 +171,7 @@ class IronMonger(procgame.game.AdvancedMode):
         if self.valid[4]:
             if self.status == "READY":
                 self.raise_monger(100000)
+                self.delay(delay=2, handler=self.raise_quote)
             else:
                 self.set_valid_switches(4)
                 self.letter_hit()
@@ -180,17 +212,17 @@ class IronMonger(procgame.game.AdvancedMode):
                 self.delay("display",delay=1.8,handler=self.clear_layer)
             # score the points
             self.game.score(points)
+            # play a delayed quote
+            self.delay(delay=2,handler=self.spinner_script_quote)
         # if we're already at 10 letters raise the monger
-#        else:
-#            self.layer = None
-#            self.game.monger_toy.rise()
-#            self.game.monger_toy.monger_rise_video()
         self.update_lamps()
 
     def monger_ready_display(self):
         self.points_layer.set_text("IRON MONGER READY")
         self.layer = dmd.GroupedLayer(1920, 800, [self.logo_layers[self.letters], self.points_layer],opaque=True)
         self.delay("display", delay=1.5, handler=self.clear_layer)
+        # play a quote
+        self.game.sound.play_voice('monger_complete',action=procgame.sound.PLAY_NOTBUSY)
 
     def raise_monger(self,points):
         self.cancel_delayed("display")
@@ -202,6 +234,14 @@ class IronMonger(procgame.game.AdvancedMode):
         anim.reset()
         anim.add_frame_listener(-1,self.clear_layer)
         self.layer = anim
+        # the count it
+        self.battles += 1
+        # set the next quote script
+        self.script_details[0] = random.choice(self.second_scripts)
+        self.script_details[1] = 0
+
+    def raise_quote(self):
+        self.game.sound.play_voice('monger_raise_quote',action=procgame.sound.PLAY_NOTBUSY)
 
     def reset_monger_value(self):
         self.current_monger_value = self.monger_base_value
@@ -379,3 +419,12 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def orbit_noise_reset(self):
         self.orbit_quiet = False
+
+    def spinner_script_quote(self):
+        # play the voice clip for this players script at this players index
+        # if there are quotes left in the script
+        if len(self.script_details[0]) < (self.script_details[1] + 1):
+            duration = self.voice_helper([self.script_details[0][self.script_details[1]], procgame.sound.PLAY_NOTBUSY])
+            # if the quote played, update the index
+            if duration > 0:
+                self.script_details[1] += 1
