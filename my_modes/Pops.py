@@ -75,10 +75,10 @@ class Pops(procgame.game.AdvancedMode):
         self.update_lamps()
 
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('pops_level', self.level)
         self.game.setPlayerState('pops_jackpot', self.jackpot)
-        self.game.setPlayerState('pops_super_value')
+        self.game.setPlayerState('pops_super_value',self.super_value)
 
     def sw_leftJetBumper_active(self,sw):
         self.pop_hit(0)

@@ -198,6 +198,7 @@ class LampShow(object):
         self.last_time = -.5
         
     def load(self, filename,merge = False):
+        print "LOADING A LAMPSHOW"
         """Reads lines from the given ``filename`` in to create tracks within the lamp show.  A lamp show 
         generally consists of several lines of text, one for each driver, spaced so as to show a textual
         representation of the lamp activity over time.
@@ -215,6 +216,7 @@ class LampShow(object):
             if line[0] != '#':
                 # newshits for merged lightshow
                 if merge:
+                    print "OMG MERGE IS TRUE"
                     mylist = line.replace(' ', '').split('|')
                     if 'active' in self.game.lamps[mylist[0]].tags:
                         pass
@@ -319,7 +321,7 @@ class LampController(object):
             self.show_playing = False
             return
             
-        self.show.load(self.shows[key], repeat, callback)
+        self.show.load(self.shows[key], repeat, callback,merge)
         self.game.modes.add(self.show)
         self.show_playing = True
 

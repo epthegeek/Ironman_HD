@@ -38,9 +38,9 @@ class Ramps(procgame.game.AdvancedMode):
         self.bogey_status = self.game.getPlayerState('bogey_status')
         self.update_lamps()
 
-    def evt_ball_ending(self):
-        self.game.setPlayerState('ramp_stage',[self.ramp_stage])
-        self.game.setPlayerState('ramp_shots',[self.ramp_shots])
+    def evt_ball_ending(self,(shoot_again,last_ball)):
+        self.game.setPlayerState('ramp_stage',self.ramp_stage)
+        self.game.setPlayerState('ramp_shots',self.ramp_shots)
         self.game.setPlayerState('bogey_rounds', self.bogey_rounds)
         self.game.setPlayerState('bogey_status',self.bogey_status)
 
@@ -155,6 +155,7 @@ class Ramps(procgame.game.AdvancedMode):
             lamp.disable()
 
         # if both ramps add up to 8, we're ready for bogey and they should all flash
+        print "RAMPS STAGE SHIT L: " + str(self.ramp_stage[0]) + " R: " + str(self.ramp_stage[1])
         if (self.ramp_stage[0] + self.ramp_stage[1]) == 8:
             for n in range(0,4,1):
                 self.left_ramp_lamps[n].schedule(0x00FF00FF)

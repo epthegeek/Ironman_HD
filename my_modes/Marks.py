@@ -58,7 +58,7 @@ class Marks(procgame.game.AdvancedMode):
         self.modes_lit = [False,False,False,False,False]
         self.update_lamps()
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('marks',self.player_mark)
         self.game.setPlayerState('marks_finiahed', self.finished)
         self.game.setPlayerState('modes_finished', self.modes_finished)

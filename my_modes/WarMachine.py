@@ -21,7 +21,7 @@ class WarMachine(procgame.game.AdvancedMode):
         self.valid = True
         self.multiball_status = self.game.getPlayerState('wm_multiball_status')
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('wm_multiball_status',self.multiball_status)
 
     def sw_warMachineOpto_active(self,sw):

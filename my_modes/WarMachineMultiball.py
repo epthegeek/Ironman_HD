@@ -91,7 +91,7 @@ class WarMachineMultiball(procgame.game.Mode):
         # add the mode light
         self.game.mark.mode_light(1)
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         if self.running:
             self.end_multiball()
 

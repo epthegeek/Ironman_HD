@@ -57,12 +57,12 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.scoring_mode_running = False
         self.update_lamps()
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('im_left_targets',self.left_tracking)
         self.game.setPlayerState('im_right_targets',self.right_tracking)
         self.game.setPlayerState('im_targets_completions',self.completions)
         self.game.setPlayerState('im_mode_index',self.mode_index)
-        self.game.setPlayerState('im_last_value')
+        self.game.setPlayerState('im_last_value',self.last_value)
         self.scoring_mode_running = False
 
     def sw_leftTargetI_active(self,sw):
@@ -126,7 +126,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
                     # for now play a generic sound
                     self.game.sound.play('im_target_hit')
                     # if this is the first target of a set, play the tutorial quote
-                    if self.game.base.tutorials[0]:
+                    if self.game.base.tut_status[0]:
                         self.delay(delay=0.7,handler=self.tutorial_quote)
                     if data[0]:
                         self.target_display(n,side,data[0])
@@ -299,7 +299,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         duration = self.voice_helper([quote,procgame.sound.PLAY_NOTBUSY])
         #if it successfully plays, set the flag
         if duration > 0:
-            self.game.base.tutorials[0] = False
+            self.game.base.tut_status[0] = False
 
     def end_target_mode(self):
         # reset the tracking for the next one
@@ -307,7 +307,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.right_tracking = [False,False,False]
         self.scoring_mode_running = False
         # reset the tutorial flag for the next scoring mode
-        self.game.base.tutorials[0] = True
+        self.game.base.tut_status[0] = True
 
     def flasher_pulse(self):
         self.game.coils['leftRampBottomFlasher'].pulse()

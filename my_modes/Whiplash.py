@@ -60,7 +60,7 @@ class Whiplash(procgame.game.AdvancedMode):
         self.whiplash_type = self.game.getPlayerState('whiplash_type')
         self.hold = False
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('whiplash_mb_count', self.mb_count)
         self.game.setPlayerState('whiplash_hits',self.hits)
         self.game.setPlayerState('whiplash_hits_for_mb',self.hits_for_mb)

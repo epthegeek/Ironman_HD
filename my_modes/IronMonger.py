@@ -104,12 +104,12 @@ class IronMonger(procgame.game.AdvancedMode):
         # update the lamps
         self.update_lamps()
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('monger_letters', self.letters)
         self.game.setPlayerState('monger_battles', self.battles)
         self.game.setPlayerState('monger_status', self.status)
         self.game.setPlayerState('toy_letters', self.toy_letters)
-        self.game.setPlayerState('monger_script')
+        self.game.setPlayerState('monger_script', self.script_details)
         self.game.setPlayerState('monger_base_value', self.monger_base_value)
         # if we end the ball in multiball, re-set status
         if self.status == "MB" or self.status == "RUNNING":

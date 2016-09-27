@@ -30,8 +30,8 @@ class Shields(procgame.game.AdvancedMode):
         self.shield_awards_collected = self.game.getPlayerState('shield_awards_collected')
         self.valid = True
 
-    def evt_ball_ending(self):
-        self.game.setPlayerState('shields',self.shields_tracking)
+    def evt_ball_ending(self,(shoot_again,last_ball)):
+        self.game.setPlayerState('shields',self.shield_tracking)
         self.game.setPlayerState('shield_awards_pending',self.shield_awards_pending)
         self.game.setPlayerState('shield_awards_collected', self.shield_awards_collected)
 

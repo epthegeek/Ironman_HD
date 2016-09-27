@@ -56,7 +56,7 @@ class MongerMultiball(procgame.game.Mode):
         script3 = ['immb_script3a', 'immb_script3b', 'immb_sript3c', 'immb_script3d']
         self.scripts = [script0, script1, script2, script3]
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         if self.running:
             self.end_multiball()
 

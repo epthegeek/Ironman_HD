@@ -43,7 +43,7 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_jp_value = self.game.getPlayerState('drone_jp_value')
         self.update_lamps()
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('drone_targets', self.drone_tracking)
         self.game.setPlayerState('drone_hits',self.drone_total)
         self.game.setPlayerState('war_machine_battles', self.war_machine_battles)
@@ -192,14 +192,14 @@ class Drones(procgame.game.AdvancedMode):
         self.delay("clear",delay=3,handler=self.clear_layer)
 
     def drone_hit_quote(self,target):
-        if self.game.base.tutorials[1]:
+        if self.game.base.tut_status[1]:
             clip = 'drone_tutorial'
         else:
             clip = self.drone_quotes[target]
         duration = self.voice_helper([clip,procgame.sound.PLAY_NOTBUSY])
         # if the tutorial clip played, set the flag
-        if duration > 0 and self.game.base.tutorials[1]:
-            self.game.base.tutorials[1] = False
+        if duration > 0 and self.game.base.tut_status[1]:
+            self.game.base.tut_status[1] = False
 
     def update_lamps(self):
         for lamp in self.drone_lamps:

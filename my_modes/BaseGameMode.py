@@ -50,7 +50,6 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('toy_letters', 0)
         # bogey ramps progress
         player.setState('ramp_stage',[0,0])
-        player.setState('ramp_stage',[0,0])
         player.setState('ramp_shots',[0,0])
         player.setState('bogey_status', "OPEN")
         player.setState('bogey_rounds',0)

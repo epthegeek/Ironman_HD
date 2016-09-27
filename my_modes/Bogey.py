@@ -108,7 +108,7 @@ class Bogey(procgame.game.Mode):
     def mode_stopped(self):
         self.running = False
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         pass
 
     def sw_leftRampExit_active(self, sw):

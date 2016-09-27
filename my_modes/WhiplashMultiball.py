@@ -65,7 +65,7 @@ class WhiplashMultiball(procgame.game.Mode):
         # update the info line
         self.update_info_layer(self.jackpots_left)
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         if self.running:
             self.end_multiball()
 
