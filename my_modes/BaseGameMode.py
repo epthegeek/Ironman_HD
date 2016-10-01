@@ -70,9 +70,11 @@ class BaseGameMode(procgame.game.AdvancedMode):
         player.setState('wm_multiball_status', "OPEN")
         player.setState('whiplash_hits',0)
         # TODO: need to apply config to this
-        player.setState('whiplash_hits_for_mb',4)
+        self.whiplash_hits_base = 4
+        player.setState('whiplash_hits_for_mb',self.whiplash_hits_base)
         player.setState('whiplash_mb_count',0)
         player.setState('whiplash_status', "OPEN")
+        player.setState('whiplash_fights', 0)
         # used to toggle between whiplash and mk2
         player.setState('whiplash_type', 0)
         player.setState('marks',0)

@@ -229,6 +229,9 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.running = False
         # set the whiplash status off of ready
         self.game.whiplash.status = "OPEN"
+        # set the hits for the next MB at base value + 5 per previous multiball
+        self.game.whiplash.whiplash_fights += 1
+        self.game.whiplash.hits_for_mb = (self.game.base.whiplash_hits_base + (self.game.whiplash.whiplash_fights * 5))
         # if we just finished regular whiplash, set the type to mega for next run
         if self.game.whiplash.whiplash_type == 0:
             self.game.whiplash.whiplash_type = 1

@@ -53,6 +53,7 @@ class Whiplash(procgame.game.AdvancedMode):
         self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
 
     def evt_ball_starting(self):
+        self.whiplash_fights = self.game.getPlayerState('whiplash_fights')
         self.hits = self.game.getPlayerState('whiplash_hits')
         self.hits_for_mb = self.game.getPlayerState('whiplash_hits_for_mb')
         self.status = self.game.getPlayerState('whiplash_status')
@@ -61,6 +62,7 @@ class Whiplash(procgame.game.AdvancedMode):
         self.hold = False
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
+        self.game.setPlayerState('whiplash_fights', self.whiplash_fights)
         self.game.setPlayerState('whiplash_mb_count', self.mb_count)
         self.game.setPlayerState('whiplash_hits',self.hits)
         self.game.setPlayerState('whiplash_hits_for_mb',self.hits_for_mb)
