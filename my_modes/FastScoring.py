@@ -8,10 +8,10 @@ from pygame.font import *
 from procgame import dmd
 import random
 
-class FastScoring(procgame.game.Mode):
+class FastScoring(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(FastScoring, self).__init__(game=game, priority=9)
+        super(FastScoring, self).__init__(game=game, priority=9,mode_type=AdvancedMode.Manual)
         self.myID = "FastScoring"
         self.running = False
         backdrop = dmd.FrameLayer(frame=self.game.animations['metal_bg'].frames[0])

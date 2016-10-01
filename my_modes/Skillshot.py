@@ -1,5 +1,5 @@
 import procgame.game
-from procgame.game import Mode
+from procgame.game import AdvancedMode
 from procgame import dmd
 
 import pygame
@@ -7,10 +7,10 @@ from pygame.locals import *
 from pygame.font import *
 from procgame import dmd
 
-class Skillshot(procgame.game.Mode):
+class Skillshot(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(Skillshot, self).__init__(game=game, priority=60)
+        super(Skillshot, self).__init__(game=game, priority=60, mode_type=AdvancedMode.Manual)
         self.myID = "Skillshot"
         self.running = False
         bg = self.game.animations['shield_logo']
