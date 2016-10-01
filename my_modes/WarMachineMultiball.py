@@ -1,5 +1,5 @@
 import procgame.game
-from procgame.game import Mode
+from procgame.game import AdvancedMode
 from procgame import dmd
 
 import pygame
@@ -7,10 +7,10 @@ from pygame.locals import *
 from pygame.font import *
 import random
 
-class WarMachineMultiball(procgame.game.Mode):
+class WarMachineMultiball(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(WarMachineMultiball, self).__init__(game=game, priority=50)
+        super(WarMachineMultiball, self).__init__(game=game, priority=50,mode_type=AdvancedMode.Manual)
         self.myID = "WarMachineMultiball"
         self.running = False
         self.drone_jackpots = [False,False,False,False]
@@ -197,7 +197,7 @@ class WarMachineMultiball(procgame.game.Mode):
         self.game.sound.play_voice('war_machine_multiball',action=procgame.sound.PLAY_FORCE)
 
         # launch balls
-       # self.game.trough.launch_and_autoplunge_balls(1)
+        self.game.trough.launch_and_autoplunge_balls(1)
         # reset the drone jackpots
         self.jackpots_init('drone',True)
         self.jackpots_init('big5',False)

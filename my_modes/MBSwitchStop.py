@@ -1,5 +1,5 @@
 import procgame.game
-from procgame.game import Mode
+from procgame.game import AdvancedMode
 from procgame import dmd
 
 import pygame
@@ -7,12 +7,13 @@ from pygame.locals import *
 from pygame.font import *
 import random
 
-class MBSwitchStop(procgame.game.Mode):
+class MBSwitchStop(procgame.game.AdvancedMode):
     def __init__(self,game):
-        super(MBSwitchStop, self).__init__(game=game, priority=40)
+        super(MBSwitchStop, self).__init__(game=game, priority=40,mode_type=AdvancedMode.Manual)
         self.myID = "MBSwitchStop"
         self.valid = [True,True,True]
-        self.target_lights = ['leftTargetI','leftTargetR','leftTargetO','leftTargetN','rightTargetM','rightTargetA','rightTargetN']
+        self.target_lights = ['leftTargetsI','leftTargetsR','leftTargetsO','leftTargetsN','rightTargetsM','rightTargetsA','rightTargetsN']
+        self.orbits_inactive = False
 
     def setup(self):
         # checks should be in this oder: Bogey, Whiplash, War Machine, Monger
@@ -36,29 +37,35 @@ class MBSwitchStop(procgame.game.Mode):
     # Ironman targets do nothing, just blink during MB
     def sw_leftTargetI_active(self,sw):
         self.target_hit(0)
+        return procgame.game.SwitchStop
 
     def sw_leftTargetR_active(self,sw):
         self.target_hit(1)
+        return procgame.game.SwitchStop
 
     def sw_leftTargetO_active(self,sw):
         self.target_hit(2)
+        return procgame.game.SwitchStop
 
     def sw_leftTargetN_active(self,sw):
         self.target_hit(3)
+        return procgame.game.SwitchStop
 
     def sw_rightTargetM_active(self,sw):
         self.target_hit(4)
+        return procgame.game.SwitchStop
 
     def sw_rightTargetA_active(self,sw):
         self.target_hit(5)
+        return procgame.game.SwitchStop
 
     def sw_rightTargetN_active(self,sw):
         self.target_hit(6)
-
+        return procgame.game.SwitchStop
 
     def sw_leftOrbit_active(self, sw):
         noisy = True
-        if self.valid[0]:
+        if self.valid[0] and not self.orbits_inactive:
             self.make_invalid(2)
             # Check War Machine
             if self.WM.running:
@@ -110,7 +117,7 @@ class MBSwitchStop(procgame.game.Mode):
 
     def sw_rightOrbit_active(self, sw):
         noisy = True
-        if self.valid[2]:
+        if self.valid[2] and not self.orbits_inactive:
             self.make_invalid(0)
         # check whiplash
         if self.WL.running:
@@ -127,6 +134,13 @@ class MBSwitchStop(procgame.game.Mode):
         if noisy:
             self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
+
+    def sw_shooterLane_inactive(self,sw):
+        self.orbits_inactive = True
+        self.delay(delay=2,handler=self.reactivate_orbits)
+
+    def reactivate_orbits(self):
+        self.orbits_inactive = False
 
     def target_hit(self,number):
         self.game.lamps[self.target_lights[number]].pulse()

@@ -1,15 +1,15 @@
 import procgame.game
-from procgame.game import Mode
+from procgame.game import AdvancedMode
 from procgame import dmd
 
 import pygame
 from pygame.locals import *
 from pygame.font import *
 
-class Bogey(procgame.game.Mode):
+class Bogey(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(Bogey, self).__init__(game=game, priority=12)
+        super(Bogey, self).__init__(game=game, priority=12,mode_type=AdvancedMode.Manual)
         self.myID = "Bogey"
         self.running = False
         self.bogey_lamps = [self.game.lamps['leftRamp100k'],

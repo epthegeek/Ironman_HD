@@ -1,5 +1,5 @@
 import procgame.game
-from procgame.game import Mode
+from procgame.game import AdvancedMode
 from procgame import dmd
 
 import pygame
@@ -8,10 +8,10 @@ from pygame.font import *
 import random
 from procgame import dmd
 
-class MongerMultiball(procgame.game.Mode):
+class MongerMultiball(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(MongerMultiball, self).__init__(game=game, priority=51)
+        super(MongerMultiball, self).__init__(game=game, priority=51,mode_type=AdvancedMode.Manual)
         self.myID = "MongerMultiball"
         self.running = False
         self.loop_count = 0

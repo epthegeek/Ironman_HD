@@ -1,15 +1,15 @@
 import procgame.game
-from procgame.game import Mode
+from procgame.game import AdvancedMode
 from procgame import dmd
 
 import pygame
 from pygame.locals import *
 from pygame.font import *
 
-class WhiplashMultiball(procgame.game.Mode):
+class WhiplashMultiball(procgame.game.AdvancedMode):
 
     def __init__(self,game):
-        super(WhiplashMultiball, self).__init__(game=game, priority=49)
+        super(WhiplashMultiball, self).__init__(game=game, priority=49,mode_type=AdvancedMode.Manual)
         self.myID = "WhiplashMultiball"
         self.running = False
         start_movie_1 = self.game.animations['whiplash_start']
@@ -50,6 +50,9 @@ class WhiplashMultiball(procgame.game.Mode):
         self.main_display = [main_1,main_2]
         self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
         self.jp_hit_sounds = ['whiplash_jp_hit_1','whiplash_jp_hit_2','whiplash_jp_hit_3','whiplash_jp_hit_4']
+        self.jp_sound_index = 0
+        self.points = 0
+        self.orbit_inactive = False
 
     def mode_started(self):
         self.jackpot_index = 0
@@ -81,7 +84,6 @@ class WhiplashMultiball(procgame.game.Mode):
         self.jackpot_shot()
         return procgame.game.SwitchStop
 
-
     def start_multiball(self,type):
         self.type = type
         # set the colors?
@@ -112,6 +114,8 @@ class WhiplashMultiball(procgame.game.Mode):
         self.layer = self.start_movies[self.type]
         # set the total score to zero
         self.total_points = 0
+        # launch another ball
+        self.game.trough.launch_and_autoplunge_balls(1)
         # light the mode light
         self.game.mark.mode_light(3)
 
@@ -230,4 +234,7 @@ class WhiplashMultiball(procgame.game.Mode):
             self.game.whiplash.whiplash.type = 0
         # check the switch block
         self.game.mb_switch_stop.check_remove()
+        # set the music back
+        self.game.base.set_music()
         self.unload()
+

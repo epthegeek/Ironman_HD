@@ -77,6 +77,8 @@ class IMGame(SkeletonGame):
 
         self.switch_filter = SwitchFilter(game=self) # pri 900
 
+        # try setting the ducking?
+       # self.sound.ducking_enabled = True
 
         self.reset()
 
