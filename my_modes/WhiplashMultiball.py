@@ -227,6 +227,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
 
     def end_multiball(self):
         self.running = False
+        # set the whiplash status off of ready
+        self.game.whiplash.status = "OPEN"
         # if we just finished regular whiplash, set the type to mega for next run
         if self.game.whiplash.whiplash_type == 0:
             self.game.whiplash.whiplash_type = 1
