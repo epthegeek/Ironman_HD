@@ -94,6 +94,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             self.line_1.interior_color = (40,109,204)
             self.line_2.line_color = (160,156,201)
         self.running = True
+        # update all the lamps
+        self.game.update_lamps()
         # bring in the switch blocker
         if self.game.mb_switch_stop not in self.game.modes:
             self.game.modes.add(self.game.mb_switch_stop)

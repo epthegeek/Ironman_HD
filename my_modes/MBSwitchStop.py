@@ -63,6 +63,18 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         self.target_hit(6)
         return procgame.game.SwitchStop
 
+    def sw_drone0_active(self,sw):
+        return procgame.game.SwitchStop
+
+    def sw_drone1_active(self,sw):
+        return procgame.game.SwitchStop
+
+    def sw_drone2_active(self,sw):
+        return procgame.game.SwitchStop
+
+    def sw_drone3_active(self,sw):
+        return procgame.game.SwitchStop
+
     def sw_leftOrbit_active(self, sw):
         noisy = True
         if self.valid[0] and not self.orbits_inactive:
@@ -143,7 +155,7 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         self.orbits_inactive = False
 
     def target_hit(self,number):
-        self.game.lamps[self.target_lights[number]].pulse()
+        self.game.lamps[self.target_lights[number]].pulse(128)
 
     def make_invalid(self, orbit):
         self.valid[orbit] = False

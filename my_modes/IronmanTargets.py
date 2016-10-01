@@ -314,23 +314,29 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.game.coils['rightRampBottomFlasher'].pulse()
 
     def update_lamps(self):
-        # default state for unlit lamps is blinking
-        for lamp in self.left_lamps:
-            lamp.schedule(0x0F0F0F0F)
-        for lamp in self.right_lamps:
-            lamp.schedule(0x0F0F0F0F)
-        # if they're done, flash slower - a nice pulse fade would be good eventually
-        if False not in self.left_tracking and False not in self.right_tracking:
+        if self.game.whiplash_multiball.running or self.game.monger_multiball.running or self.game.wm_multiball.running:
             for lamp in self.left_lamps:
-                lamp.schedule(0x00FF00FF)  # 0010 0010 0100 1011 1101 0010 0100 0100
+                lamp.disable()
             for lamp in self.right_lamps:
-                lamp.schedule(0x00FF00FF)  # 0010 0010 0100 1011 1101 0010 0100 0100
-        # otherwise turn on what should be on
+                lamp.disable()
         else:
-            for n in range (0,4,1):
-                if self.left_tracking[n]:
-                    self.left_lamps[n].enable()
-            for n in range (0,3,1):
-                if self.right_tracking[n]:
-                    self.right_lamps[n].enable()
+            # default state for unlit lamps is blinking
+            for lamp in self.left_lamps:
+                lamp.schedule(0x0F0F0F0F)
+            for lamp in self.right_lamps:
+                lamp.schedule(0x0F0F0F0F)
+            # if they're done, flash slower - a nice pulse fade would be good eventually
+            if False not in self.left_tracking and False not in self.right_tracking:
+                for lamp in self.left_lamps:
+                    lamp.schedule(0x00FF00FF)  # 0010 0010 0100 1011 1101 0010 0100 0100
+                for lamp in self.right_lamps:
+                    lamp.schedule(0x00FF00FF)  # 0010 0010 0100 1011 1101 0010 0100 0100
+            # otherwise turn on what should be on
+            else:
+                for n in range (0,4,1):
+                    if self.left_tracking[n]:
+                        self.left_lamps[n].enable()
+                for n in range (0,3,1):
+                    if self.right_tracking[n]:
+                        self.right_lamps[n].enable()
 
