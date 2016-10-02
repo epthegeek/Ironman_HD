@@ -72,7 +72,7 @@ class FastScoring(procgame.game.AdvancedMode):
         self.layer = self.display
         self.last_score = 0
 
-    def evt_ball_drained(self):
+    def evt_ball_ending(self):
         self.end()
 
     def switch_hit(self):

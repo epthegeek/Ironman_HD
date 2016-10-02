@@ -63,16 +63,16 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         self.target_hit(6)
         return procgame.game.SwitchStop
 
-    def sw_drone0_active(self,sw):
+    def sw_droneTarget0_active(self,sw):
         return procgame.game.SwitchStop
 
-    def sw_drone1_active(self,sw):
+    def sw_droneTarget1_active(self,sw):
         return procgame.game.SwitchStop
 
-    def sw_drone2_active(self,sw):
+    def sw_droneTarget2_active(self,sw):
         return procgame.game.SwitchStop
 
-    def sw_drone3_active(self,sw):
+    def sw_droneTarget3_active(self,sw):
         return procgame.game.SwitchStop
 
     def sw_leftOrbit_active(self, sw):
@@ -131,18 +131,18 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         noisy = True
         if self.valid[2] and not self.orbits_inactive:
             self.make_invalid(0)
-        # check whiplash
-        if self.WL.running:
-            self.WL.big5_jackpot_shot()
-            noisy = False
-        # Check War Machine
-        if self.WM.running:
-            if self.WM.big5_jackpots[4]:
-                self.WM.double_jp_hit(4)
+            # check whiplash
+            if self.WL.running:
+                self.WL.big5_jackpot_shot()
                 noisy = False
-        # check iron monger
-        if self.MO.running:
-            self.MO.orbit_hit()
+            # Check War Machine
+            if self.WM.running:
+                if self.WM.big5_jackpots[4]:
+                    self.WM.double_jp_hit(4)
+                    noisy = False
+            # check iron monger
+            if self.MO.running:
+                self.MO.orbit_hit()
         if noisy:
             self.game.monger.orbit_noise()
         return procgame.game.SwitchStop
@@ -179,7 +179,6 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         # simple mode shutdown
 
     def unload(self):
-        print "Unloading: " + self.myID
         self.wipe_delays()
         self.layer = None
         self.game.modes.remove(self)

@@ -57,6 +57,9 @@ class Whiplash(procgame.game.AdvancedMode):
         self.hits = self.game.getPlayerState('whiplash_hits')
         self.hits_for_mb = self.game.getPlayerState('whiplash_hits_for_mb')
         self.status = self.game.getPlayerState('whiplash_status')
+        # flash the flasher if ready
+        if self.status == "READY":
+            self.game.coils['whiplashFlasher'].schedule(0x03030303)
         self.mb_count = self.game.getPlayerState('whiplash_mb_count')
         self.whiplash_type = self.game.getPlayerState('whiplash_type')
         self.hold = False
@@ -68,6 +71,8 @@ class Whiplash(procgame.game.AdvancedMode):
         self.game.setPlayerState('whiplash_hits_for_mb',self.hits_for_mb)
         self.game.setPlayerState('whiplash_status',self.status)
         self.game.setPlayerState('whiplash_type',self.whiplash_type)
+        # disable the whiplash flasher for good measure
+        self.game.coils['whiplashFlasher'].disable()
 
     def sw_whiplashLeft_active(self,sw):
         if not self.hold:
@@ -91,22 +96,21 @@ class Whiplash(procgame.game.AdvancedMode):
         self.hits += 1
         if self.status == "READY":
             # do the multiball start thing
+            # disable the whiplash flasher
+            self.game.coils['whiplashFlasher'].disable()
             self.game.modes.add(self.game.whiplash_multiball)
             self.game.whiplash_multiball.start_multiball(self.whiplash_type)
         else:
             # tick down the hits to mb
             self.hits_for_mb -= 1
-            print "HITS FOR MB : " + str(self.hits_for_mb)
             # check if we're there
             if self.hits_for_mb <= 0:
-                print "DO MB READY"
                 self.status = "READY"
                 self.whiplash_hit_display("mb")
             else:
                 self.whiplash_hit_display()
 
     def whiplash_hit_display(self,type="normal"):
-        print "WHIPLASH HIT TYPE " + type
         self.cancel_delayed("clear")
         # score some points
         if type == 'mb':
@@ -132,9 +136,9 @@ class Whiplash(procgame.game.AdvancedMode):
         self.layer = anim
         # play a quote
         quotes = self.voice_tracks[self.whiplash_type]
-        if quotes[self.hits_for_mb]:
-            if quotes[self.hits_for_mb]:
-                self.delay(delay=0.6,handler=self.voice_helper,param=[quotes[self.hits_for_mb],procgame.sound.PLAY_NOTBUSY])
+        # check if there's a quote to play
+        if self.hits_for_mb <= (len(quotes) - 1):
+            self.delay(delay=0.6,handler=self.voice_helper,param=[quotes[self.hits_for_mb],procgame.sound.PLAY_NOTBUSY])
 
     def tick_movie_index(self,n):
         self.movie_index += 1
@@ -145,7 +149,6 @@ class Whiplash(procgame.game.AdvancedMode):
         self.whiplash_text_display(options[0],options[1])
 
     def whiplash_text_display(self,anim,type="normal"):
-        print "TEXT DISPLAY TYPE " + type
         anim.frame_listeners = ()
         if type == 'mb':
             layer = self.ready_layers[self.whiplash_type]
@@ -163,8 +166,9 @@ class Whiplash(procgame.game.AdvancedMode):
         self.delay("clear",delay=2,handler=self.clear_layer)
 
     def whiplash_mb_ready(self):
-        print "MULTIBALL READY"
         self.status = "READY"
+        # flash the flasher
+        self.game.coils['whiplashFlasher'].schedule(0x03030303)
         self.whiplash_hit_display("mb")
 
     def clear_hold(self):
@@ -181,11 +185,9 @@ class Whiplash(procgame.game.AdvancedMode):
 
     def wipe_delays(self):
         self.__delayed = []
-
         # simple mode shutdown
 
     def unload(self):
-        print "Unloading: " + self.myID
         self.wipe_delays()
         self.layer = None
         self.game.modes.remove(self)

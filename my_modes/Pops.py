@@ -26,8 +26,8 @@ class Pops(procgame.game.AdvancedMode):
         self.super_line = dmd.HDTextLayer(1920/2,120,self.game.fonts['bebas200'],"center",line_color=(96,96,86),line_width=3,interior_color=(0,0,255))
         self.super_line.set_text("SUPER POPS")
         self.p_1_points = dmd.HDTextLayer(120,480,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
-        self.p_2_points = dmd.HDTextLayer(1780,480,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
-        self.p_3_points = dmd.HDTextLayer(1920/2,310,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
+        self.p_2_points = dmd.HDTextLayer(1920/2,310,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
+        self.p_3_points = dmd.HDTextLayer(1780,480,self.game.fonts['bebas80'],"center",line_color=(0,0,0),line_width=3,interior_color=(128,128,255))
         self.pop_layers = [self.left_pop_image, self.bottom_pop_image, self.right_pop_image]
         self.pop_text = [self.p_1_points,self.p_2_points,self.p_3_points]
         # pop names used for delays

@@ -15,6 +15,11 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         start_movie_1 = self.game.animations['whiplash_start']
         start_movie_2 = self.game.animations['mega_whiplash_start']
         self.start_movies = [start_movie_1, start_movie_2]
+        self.jp_arrow_lamps = [self.game.lamps['leftOrbitArrow'],
+                               self.game.lamps['leftRampArrow'],
+                               self.game.lamps['centerShotArrow'],
+                               self.game.lamps['rightRampArrow'],
+                               self.game.lamps['rightOrbitArrow']]
         jp_movies_1 = [self.game.animations['whiplash_jp_1'],
                        self.game.animations['whiplash_jp_2'],
                        self.game.animations['whiplash_jp_3'],
@@ -53,8 +58,10 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.jp_sound_index = 0
         self.points = 0
         self.orbit_inactive = False
+        self.hold = True
 
     def mode_started(self):
+        self.hold = True
         self.jackpot_index = 0
         # default value for jackpots is 250k
         self.jackpot_value = 250000
@@ -66,7 +73,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.jackpots_left = 5
         self.super_count = 0
         # update the info line
-        self.update_info_layer(self.jackpots_left)
+        self.update_info_layer(str(self.jackpots_left))
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
         if self.running:
@@ -77,12 +84,20 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             self.end_multiball()
 
     def sw_whiplashLeft_active(self,sw):
-        self.jackpot_shot()
+        if not self.hold:
+            self.target_hit()
         return procgame.game.SwitchStop
 
     def sw_whiplashRight_active(self,sw):
-        self.jackpot_shot()
+        if not self.hold:
+            self.target_hit()
         return procgame.game.SwitchStop
+
+    def target_hit(self):
+        self.hold = True
+        self.cancel_delayed("hold")
+        self.delay("hold", delay=0.5, handler=self.clear_hold)
+        self.jackpot_shot()
 
     def start_multiball(self,type):
         self.type = type
@@ -120,6 +135,10 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.game.trough.launch_and_autoplunge_balls(1)
         # light the mode light
         self.game.mark.mode_light(3)
+        # Turn on the jackpot arrows
+        self.flash_arrows()
+        # Turn off the hold
+        self.hold = False
 
     def do_main_display(self):
         self.layer = self.main_display[self.type]
@@ -129,6 +148,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             self.jackpot_shot()
 
     def jackpot_shot(self,):
+        print "JACKPOT SHOT BITCH"
         self.cancel_delayed("clear")
         # set the points to score to the current JP value
         points = self.jackpot_value
@@ -142,6 +162,10 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             if self.round == 0 and self.super_count == 2:
                 # 2 supers in the first round
                 self.super = False
+                # turn off the flasher
+                self.game.coils.whiplashFlasher.disable()
+                # turn on the arrows
+                self.flash_arrows()
                 toggle = True
                 anim = self.super_movies[self.type][1]
                 self.jackpot_value = 500000
@@ -153,6 +177,10 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             else:
                 anim = self.super_movies[self.type][1]
                 self.super = False
+                # turn off the flasher
+                self.game.coils.whiplashFlasher.disable()
+                # turn on the arrows
+                self.flash_arrows()
                 toggle = True
                 self.jackpot_value = 250000
         else:
@@ -180,19 +208,23 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             else:
                 self.round = 0
             self.jackpots_left = self.jackpot_count[self.round]
-            self.update_info_layer(self.jackpots_left)
+            self.update_info_layer(str(self.jackpots_left))
         else:
             if not self.super:
                 self.jackpots_left -= 1
             if self.jackpots_left == 0:
                 self.update_info_layer()
                 self.super = True
+                # turn off the arrows
+                self.disable_arrows()
+                # turn on the flasher
+                self.game.coils.whiplashFlasher.schedule(0x03030303)
                 if self.round == 0:
                     self.jackpot_value = 500000
                 else:
                     self.jackpot_value = 3000000
             else:
-                self.update_info_layer(self.jackpots_left)
+                self.update_info_layer(str(self.jackpots_left))
 
     def tick_jackpot_index(self):
         self.jackpot_index += 1
@@ -228,6 +260,11 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.info_line.set_text(string)
 
     def end_multiball(self):
+        # turn off the flasher just in case
+        self.game.coils.whiplashFlasher.disable()
+        # turn off the ramp arrows
+        self.disable_arrows()
+        # remove the run flag
         self.running = False
         # set the whiplash status off of ready
         self.game.whiplash.status = "OPEN"
@@ -245,6 +282,20 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.game.base.set_music()
         self.unload()
 
+    # Jackpot arrows control -- do nothing if the other MBs are running.
+    def flash_arrows(self):
+        if self.game.wm_multiball.running or self.game.monger_multiball.running:
+            pass
+        else:
+            for lamp in self.jp_arrow_lamps:
+                lamp.schedule(0x00FF00FF)
+
+    def disable_arrows(self):
+        if self.game.wm_multiball.running or self.game.monger_multiball.running:
+            pass
+        else:
+            for lamp in self.jp_arrow_lamps:
+                lamp.disable()
 
     def clear_layer(self):
         self.layer = None

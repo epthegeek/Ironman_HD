@@ -59,11 +59,11 @@ class Shields(procgame.game.AdvancedMode):
 
     def sw_flipperLwL_active(self,sw):
         if self.valid:
-            self.rotate_shields(-1)
+            self.rotate_shields(1)
 
     def sw_flipperLwR_active(self,sw):
         if self.valid:
-            self.rotate_shields(1)
+            self.rotate_shields(-1)
 
     def sw_warMachineOpto_active(self,sw):
         if self.shield_awards_pending > 0:

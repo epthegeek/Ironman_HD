@@ -113,7 +113,6 @@ class Marks(procgame.game.AdvancedMode):
         self.update_lamps()
 
     def score(self):
-        print "MARK SCORE"
         # award points
         #TODO: assign points here
         pass
@@ -158,7 +157,6 @@ class Marks(procgame.game.AdvancedMode):
         # simple mode shutdown
 
     def unload(self):
-        print "Unloading: " + self.myID
         self.wipe_delays()
         self.layer = None
         self.game.modes.remove(self)

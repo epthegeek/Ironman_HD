@@ -112,7 +112,7 @@ class Trough(Mode):
         # install autoplunge helper -- note 300ms rest time
         if(self.plunge_coilname is not None):
             self.add_switch_handler(name=shooter_lane_switchname, event_type='active', \
-                    delay=0.3, handler=self.ball_in_shooterlane_for_autoplunge)
+                    delay=0.6, handler=self.ball_in_shooterlane_for_autoplunge)
     
         # Reset variables
         self.num_balls_in_play = 0
@@ -281,9 +281,8 @@ class Trough(Mode):
 
         # set auto-plunge function for shooter lane
         self.num_to_autoplunge += num
-
         # now launch a ball into the lane
-        self.launch_balls(num, stealth=True)
+        self.launch_balls(num, stealth=False)
 
 
     # Either initiate a new launch or add another ball to the count of balls

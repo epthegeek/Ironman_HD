@@ -92,8 +92,8 @@ class IronMonger(procgame.game.AdvancedMode):
         ## Status goes "OPEN" then "READY" then "UP" then "MB" then "RUNNING"
         self.status = self.game.getPlayerState('monger_status')
         self.monger_base_value = self.game.getPlayerState('monger_base_value')
-        if self.status == "READY":
-            self.raise_monger()
+        if self.status == "UP":
+            self.game.monger_toy.rise()
         # for locking out spinners based on conditions
         self.valid = [True,True,True,True,True,True]
         self.toy_valid = True
@@ -394,7 +394,7 @@ class IronMonger(procgame.game.AdvancedMode):
 
     def revalidate(self,list):
         for item in list:
-            self.delay(name=self.delay_names[item], delay=1, handler=self.validate,param=item)
+            self.delay(name=self.delay_names[item], delay=2, handler=self.validate,param=item)
 
     def validate(self,spinner):
         self.valid[spinner] = True
