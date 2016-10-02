@@ -205,11 +205,11 @@ class IronMonger(procgame.game.AdvancedMode):
             self.layer = dmd.ScriptedLayer(1920,800,[{'layer': layer1,'seconds': 0.2},{'layer': self.logo_layers[self.letters -1], 'seconds': 0.2}],opaque=True)
             # if complete follow up with ready message
             if self.letters == 10:
-                self.delay("display",delay=1.4,handler=self.monger_ready_display)
+                self.delay("display",delay=1.0,handler=self.monger_ready_display)
                 self.status = "READY"
             # set a clear delay
             else:
-                self.delay("display",delay=1.8,handler=self.clear_layer)
+                self.delay("display",delay=1.3,handler=self.clear_layer)
             # score the points
             self.game.score(points)
             # play a delayed quote
@@ -261,13 +261,13 @@ class IronMonger(procgame.game.AdvancedMode):
             self.update_spinner_score_text(spinner)
             self.layer = self.spinner_display
             # set a delay for clearing
-            self.delay("display",delay = 2,handler=self.reset_spinner_display,param=spinner)
+            self.delay("display",delay = 1.5,handler=self.reset_spinner_display,param=spinner)
         # if it is the same spinner as the last one, just update the text
         else:
             self.spinner_points[spinner] += 7500
             self.update_spinner_score_text(spinner)
             # set a delay for clearing
-            self.delay("display", delay=2, handler=self.reset_spinner_display, param=spinner)
+            self.delay("display", delay=1.5, handler=self.reset_spinner_display, param=spinner)
 
         # set last spinner
         self.last_spinner = spinner

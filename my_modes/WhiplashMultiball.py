@@ -282,6 +282,9 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.game.base.set_music()
         self.unload()
 
+    def clear_hold(self):
+        self.hold = False
+
     # Jackpot arrows control -- do nothing if the other MBs are running.
     def flash_arrows(self):
         if self.game.wm_multiball.running or self.game.monger_multiball.running:
