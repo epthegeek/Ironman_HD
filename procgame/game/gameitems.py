@@ -47,6 +47,20 @@ class AttrCollection(object):
                 output.append(item)
         return output
 
+    def item_named_or_tagged(self, identifier):
+        """ returns the first item named *identifier*, or the first 
+            item tagged *identifier* """
+
+        if self.__items_by_name.has_key(identifier):
+            return self.__items_by_name[identifier]
+
+        l = self.items_tagged(identifier)
+        if(len(l)==0):
+            return None
+        elif(len(l)>1):
+            logging.getLogger('SG').warning("Multiple items are tagged '%s' -- only the first will be used." % tag)
+        return l[0]
+
 class GameItem(object):
     """Base class for :class:`Driver` and :class:`Switch`.  Contained in an instance of :class:`AttrCollection` within the :class:`GameController`."""
     game = None
@@ -98,7 +112,6 @@ class Driver(GameItem):
         self.logger.debug('Driver %s - disable', self.name)
         self.game.proc.driver_disable(self.number)
         self.last_time_changed = time.time()
-
     def pulse(self, milliseconds=None):
         """Enables this driver for `milliseconds`.
         
@@ -161,15 +174,14 @@ class Driver(GameItem):
         self.logger.debug("Driver %s - pulsed patter on:%d, off:%d, run_time:%d, now:%s", self.name, on_time, off_time, run_time, now)
         self.game.proc.driver_pulsed_patter(self.number, on_time, off_time, run_time, now)
         self.last_time_changed = time.time()
-
     def schedule(self, schedule, cycle_seconds=0, now=True):
-        """Schedules this driver to be enabled according to the given `schedule` bitmask."""
-        self.logger.debug("Driver %s - schedule %08x", self.name, schedule)
-        ## Added 2 lines here - ep
-        if 'active' not in self.tags:
-            self.tags.append('active')
-        self.game.proc.driver_schedule(number=self.number, schedule=schedule, cycle_seconds=cycle_seconds, now=now)
-        self.last_time_changed = time.time()
+      """Schedules this driver to be enabled according to the given `schedule` bitmask."""
+      self.logger.debug("Driver %s - schedule %08x", self.name, schedule)
+      ## Added 2 lines here -ep
+      if 'active' not in self.tags:
+          self.tags.append('active')
+      self.game.proc.driver_schedule(number=self.number, schedule=schedule, cycle_seconds=cycle_seconds, now=now)
+      self.last_time_changed = time.time()
 
     def enable(self):
         """Enables this driver indefinitely.

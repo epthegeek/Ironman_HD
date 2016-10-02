@@ -11,7 +11,7 @@ SwitchContinue = False
 class Mode(object):
     """Abstraction of a game mode to be subclassed by the game
     programmer.
-
+    
     Modes are essentially a collection of switch even thandlers.
     Active modes are held in :attr:`GameController.modes`, an
     instance of :class:`ModeQueue`,
@@ -20,40 +20,40 @@ class Mode(object):
     mode's switch event handler method returns
     :data:`~procgame.game.SwitchStop`, the event
     is not passed down to lower modes.
-
+    
     Switch event handlers are detected when the :class:`Mode`
     initializer is called by the subclass.
     Various switch event handler formats are recognized:
-
+    
     ``sw_switchName_open(self, sw)``
       Called when a switch (named switchName) is opened.
     ``sw_switchName_closed(self, sw)``
       Closed variant of the above.
     ``sw_switchName_open_for_1s(self, sw)``
       Called when switchName has been open continuously for one second
-
+    
     Example variants of the above: ::
-
+    
         def sw_switchName_closed_for_2s(self, sw):
             pass
-
+        
         def sw_switchName_closed_for_100ms(self, sw):
             pass
-
+        
         def sw_switchName_open_for_500ms(self, sw):
             pass
-
+    
     .. NOTE::
         Presently only switch names with the characters a-z, A-Z, and 0-9 are recognized.
         If a switch name has an underscore in it, the switch handler will not be recognized.
-
+    
     Modes can be programatically configured using :meth:`.add_switch_handler`.
     """
-
+    
     parent_mode = None
     """The parent mode for this mode.  Set by :meth:`add_child_mode` and cleared in :meth:`remove_child_mode`."""
     __children = None # child modes, managed with add_child_mode() and remove_child_mode()
-
+    
     def __init__(self, game, priority):
         super(Mode, self).__init__()
         self.game = game
@@ -62,7 +62,7 @@ class Mode(object):
         self.__delayed = []
         self.__children = []
         self.__scan_switch_handlers()
-
+    
     def __scan_switch_handlers(self):
         # Format: sw_popperL_open_for_200ms(self, sw):
         handler_func_re = re.compile('sw_(?P<name>[a-zA-Z0-9]+)_(?P<state>open|closed|active|inactive)(?P<after>_for_(?P<time>[0-9]+)(?P<units>ms|s))?')
@@ -77,26 +77,26 @@ class Mode(object):
                     seconds /= 1000.0
 
             handler = getattr(self, item)
-
+            
             switch_name = m.group('name')
             switch_state = m.group('state')
-
+            
             if switch_name not in self.game.switches:
                 raise ValueError, 'Unrecognized switch name %s in handler %s.%s().' % (switch_name, self.__class__.__name__, item)
 
             self.add_switch_handler(name=switch_name, event_type=switch_state, delay=seconds, handler=handler)
-
+    
     def add_switch_handler(self, name, event_type, delay, handler):
         """Programatically configure a switch event handler.
-
+        
         Keyword arguments:
-
+        
         ``name``
           valid switch name
         ``event_type``
           'open','closed','active', or 'inactive'
         ``delay``
-          float number of seconds that the state should be held
+          float number of seconds that the state should be held 
           before invoking the handler, or None if it should be
           invoked immediately.
         ``handler``
@@ -129,15 +129,15 @@ class Mode(object):
         d = {'name':name, 'type':et, 'delay':delay, 'handler':handler, 'param':sw}
         if d not in self.__accepted_switches:
             self.__accepted_switches.append(Mode.AcceptedSwitch(name=name, event_type=et, delay=delay, handler=handler, param=sw))
-
+    
     def status_str(self):
         return self.__class__.__name__
-
+    
     def delay(self, name=None, event_type=None, delay=0, handler=None, param=None):
         """Schedule the run loop to call the given handler at a later time.
-
+        
         Keyword arguments:
-
+        
         ``name``
             Switch name for this event.  If using this method for a delayed
             method call, use ``None`` and a name will be generated for you.
@@ -150,22 +150,22 @@ class Mode(object):
             Function to be called once delay seconds have elapsed.
         ``param``
             Value to be passed as the first (non-self) argument to handler.
-
+        
         If param is None, handler's signature must be ``handler(self)``.  Otherwise,
         it is ``handler(self, param)`` to match the switch method handler pattern.
-
+        
         Returns the ``name`` of the delay, which may later be used with :meth:`cancel_delayed`.
-
+        
         Example usage for delayed method invocation::
-
+        
             def delayed_handler(self):
                 print 'thatButton was pressed 2 seconds ago!'
-
+            
             def sw_thatButton_active(self):
                 # After 2 seconds, call delayed_handler() above.
                 self.delayed_name = self.delay(delay=2.0, handler=self.delayed_handler)
                 # Store name to cancel the delay later: self.cancel_delayed(self.delayed_name)
-
+        
         """
         if type(event_type) == str:
             event_type = {'closed':1, 'open':2}[event_type]
@@ -180,7 +180,7 @@ class Mode(object):
                 print(x)
             raise ex
         return name
-
+    
     def cancel_delayed(self, name):
         """Removes the given named delays from the delayed list, cancelling their execution."""
         if type(name) == list:
@@ -189,12 +189,25 @@ class Mode(object):
         else:
             self.__delayed = filter(lambda x: x.name != name, self.__delayed)
 
+    def delay_info(self,name):
+        for x in self.__delayed:
+            if x.name == name:
+                return x
+        return None
+
+    def extend_delay_by(self,name,delay):
+        for x in self.__delayed:
+            if x.name == name:
+                x.time += delay
+                return True
+        return False
     
     def is_delayed(self,name):
         for d in self.__delayed:
             if d.name == name:
                 return True
-
+        return False
+    
     def handle_event(self, event):
         # We want to turn this event into a function call.
         sw_name = self.game.switches[event['value']].name
@@ -202,10 +215,10 @@ class Mode(object):
 
         # Filter out all of the delayed events that have been disqualified by this state change.
         # Remove all items that are for this switch (sw_name) but for a different state (type).
-        # Put another way, keep delayed items pertaining to other switches, plus delayed items
+        # Put another way, keep delayed items pertaining to other switches, plus delayed items 
         # pertaining to this switch for another state.
         self.__delayed = filter(lambda x: not (sw_name == x.name and x.event_type != event['type']), self.__delayed)
-
+        
         filt = lambda accepted: (accepted.event_type == event['type']) and (accepted.name == sw_name)
         for accepted in filter(filt, self.__accepted_switches):
             if accepted.delay == None or accepted.delay == 0:
@@ -216,33 +229,33 @@ class Mode(object):
             else:
                 self.delay(name=sw_name, event_type=accepted.event_type, delay=accepted.delay, handler=accepted.handler, param=accepted.param)
         return handled
-
+        
     def mode_started(self):
         """Notifies the mode that it is now active on the mode queue.
-
+        
         This method should not be invoked directly; it is called by the GameController run loop.
         """
         for child in self.__children:
             self.game.modes.add(child)
-
+        
     def mode_stopped(self):
         """Notifies the mode that it has been removed from the mode queue.
-
+        
         This method should not be invoked directly; it is called by the GameController run loop.
         """
         for child in self.__children:
             self.game.modes.remove(child)
-
+        
     def mode_topmost(self):
         """Notifies the mode that it is now the topmost mode on the mode queue.
-
+        
         This method should not be invoked directly; it is called by the GameController run loop.
         """
         pass
     def mode_tick(self):
         """Called by the GameController run loop during each loop when the mode is running."""
         pass
-
+        
     def dispatch_delayed(self):
         """Called by the GameController to dispatch any delayed events."""
         t = time.time()
@@ -263,12 +276,12 @@ class Mode(object):
         """Add *mode* as a child of the receiver.
         Child modes are added and removed from the game's mode queue when
         :meth:`mode_started` and :meth:`mode_stopped` are called, respectively.
-
+        
         If this mode is already on the mode queue (:meth:`is_started` == ``True``),
         then *mode* will be added (started) immediately.
-
+        
         Sets *mode*'s :attr:`parent_mode` to the receiver.
-
+        
         :return: *mode*"""
         if mode in self.__children:
             return mode
@@ -277,15 +290,15 @@ class Mode(object):
         if self.is_started():
             self.game.modes.add(mode)
         return mode
-
+    
     def remove_child_mode(self, mode):
         """Remove *mode* as a child of the receiver.
         See :meth:`add_child_mode` for a description of child modes.
         If this mode is already on the mode queue,
         the *mode* will be removed (stopped) immediately.
-
+        
         Sets *mode*'s :attr:`parent_mode` to ``None``.
-
+        
         See also: :meth:`add_child_mode`."""
         if mode in self.__children:
             self.__children.remove(mode)
@@ -293,32 +306,13 @@ class Mode(object):
             if self.is_started():
                 self.game.modes.remove(mode)
         return mode
-
+    
     def __str__(self):
         return "%s  pri=%d" % (type(self).__name__, self.priority)
     def update_lamps(self):
         """Called by the GameController re-apply active lamp schedules"""
         pass
-
-    ## additions - 08/09/2016
-    def clear_layer(self):
-        self.layer = None
-
-    def wipe_delays(self):
-        self.__delayed = []
-
-    # simple mode shutdown
-    def unload(self):
-        print "Unloading: " + self.myID
-        self.wipe_delays()
-        self.layer = None
-        self.game.modes.remove(self)
-
-    # delayed voice quote helper with a list input
-    def voice_helper(self,options):
-        duration = self.game.sound.play_voice(options[0],action=options[1])
-        return duration
-
+    
     # Data structure used by the __accepted_switches array:
     class AcceptedSwitch:
         def __init__(self, name, event_type, delay, handler, param):
@@ -329,7 +323,7 @@ class Mode(object):
             self.param = param
         def __str__(self):
             return '<name=%s event_type=%s delay=%s>' % (self.name, self.event_type, self.delay)
-
+    
     # Data structure used by the __delayed array:
     class Delayed:
         def __init__(self, name, time, handler, event_type, param):
@@ -343,16 +337,16 @@ class Mode(object):
 
 class ModeQueue(object):
     """A queue of modes which dispatches switch events."""
-
+    
     changed = False
     """True if the contents of the queue has changed since the last time this variable was set to False."""
-
+    
     def __init__(self, game):
         super(ModeQueue, self).__init__()
         self.game = game
         self.modes = []
         self.logger = logging.getLogger('game.modes')
-
+        
     def add(self, mode):
         if mode in self.modes:
             raise ValueError, "Attempted to add mode "+str(mode)+", already in mode queue."
@@ -375,35 +369,35 @@ class ModeQueue(object):
                 break
         if len(self.modes) > 0:
             self.modes[0].mode_topmost()
-
+    
     def __iter__(self):
         return self.modes.__iter__()
-
+    
     def __len__(self):
         return len(self.modes)
-
+    
     def __contains__(self, mode):
         return mode in self.modes
-
+    
     def __getitem__(self, v):
         return self.modes[v]
-
+    
     def handle_event(self, event):
         modes = copy.copy(self.modes) # Make a copy so if a mode is added we don't get into a loop.
         for mode in modes:
             handled = mode.handle_event(event)
             if handled:
                 break
-
+    
     def tick(self):
         modes = copy.copy(self.modes) # Make a copy so if a mode is added we don't get into a loop.
         for mode in modes:
             mode.dispatch_delayed()
             mode.mode_tick()
-
+    
     def log_queue(self, log_level=logging.INFO):
         log_rows = []
-
+        
         for mode in self.modes:
             layer = None
             if hasattr(mode, 'layer'):
@@ -412,14 +406,14 @@ class ModeQueue(object):
                 log_rows.append([str(mode.priority), type(mode).__name__, type(layer).__name__])
             else:
                 log_rows.append([str(mode.priority), type(mode).__name__, '-'])
-
+        
         for line in tabularize(log_rows):
             self.logger.log(log_level, '  '+line)
 
 def tabularize(rows, col_spacing=2):
     """*rows* should be a list of lists of strings: [[r1c1, r1c2], [r2c1, r2c2], ..].
     Returns a list of formatted lines of text, with column values left justified."""
-
+    
     # Find the column widths:
     max_column_widths = []
     for row in rows:

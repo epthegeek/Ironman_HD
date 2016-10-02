@@ -70,3 +70,22 @@ class SwitchFilter(procgame.game.AdvancedMode):
                 self.game.fast_scoring.switch_hit()
         # set the last hit switch
         self.last_switch = sw.name
+
+    def clear_layer(self):
+        self.layer = None
+
+    def wipe_delays(self):
+        self.__delayed = []
+
+        # simple mode shutdown
+
+    def unload(self):
+        print "Unloading: " + self.myID
+        self.wipe_delays()
+        self.layer = None
+        self.game.modes.remove(self)
+
+    # delayed voice quote helper with a list input
+    def voice_helper(self, options):
+        duration = self.game.sound.play_voice(options[0], action=options[1])
+        return duration

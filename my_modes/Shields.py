@@ -160,3 +160,26 @@ class Shields(procgame.game.AdvancedMode):
         # bonus x maxes at 25x
         if self.game.base.bonus_x < 25:
             self.game.base.bonus_x += 1
+
+
+    def clear_layer(self):
+        self.layer = None
+
+
+    def wipe_delays(self):
+        self.__delayed = []
+
+        # simple mode shutdown
+
+
+    def unload(self):
+        print "Unloading: " + self.myID
+        self.wipe_delays()
+        self.layer = None
+        self.game.modes.remove(self)
+
+
+    # delayed voice quote helper with a list input
+    def voice_helper(self, options):
+        duration = self.game.sound.play_voice(options[0], action=options[1])
+        return duration
