@@ -29,26 +29,10 @@ class Whiplash(procgame.game.AdvancedMode):
         track_2 = ['whiplash_laugh','whiplash_2_5','whiplash_2_4','whiplash_2_3','whiplash_2_2','whiplash_2_1']
         self.voice_tracks = [track_1,track_2]
         # layers for the hits left display
-        self.line_1 = dmd.HDTextLayer(1600, 100, self.game.fonts['whiplash_450'], "center",line_color=(196, 255, 255), line_width=5, interior_color=(12, 117, 2))
-        self.line_2 = dmd.HDTextLayer(1600, 500, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
-        self.line_3 = dmd.HDTextLayer(1600, 620, self.game.fonts['default'], "center", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
-        # layers for is ready display
-        ready_1 = dmd.HDTextLayer(1500, 110,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("WHIPLASH",blink_frames=10)
-        ready_2 = dmd.HDTextLayer(1500, 280,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("IS",blink_frames=10)
-        ready_3 = dmd.HDTextLayer(1500, 450,self.game.fonts['bebas200'],"center",line_color=(0,0,0),line_width=4,interior_color=(252,205,63)).set_text("READY",blink_frames=10)
-        # backgrounds
-        bg_1 = self.game.animations['whiplash_still']
-        bg_2 = self.game.animations['mega_whiplash_still']
-        # hits left v1
-        hits_left_v1 = dmd.GroupedLayer(1920,800,[bg_1,self.line_1,self.line_2,self.line_3],opaque=True)
-        # hits left v2
-        hits_left_v2 = dmd.GroupedLayer(1920,800,[bg_2,self.line_1,self.line_2,self.line_3],opaque=True)
-        self.hits_left_layers = [hits_left_v1,hits_left_v2]
-        # ready v1
-        ready_v1 = dmd.GroupedLayer(1920,800,[bg_1,ready_1,ready_2,ready_3],opaque=True)
-        # ready v2
-        ready_v2 = dmd.GroupedLayer(1920,800,[bg_2,ready_1,ready_2,ready_3],opaque=True)
-        self.ready_layers = [ready_v1,ready_v2]
+        self.line_1 = dmd.HDTextLayer(1870, 450, self.game.fonts['whiplash_200'], "right",line_color=(196, 255, 255), line_width=5, interior_color=(12, 117, 2))
+        self.line_2 = dmd.HDTextLayer(1870, 625, self.game.fonts['bebas80'], "right", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
+        self.line_4 = dmd.HDTextLayer(1920/2, 660, self.game.fonts['default'], "center", line_color=(0,0,0,), line_width=3, interior_color=(252,205,63))
+        self.line_3 = dmd.HDTextLayer(1870, 700, self.game.fonts['bebas80'], "right", line_color=(0,0,0), line_width=3,interior_color=(224, 224, 224))
         self.whiplash_type = 0
         self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
 
@@ -120,7 +104,10 @@ class Whiplash(procgame.game.AdvancedMode):
                 anim = self.progress_movies[1][5]
             anim.reset()
             points = 250000
+            self.line_4.set_text("WHIPLASH IS READY", style=self.styles[self.whiplash_type])
+            layers = [anim, self.line_4]
         else:
+            # set up the animation
             if self.whiplash_type == 0:
                 anim = self.progress_movies[0][self.movie_index]
                 # tick up the index and reset if needed
@@ -128,42 +115,36 @@ class Whiplash(procgame.game.AdvancedMode):
             else:
                 anim = self.progress_movies[1][self.movie_index]
                 self.tick_movie_index(4)
+            if self.hits_for_mb == 1:
+                words = "MORE HIT TO"
+            else:
+                words = "MORE HITS TO"
+            self.line_1.set_text(str(self.hits_for_mb),style=self.styles[self.whiplash_type],blink_frames = 8)
+            self.line_2.set_text(words, style=self.game.fontstyles['grey'])
+            self.line_3.set_text("LIGHT WHIPLASH", style=self.game.fontstyles['grey'])
+            layers = [anim, self.line_1, self.line_2, self.line_3]
+
             anim.reset()
             points = 50000
 
         self.game.score(points)
-        anim.add_frame_listener(-1,self.whiplash_text_display_helper,param=[anim,type])
-        self.layer = anim
+#        anim.add_frame_listener(-1,self.whiplash_text_display_helper,param=[anim,type])
+        anim.add_frame_listener(-1,self.delayed_clear,param=0.5)
+#        self.layer = anim
+        self.layer = dmd.GroupedLayer(1920,800,layers,opaque=True)
         # play a quote
         quotes = self.voice_tracks[self.whiplash_type]
         # check if there's a quote to play
         if self.hits_for_mb <= (len(quotes) - 1):
-            self.delay(delay=0.6,handler=self.voice_helper,param=[quotes[self.hits_for_mb],procgame.sound.PLAY_NOTBUSY])
+            self.delay(delay=0.5,handler=self.voice_helper,param=[quotes[self.hits_for_mb],procgame.sound.PLAY_NOTBUSY])
+
+    def delayed_clear(self,time):
+        self.delay("clear",delay=time, handler=self.clear_layer)
 
     def tick_movie_index(self,n):
         self.movie_index += 1
         if self.movie_index > n:
             self.movie_index = 0
-
-    def whiplash_text_display_helper(self,options):
-        self.whiplash_text_display(options[0],options[1])
-
-    def whiplash_text_display(self,anim,type="normal"):
-        anim.frame_listeners = ()
-        if type == 'mb':
-            layer = self.ready_layers[self.whiplash_type]
-        else:
-            if self.hits_for_mb == 1:
-                words = "MORE HIT"
-            else:
-                words = "MORE HITS TO"
-            self.line_1.set_text(str(self.hits_for_mb),style=self.styles[self.whiplash_type])
-            self.line_2.set_text(words)
-            self.line_3.set_text("LIGHT WHIPLASH")
-            layer = self.hits_left_layers[self.whiplash_type]
-        # new
-        self.layer = dmd.TransitionLayer(anim, layer, dmd.Transition.TYPE_CROSSFADE,dmd.Transition.PARAM_NORTH,lengthInFrames=48)
-        self.delay("clear",delay=2,handler=self.clear_layer)
 
     def whiplash_mb_ready(self):
         self.status = "READY"

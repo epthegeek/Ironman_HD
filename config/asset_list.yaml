@@ -135,12 +135,12 @@ Animations:
   file: 'ironman_land_n_stand.mp4'
   streamingMovie: True
   holdLastFrame: True
-- key: 'whiplash_still'
-  file: 'whiplash_1_still.png'
-  holdLastFrame: True
-- key: 'mega_whiplash_still'
-  file: 'whiplash_mk2_still.png'
-  holdLastFrame: True
+#- key: 'whiplash_still'
+#  file: 'whiplash_1_still.png'
+#  holdLastFrame: True
+#- key: 'mega_whiplash_still'
+#  file: 'whiplash_mk2_still.png'
+#  holdLastFrame: True
 - key: 'whiplash_mb_bg'
   file: 'whiplash_mb_bg.png'
   holdLastFrame: True
@@ -589,10 +589,10 @@ Fonts:
       - 0
   - key: grey
     interior_color:
-      - 192
-      - 192
-      - 192
-    line_width: 4
+      - 224
+      - 224
+      - 224
+    line_width: 3
     line_color:
       - 0
       - 0
@@ -632,6 +632,12 @@ Fonts:
   - key: 'whiplash_300'
     file: 'WOODCUTTER_STORM.ttf'
     size: 300
+  - key: 'whiplash_200'
+    file: 'WOODCUTTER_STORM.ttf'
+    size: 200
+  - key: 'whiplash_150'
+    file: 'WOODCUTTER_STORM.ttf'
+    size: 150
   - key: 'bebas80'
     file: 'BebasNeue.otf'
     size: 80
