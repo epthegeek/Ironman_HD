@@ -87,25 +87,25 @@ Animations:
   file: 'timer_box.png'
   holdLastFrame: True
 - key: 'target_i_image'
-  file: 'target_i.jpg'
+  file: 'target_i.png'
   holdLastFrame: True
 - key: 'target_o_image'
-  file: 'target_o.jpg'
+  file: 'target_o.png'
   holdLastFrame: True
 - key: 'target_r_image'
-  file: 'target_r.jpg'
+  file: 'target_r.png'
   holdLastFrame: True
 - key: 'target_n1_image'
-  file: 'target_n1.jpg'
+  file: 'target_n1.png'
   holdLastFrame: True
 - key: 'target_m_image'
-  file: 'target_m.jpg'
+  file: 'target_m.png'
   holdLastFrame: True
 - key: 'target_a_image'
-  file: 'target_a.jpg'
+  file: 'target_a.png'
   holdLastFrame: True
 - key: 'target_n2_image'
-  file: 'target_n2.jpg'
+  file: 'target_n2.png'
   holdLastFrame: True
 - key: 'hit_1_movie'
   file: 'ironman_punches_guy.mp4'

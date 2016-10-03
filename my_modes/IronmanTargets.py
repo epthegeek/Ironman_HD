@@ -22,25 +22,30 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.right_lamps = [self.game.lamps['rightTargetsM'],
                             self.game.lamps['rightTargetsA'],
                             self.game.lamps['rightTargetsN']]
-        self.letter_images = ['target_i_image','target_r_image','target_o_image','target_n1_image','target_m_image','target_a_image','target_n2_image']
-        self.hit_movies = ['hit_1_movie','hit_2_movie','hit_3_movie','hit_4_movie','hit_5_movie','hit_6_movie']
+        self.hit_movies = [self.game.animations['hit_1_movie'],
+                           self.game.animations['hit_2_movie'],
+                           self.game.animations['hit_3_movie'],
+                           self.game.animations['hit_4_movie'],
+                           self.game.animations['hit_5_movie'],
+                           self.game.animations['hit_6_movie']]
         self.hit_index = 0
-        i_layer = dmd.FrameLayer(frame=self.game.animations['target_i_image'].frames[0])
-        i_layer.set_target_position(1,0)
-        r_layer = dmd.FrameLayer(frame=self.game.animations['target_r_image'].frames[0])
-        r_layer.set_target_position(321,0)
-        o_layer = dmd.FrameLayer(frame=self.game.animations['target_o_image'].frames[0])
-        o_layer.set_target_position(541,0)
-        n1_layer = dmd.FrameLayer(frame=self.game.animations['target_n1_image'].frames[0])
-        n1_layer.set_target_position(751,0)
-        m_layer = dmd.FrameLayer(frame=self.game.animations['target_m_image'].frames[0])
-        m_layer.set_target_position(1001,0)
-        a_layer = dmd.FrameLayer(frame=self.game.animations['target_a_image'].frames[0])
-        a_layer.set_target_position(1281,0)
-        n2_layer = dmd.FrameLayer(frame=self.game.animations['target_n2_image'].frames[0])
-        n2_layer.set_target_position(1491,0)
-        self.left_layers = [i_layer,r_layer,o_layer,n1_layer]
-        self.right_layers = [m_layer,a_layer,n2_layer]
+        self.top = dmd.HDTextLayer(15,15,self.game.fonts['bebas80'],"left",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
+        self.i_layer = dmd.FrameLayer(frame=self.game.animations['target_i_image'].frames[0])
+        self.i_layer.set_target_position(1301,625)
+        self.r_layer = dmd.FrameLayer(frame=self.game.animations['target_r_image'].frames[0])
+        self.r_layer.set_target_position(1349,625)
+        self.o_layer = dmd.FrameLayer(frame=self.game.animations['target_o_image'].frames[0])
+        self.o_layer.set_target_position(1437,625)
+        self.n1_layer = dmd.FrameLayer(frame=self.game.animations['target_n1_image'].frames[0])
+        self.n1_layer.set_target_position(1521,625)
+        self.m_layer = dmd.FrameLayer(frame=self.game.animations['target_m_image'].frames[0])
+        self.m_layer.set_target_position(1621,625)
+        self.a_layer = dmd.FrameLayer(frame=self.game.animations['target_a_image'].frames[0])
+        self.a_layer.set_target_position(1733,625)
+        self.n2_layer = dmd.FrameLayer(frame=self.game.animations['target_n2_image'].frames[0])
+        self.n2_layer.set_target_position(1817,625)
+        self.left_layers = [self.i_layer,self.r_layer,self.o_layer,self.n1_layer]
+        self.right_layers = [self.m_layer,self.a_layer,self.n2_layer]
         self.mode_titles = ["FAST SCORING", "DOUBLE SCORING", "IRONMAN SCORING"]
         self.left_tracking = [False,False,False,False]
         self.right_tracking = [False,False,False]
@@ -109,6 +114,9 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
     # target_activate treats as either a side hit (first set) or  single target hit
     def target_activate(self,target, target_set,tracker,side):
+        # for now play a generic sound
+        self.game.sound.play('im_target_hit')
+
         # if we have no completions so far, hits count differently
         if self.completions == 0:
             # process as a side hit
@@ -123,15 +131,11 @@ class IronmanTargets(procgame.game.AdvancedMode):
                     # Check if we're done
                     data = self.check_complete()
                     #do the display - sends activated target
-                    # for now play a generic sound
-                    self.game.sound.play('im_target_hit')
                     # if this is the first target of a set, play the tutorial quote
                     if self.game.base.tut_status[0]:
                         self.delay(delay=0.7,handler=self.tutorial_quote)
-                    if data[0]:
-                        self.target_display(n,side,data[0])
-                    else:
-                        self.target_display_movie(n,side,data[0])
+                    # if completed - the delays are 4 seconds
+                    self.target_display_movie(n,side,data[0],data[2])
                     self.update_lamps()
                     # score points
                     self.game.score(data[1])
@@ -143,11 +147,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
                 tracker[target] = True
                 # Check if we're done
                 data = self.check_complete()
-                # do the display
-                if data[0]:
-                    self.target_display(target,side,data[0])
-                else:
-                    self.target_display_movie(target,side,data[0])
+                self.target_display_movie(target,side,data[0],data[2])
                 # score points
                 self.game.score(data[1])
             # if the target was on already, it's a thunk
@@ -160,10 +160,12 @@ class IronmanTargets(procgame.game.AdvancedMode):
             complete = True
             points = self.last_value
             self.last_value += 25000
+            delay = 4
         else:
             complete = False
             points = 75000
-        data = [complete,points]
+            delay = 2
+        data = [complete,points,delay]
         return data
 
     # target_thunk is a default "this target is already on" handler
@@ -176,23 +178,84 @@ class IronmanTargets(procgame.game.AdvancedMode):
     def target_display_movie_helper(self,options):
         self.target_display_movie(options[0],options[1],options[2])
 
-    def target_display_movie(self,target,side,complete = False):
+    def target_display_movie(self,target,side,complete = False,delay_time = 2):
         self.cancel_delayed("clear")
+        if self.mode_index == 0:
+            string = "FAST SCORING"
+        elif self.mode_index == 1:
+            string = "DOUBLE SCORING"
+        elif self.mode_index == 2:
+            string = "IRONMAN SCORING"
+
         if not complete:
-            self.game.animations[self.hit_movies[self.hit_index]].reset()
-            self.layer = self.game.animations[self.hit_movies[self.hit_index]]
+            anim = self.hit_movies[self.hit_index]
+#            self.layer = self.game.animations[self.hit_movies[self.hit_index]]
             self.hit_index += 1
             if self.hit_index == 6:
                 self.hit_index = 0
-            self.delay(delay=2.0,handler=self.target_display_helper,param=[target,side,complete])
+            self.top.set_text("COMPLETE TARGETS FOR: " + string)
+        # targets complete
         else:
-            self.game.animations['ironman_land_and_stand'].reset()
-            self.layer = self.game.animations['ironman_land_and_stand']
+            # score the points for the mark complete here, in care the display gets cut off
+            self.game.mark.player_mark += 1
+            self.game.mark.score()
+            self.top.set_text("TARGETS COMPLETED: " + string + " IS READY")
+            anim = self.game.animations['ironman_land_and_stand']
             # if the player isn't done with marks, show the mark completed
             if self.game.mark.player_mark <= 6 and not self.game.mark.finished:
-                self.delay(delay=4,handler=self.game.mark.completed)
+                self.delay(delay=delay_time,handler=self.game.mark.completed)
 
-            self.delay("clear",delay=4,handler=self.clear_layer)
+        anim.reset()
+        # the letter display
+        layers = [anim]
+        for n in range(0,4,1):
+            if self.left_tracking[n] == True:
+                if side == "L" and target == n:
+                    #on_layers.append(self.left_layers[n])
+                    # This is the blinking letter
+                    self.blink(["L",n,16])
+                else:
+                    # add the layer for that letter
+                    #on_layers.append(self.left_layers[n])
+                    #off_layers.append(self.left_layers[n])
+                    self.left_layers[n].enabled = True
+            # otherwise it's off
+            else:
+                self.left_layers[n].enabled = False
+            layers.append(self.left_layers[n])
+        for n in range(0,3,1):
+            if self.right_tracking[n] == True:
+                if side == "R" and target == n:
+                    #on_layers.append(self.right_layers[n])
+                    self.blink(["R",n,16])
+                else:
+                    self.right_layers[n].enabled = True
+            else:
+                self.right_layers[n].enabled = False
+            layers.append(self.right_layers[n])
+
+        layers.append(self.top)
+        self.layer = dmd.GroupedLayer(1920, 800, layers, opaque=True)
+        self.delay("clear",delay=delay_time,handler=self.clear_layer)
+
+    def blink(self,options):
+        self.cancel_delayed("blink")
+        side,index,count = options
+        count -= 1
+        # set which side we're working with
+        if side == "L":
+            layer = self.left_layers[index]
+        else:
+            layer = self.right_layers[index]
+        # toggle enabled or not
+        if layer.enabled:
+            layer.enabled = False
+        else:
+            layer.enabled = True
+        # loop back until the counter is out
+        if count > 0:
+            self.delay("blink",delay=0.2,handler=self.blink,param=[side,index,count])
+
 
     def target_display_helper(self,options):
         self.target_display(options[0],options[1],options[2])
@@ -258,44 +321,29 @@ class IronmanTargets(procgame.game.AdvancedMode):
             self.game.mark.mode_light(0)
 
         # load the relevant mode
-        if self.completions < 3:
-            if self.completions == 1:
-                self.game.modes.add(self.game.fast_scoring)
-            else:
-                # TODO: have to add double scoring and ironman scoring yet
-                # double scoring goes here
-                self.end_target_mode()
+        if self.mode_index == 0:
+            self.game.modes.add(self.game.fast_scoring)
+        elif self.game.mode_index == 1:
+            # TODO: have to add double scoring and ironman scoring yet
+            # double scoring goes here
+            self.end_target_mode()
         else:
-            if self.completions %3 == 1:
-                self.game.modes.add(self.game.fast_scoring)
-            elif self.completions % 3 == 2:
-                # double scoring would go here
-                self.end_target_mode()
-            else:
-                # ironman scoring would go here
-                self.end_target_mode()
-                # add the completion
-            # add the scoring mode and start the proper action
+            # ironman scoring would go here
+            self.end_target_mode()
+        self.mode_index += 1
+        if self.mode_index > 2:
+            self.mode_index = 0
 
     def tutorial_quote(self):
-        if self.completions < 3:
-            if self.completions == 0:
-                quote = 'tut_fast_scoring'
-            elif self.completions == 1:
-                # double scoring quote
-                quote = 'tut_double_scoring'
-            else:
-                # ironman scoring quote
-                quote = 'tut_ironman_scoring'
+        if self.mode_index == 0:
+            quote = 'tut_fast_scoring'
+        elif self.mode_index == 1:
+            # double scoring quote
+            quote = 'tut_double_scoring'
+        # other option is ironman scoring
         else:
-            if self.completions % 3 == 0:
-                quote = 'tut_fast_scoring'
-            elif self.completions % 3 == 1:
-                # double scoring
-                quote = 'tut_double_scoring'
-            else:
-                # ironman scoring
-                quote = 'tut_ironman_scoring'
+            quote = 'tut_ironman_scoring'
+
         duration = self.voice_helper([quote,procgame.sound.PLAY_NOTBUSY])
         #if it successfully plays, set the flag
         if duration > 0:

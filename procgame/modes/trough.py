@@ -262,7 +262,7 @@ class Trough(Mode):
         for switch in self.position_switchnames:
             if self.game.switches[switch].is_active():
                 ball_count += 1
-        return 4
+        return ball_count
 
     def is_full(self):
         return self.num_balls() == self.game.num_balls_total

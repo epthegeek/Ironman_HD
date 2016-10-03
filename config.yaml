@@ -13,7 +13,7 @@ default_modes:
     osc_input: True
     service_mode: True
 
-pinproc_class: procgame.fakepinproc.FakePinPROC
+#pinproc_class: procgame.fakepinproc.FakePinPROC
 
 use_virtual_dmd_only: True
 dmd_dots_w: 1920
