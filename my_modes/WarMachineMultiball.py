@@ -118,9 +118,8 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         self.drone_hit(3)
         return procgame.game.SwitchStop
 
-    def sw_warMachineOpto_active(self,sw):
+    def sw_warMachineKicker_active(self,sw):
         # TODO: for the first 20 seconds, any shot to war machine should add a ball
-        self.game.coils.warMachineKicker.pulse()
         # always make the noise
         self.game.sound.play('wm_explosion')
         # if the ball goes up into the war machine

@@ -145,7 +145,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
         anim.add_frame_listener(-1,self.set_main_display)
         self.layer = dmd.GroupedLayer(1920,800,[anim,self.intro_1,self.intro_2,self.intro_3],opaque=True)
         # launch the balls
-       # self.game.trough.launch_and_autoplunge_balls(2)
+        self.game.trough.launch_and_autoplunge_balls(2)
         # lower the monger after a delay?
         self.delay(1,handler=self.game.monger_toy.fall)
         # release the ball

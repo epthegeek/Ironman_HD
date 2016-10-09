@@ -15,6 +15,7 @@ class WarMachine(procgame.game.AdvancedMode):
         top.set_text("JACKPOT NOW")
         self.jp_now_text = dmd.HDTextLayer(1920 / 2, 350, self.game.fonts['bebas300'], "center", line_color=(0, 0, 0), line_width=4,interior_color=(255,255,0))
         self.jp_now_display = dmd.GroupedLayer(1920,800,[metal_backdrop,top,self.jp_now_text],opaque=True)
+        self.multiball_status = "OPEN"
 
 
     def evt_ball_starting(self):
@@ -25,15 +26,14 @@ class WarMachine(procgame.game.AdvancedMode):
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('wm_multiball_status',self.multiball_status)
+        self.disable_lamps()
 
-    def sw_warMachineOpto_active(self,sw):
+    def sw_warMachineKicker_active(self,sw):
         # always make the noise
         self.game.sound.play('wm_explosion')
         # if the ball goes up into the war machine
         self.valid = False
         self.delay(delay=0.5,handler=self.make_valid)
-        # fire the kicker
-        self.game.coils.warMachineKicker.pulse()
         self.process_hit()
 
     def process_hit(self):
@@ -47,6 +47,7 @@ class WarMachine(procgame.game.AdvancedMode):
             self.game.shields.collect_award()
         if self.multiball_status == "READY":
             # if war machine multiball is ready, do that
+            self.disable_lamps()
             self.game.modes.add(self.game.wm_multiball)
         # this option is add a drone if needed
         elif sum(self.game.drones.drone_tracking) < 4:
@@ -60,6 +61,7 @@ class WarMachine(procgame.game.AdvancedMode):
 
     def light_multiball(self):
         self.multiball_status = "READY"
+        self.update_lamps()
         # do a display?
         self.layer = self.game.animations['war_machine_start']
         # change the music
@@ -70,6 +72,16 @@ class WarMachine(procgame.game.AdvancedMode):
 
     def make_valid(self):
         self.valid = True
+
+    def update_lamps(self):
+        self.disable_lamps()
+        if self.multiball_status == "READY":
+            self.game.coils['warMachineFlasher'].schedule(0x11111111)
+            self.game.lamps['warMachine'].enable()
+
+    def disable_lamps(self):
+        self.game.coils['warMachineFlasher'].disable()
+        self.game.lamps['warMachine'].disable()
 
 
     def clear_layer(self):

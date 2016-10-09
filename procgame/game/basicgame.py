@@ -104,6 +104,7 @@ class BasicGame(GameController):
 		"""Convenience method to add *points* to the current player."""
 		p = self.current_player()
 		p.score += points
+		print "SCORING POINTS " + str(points)
 
 	#
 	# Support for showing the last DMD frame on the desktop.

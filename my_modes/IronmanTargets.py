@@ -71,6 +71,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.game.setPlayerState('im_mode_index',self.mode_index)
         self.game.setPlayerState('im_last_value',self.last_value)
         self.scoring_mode_running = False
+        self.disable_lamps()
 
     def sw_leftTargetI_active(self,sw):
         self.target_hit(0)
@@ -365,10 +366,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
     def update_lamps(self):
         if self.game.whiplash_multiball.running or self.game.monger_multiball.running or self.game.wm_multiball.running:
-            for lamp in self.left_lamps:
-                lamp.disable()
-            for lamp in self.right_lamps:
-                lamp.disable()
+            self.disable_lamps()
         else:
             # default state for unlit lamps is blinking
             for lamp in self.left_lamps:
@@ -389,6 +387,12 @@ class IronmanTargets(procgame.game.AdvancedMode):
                 for n in range (0,3,1):
                     if self.right_tracking[n]:
                         self.right_lamps[n].enable()
+
+    def disable_lamps(self):
+        for lamp in self.left_lamps:
+            lamp.disable()
+        for lamp in self.right_lamps:
+            lamp.disable()
 
     def clear_layer(self):
         self.layer = None

@@ -19,6 +19,7 @@ PRBumpers:
     - leftJetBumper
     - rightJetBumper
     - bottomJetBumper
+    - warMachineKicker
 PRSwitches:
     # **** Format ****
     # name:
@@ -88,27 +89,15 @@ PRSwitches:
         number: SD24
         label: Enter
         tags: Dedicated,0,8
-    dipSW1:
-        number: SD25
-    dipSW2:
-        number: SD26
-    dipSW3:
-        number: SD27
-    dipSW4:
-        number: SD28
-    dipSW5:
-        number: SD29
-    motorSwitchTop:
-        number: SD30
-    dipSW7:
-        number: SD31
-    motorSwitchBot:
-        number: SD32
+#    motorSwitchTop:
+#        number: SD30
+#    motorSwitchBot:
+#        number: SD32
 
     #Matrix Switches
-    motorSwitch1:
+    motorSwitchBot:
         number: S01
-        label: Monger Motor Switch Top Position
+        label: Monger Motor Switch Bottom Position
         tags: Standard,1,1
     motorSwitch2:
         number: S02
@@ -116,7 +105,7 @@ PRSwitches:
         tags: Standard,2,1
     motorSwitchTop:
         number: S03
-        label: Monger Motor Switch Bottom Position
+        label: Monger Motor Switch Top Position
         tags: Standard,3,1
     mongerOptoLeft:
         number: S04
@@ -145,7 +134,7 @@ PRSwitches:
         number: S09
         label: Monger Motor Switch
         tags: Standard,9,1,Bonus
-    warMachineOpto:
+    warMachineKicker:
         number: S10
         label: War Machine Opto
         tags: Standard,10,1,Bonus

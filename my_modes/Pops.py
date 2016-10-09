@@ -81,6 +81,7 @@ class Pops(procgame.game.AdvancedMode):
         self.game.setPlayerState('pops_level', self.level)
         self.game.setPlayerState('pops_jackpot', self.jackpot)
         self.game.setPlayerState('pops_super_value',self.super_value)
+        self.disable_lamps()
 
     def sw_leftJetBumper_active(self,sw):
         self.pop_hit(0)

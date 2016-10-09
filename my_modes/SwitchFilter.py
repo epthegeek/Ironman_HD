@@ -46,7 +46,7 @@ class SwitchFilter(procgame.game.AdvancedMode):
                             'leftJetBumper':170,
                             'rightJetBumper':170,
                             'bottomJetBumper':170,
-                            'warMachineOpto':1510,
+                            'warMachineKicker':1510,
                             'whiplashLeft':1080,
                             'whiplashRight':1080,
                             'mongerOptoLeft':0,

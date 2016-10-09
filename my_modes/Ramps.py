@@ -45,6 +45,7 @@ class Ramps(procgame.game.AdvancedMode):
         self.game.setPlayerState('ramp_shots',self.ramp_shots)
         self.game.setPlayerState('bogey_rounds', self.bogey_rounds)
         self.game.setPlayerState('bogey_status',self.bogey_status)
+        self.disable_lamps()
 
     def sw_leftRampEnter_active(self, sw):
         self.rampEnter()
@@ -151,37 +152,42 @@ class Ramps(procgame.game.AdvancedMode):
 
 
     def update_lamps(self):
+        if self.game.bogey.running:
+            pass
+        else:
+            self.disable_lamps()
+            # if both ramps add up to 8, we're ready for bogey and they should all flash
+            print "RAMPS STAGE SHIT L: " + str(self.ramp_stage[0]) + " R: " + str(self.ramp_stage[1])
+            if (self.ramp_stage[0] + self.ramp_stage[1]) == 8:
+                for n in range(0,4,1):
+                    self.left_ramp_lamps[n].schedule(0x00FF00FF)
+                    self.right_ramp_lamps[n].schedule(0x00FF00FF)
+            # otherwise step through and make the right lamps solid & blink
+            else:
+                blinker = False
+                for n in range (0,4,1):
+                    if self.ramp_stage[0] == n:
+                        blinker = True
+                        self.left_ramp_lamps[n].schedule(0x0F0F0F0F)
+                    elif not blinker:
+                        self.left_ramp_lamps[n].enable()
+                    else:
+                        pass
+                blinker = False
+                for n in range (0,4,1):
+                    if self.ramp_stage[1] == n:
+                        blinker = True
+                        self.right_ramp_lamps[n].schedule(0x0F0F0F0F)
+                    elif not blinker:
+                        self.right_ramp_lamps[n].enable()
+                    else:
+                        pass
+
+    def disable_lamps(self):
         for lamp in self.left_ramp_lamps:
             lamp.disable()
         for lamp in self.right_ramp_lamps:
             lamp.disable()
-
-        # if both ramps add up to 8, we're ready for bogey and they should all flash
-        print "RAMPS STAGE SHIT L: " + str(self.ramp_stage[0]) + " R: " + str(self.ramp_stage[1])
-        if (self.ramp_stage[0] + self.ramp_stage[1]) == 8:
-            for n in range(0,4,1):
-                self.left_ramp_lamps[n].schedule(0x00FF00FF)
-                self.right_ramp_lamps[n].schedule(0x00FF00FF)
-        # otherwise step through and make the right lamps solid & blink
-        else:
-            blinker = False
-            for n in range (0,4,1):
-                if self.ramp_stage[0] == n:
-                    blinker = True
-                    self.left_ramp_lamps[n].schedule(0x0F0F0F0F)
-                elif not blinker:
-                    self.left_ramp_lamps[n].enable()
-                else:
-                    pass
-            blinker = False
-            for n in range (0,4,1):
-                if self.ramp_stage[1] == n:
-                    blinker = True
-                    self.right_ramp_lamps[n].schedule(0x0F0F0F0F)
-                elif not blinker:
-                    self.right_ramp_lamps[n].enable()
-                else:
-                    pass
 
     def clear_layer(self):
         self.layer = None

@@ -51,7 +51,8 @@ class Drones(procgame.game.AdvancedMode):
         self.game.setPlayerState('war_machine_battles', self.war_machine_battles)
         self.game.setPlayerState('drones_for_mb', self.drones_for_mb)
         self.game.setPlayerState('drone_value', self.drone_value)
-        self.game.setPlayerState('drone_value', self.drone_jp_value)
+        self.game.setPlayerState('drone_jp_value', self.drone_jp_value)
+        self.disable_lamps()
 
     def sw_droneTarget0_active(self,sw):
         self.drone_hit(0)
@@ -209,8 +210,7 @@ class Drones(procgame.game.AdvancedMode):
             pass
         else:
             # if WM MB is not running, disable first
-            for lamp in self.drone_lamps:
-                lamp.disable()
+            self.disable_lamps()
             # if either of the other 2 multiballs are running - stop there
             if self.game.whiplash_multiball.running or self.game.monger_multiball.running:
                 pass
@@ -219,6 +219,10 @@ class Drones(procgame.game.AdvancedMode):
                 for n in range (0,4,1):
                     if self.drone_tracking[n] == True:
                         self.drone_lamps[n].schedule(0x0F0F0F0F)
+
+    def disable_lamps(self):
+        for lamp in self.drone_lamps:
+            lamp.disable()
 
     def set_explosion_position(self,target):
         self.explosion_layer.reset()

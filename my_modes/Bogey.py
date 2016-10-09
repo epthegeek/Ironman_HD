@@ -196,6 +196,8 @@ class Bogey(procgame.game.AdvancedMode):
         self.running = False
         self.game.base.set_music()
         self.delay(delay=3,handler=self.unload)
+        # update the ramp lamps
+        self.game.ramps.update_lamps()
 
     def mode_display(self):
         self.layer = self.main_layer
@@ -218,7 +220,10 @@ class Bogey(procgame.game.AdvancedMode):
     def update_lamps(self):
         for lamp in self.bogey_lamps:
             lamp.schedule(0x00FF00FF)
-
+        self.bogey_lamps[0].schedule(0X000F000F)
+        self.bogey_lamps[1].schedule(0x00F000F0)
+        self.bogey_lamps[2].schedule(0x0F000F00)
+        self.bogey_lamps[3].schedule(0xF000F000)
 
     def clear_layer(self):
         self.layer = None

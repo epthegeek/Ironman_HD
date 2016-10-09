@@ -31,7 +31,7 @@ class MongerToy(procgame.game.AdvancedMode):
 
         # check if the monger should be up for the player, and if not, raise - if up and should be down - lower
         stat = self.game.getPlayerState('monger_status')
-        if stat == "UP" or stat == "READY":
+        if stat == "UP":
             # monger should be up
             if self.status == "UP":
                 pass
@@ -99,7 +99,7 @@ class MongerToy(procgame.game.AdvancedMode):
 
     def reset_toy(self):
         if self.status == "INIT" and self.game.switches['motorSwitchBot'].is_active():
-            pass
+            self.status = "DOWN"
         # if the toy is already down, fine
         elif self.status == "DOWN":
             pass

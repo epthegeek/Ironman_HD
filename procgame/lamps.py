@@ -216,7 +216,6 @@ class LampShow(object):
             if line[0] != '#':
                 # newshits for merged lightshow
                 if merge:
-                    print "OMG MERGE IS TRUE"
                     mylist = line.replace(' ', '').split('|')
                     if 'active' in self.game.lamps[mylist[0]].tags:
                         pass

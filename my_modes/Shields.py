@@ -38,6 +38,7 @@ class Shields(procgame.game.AdvancedMode):
         self.game.setPlayerState('shield_awards_pending',self.shield_awards_pending)
         self.game.setPlayerState('shield_awards_collected', self.shield_awards_collected)
         self.game.setPlayerState('shield_mark', self.shield_mark)
+        self.disable_lamps()
 
     ####
     ### Shields
@@ -69,7 +70,7 @@ class Shields(procgame.game.AdvancedMode):
         if self.valid:
             self.rotate_shields(-1)
 
-    def sw_warMachineOpto_active(self,sw):
+    def sw_warMachineKicker_active(self,sw):
         if self.shield_awards_pending > 0:
             self.collect_award()
 
@@ -156,6 +157,10 @@ class Shields(procgame.game.AdvancedMode):
                         self.shield_lamps[i].enable()
                     else:
                         self.shield_lamps[i].disable()
+
+    def disable_lamps(self):
+        for lamp in self.shield_lamps:
+            lamp.disable()
 
     def flash_lights(self):
         for i in range (0,6,1):

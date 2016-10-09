@@ -94,8 +94,6 @@ class IronMonger(procgame.game.AdvancedMode):
         ## Status goes "OPEN" then "READY" then "UP" then "MB" then "RUNNING"
         self.status = self.game.getPlayerState('monger_status')
         self.monger_base_value = self.game.getPlayerState('monger_base_value')
-        if self.status == "UP":
-            self.game.monger_toy.rise()
         # for locking out spinners based on conditions
         self.valid = [True,True,True,True,True,True]
         self.toy_valid = True
@@ -196,9 +194,9 @@ class IronMonger(procgame.game.AdvancedMode):
             self.hit_toy()
 
     def letter_hit(self):
-        # stop any display delays
-        self.cancel_delayed("display")
         if self.letters < 10:
+            # stop any display delays
+            self.cancel_delayed("display")
             self.letters += 1
             points = self.letters * 10000
             # do the display
@@ -284,6 +282,8 @@ class IronMonger(procgame.game.AdvancedMode):
         self.spinner_text_layer.set_text(text)
 
     def hit_toy(self):
+        print "HIT TOY, BITCH"
+        print "STATUS = " +self.game.monger_toy.status
         if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
             self.game.sound.play('monger_clank')
@@ -339,7 +339,7 @@ class IronMonger(procgame.game.AdvancedMode):
             for lamp in self.orbit_lamps:
                 lamp.schedule(0x0F0F0F0F)
         if self.status == "UP":
-            for n in range(1, 8, 1):
+            for n in range(0, 7, 1):
                 if n <= self.toy_letters:
                     self.monger_lamps[n].enable()
                 else:
