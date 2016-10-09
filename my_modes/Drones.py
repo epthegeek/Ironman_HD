@@ -35,6 +35,8 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_tracking = [True,True,True,True]
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         self.drone_tracking = self.game.getPlayerState('drone_targets')
         self.drone_total = self.game.getPlayerState('drone_hits')
         self.war_machine_battles = self.game.getPlayerState('war_machine_battles')

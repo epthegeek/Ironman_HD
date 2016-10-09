@@ -22,6 +22,10 @@ class Skillshot(procgame.game.AdvancedMode):
                                 line_color=(0, 0, 1), line_width=8)
         self.display = dmd.GroupedLayer(1920, 800, [bg, bar, title, self.score_text],opaque=True)
         self.light = 0
+        self.hit = False
+
+    def evt_ball_starting(self):
+        self.wipe_delays()
 
     def mode_started(self):
         self.leaving = False
@@ -65,7 +69,7 @@ class Skillshot(procgame.game.AdvancedMode):
     def check_ss(self,lane):
         self.cancel_delayed("unload")
         self.game.shields.update_lamps()
-        if self.light == lane:
+        if self.light == lane and not self.hit:
             self.hit = True
             self.collect_skillshot()
         else:

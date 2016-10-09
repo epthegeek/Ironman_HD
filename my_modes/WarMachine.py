@@ -18,6 +18,8 @@ class WarMachine(procgame.game.AdvancedMode):
 
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         self.valid = True
         self.multiball_status = self.game.getPlayerState('wm_multiball_status')
 

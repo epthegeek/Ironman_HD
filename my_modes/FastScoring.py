@@ -52,6 +52,8 @@ class FastScoring(procgame.game.AdvancedMode):
         self.names = ['fast5','fast4','fast3','fast2','fast1','fast0']
         self.timer_start_value = 41
 
+    def evt_ball_starting(self):
+        self.wipe_delays()
 
     def mode_started(self):
         self.fast_scoring_runs = self.game.getPlayerState('fast_scoring_runs')

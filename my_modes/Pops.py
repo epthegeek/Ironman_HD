@@ -52,6 +52,8 @@ class Pops(procgame.game.AdvancedMode):
         self.super_boom = True
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         # set all the pops as unlit
         self.pop_state = [False,False,False]
         # pops have 3 levels - 5k, 7.5k and 10k

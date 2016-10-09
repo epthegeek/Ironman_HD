@@ -30,6 +30,8 @@ class Ramps(procgame.game.AdvancedMode):
         self.ramp_stage = [0,0]
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         # set the ramp doubler back to none
         self.rampDoubled = 9
         self.ramp_stage = self.game.getPlayerState('ramp_stage')

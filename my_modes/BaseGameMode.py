@@ -96,6 +96,8 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.game.update_lamps()
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         # Shooter lane music selection
         if self.game.monger.status == "UP":
             song = 'monger_ready_shooter_lane'
@@ -108,7 +110,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # ball saver?
         #self.game.ball_saver_enable(num_balls_to_save=1, time=5, now=True, allow_multiple_saves=False,callback=self.ballsaved)
         # reset bonus x
-        self.bonus_x = 0
+        self.bonus_x = 1
         # load the skill shot
         self.game.modes.add(self.game.skillshot)
         self.modes_this_ball = [0,0,0,0,0]
@@ -125,10 +127,13 @@ class BaseGameMode(procgame.game.AdvancedMode):
         pass
 
     def evt_ball_ending(self, (shoot_again, last_ball)):
-        self.game.sound.stop_music()
         self.game.setPlayerState('tutorials', self.tut_status)
         self.game.log("BaseGameMode trough changed notification ('ball_ending - again=%s, last=%s')" % (shoot_again,last_ball))
-        return 2
+        # do the bonus here
+        self.game.modes.add(self.game.bonus)
+        # return a special flag that says wait until I say so for the next event
+        #return (False, -1)
+        return 600
 
     def evt_game_ending(self):
         self.game.log("BaseGameMode changed notification ('game_ending')")

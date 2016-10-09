@@ -17,7 +17,8 @@ __all__ = [
     'WhiplashMultiball',
     'WarMachineMultiball',
     'Skillshot',
-    'MBSwitchStop'
+    'MBSwitchStop',
+    'Bonus'
     ]
 
 from BaseGameMode import *
@@ -39,3 +40,4 @@ from WhiplashMultiball import *
 from WarMachineMultiball import *
 from Skillshot import *
 from MBSwitchStop import *
+from Bonus import *

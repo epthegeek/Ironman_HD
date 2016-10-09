@@ -37,6 +37,8 @@ class Whiplash(procgame.game.AdvancedMode):
         self.styles = [self.game.fontstyles['whiplash_mb_0'],self.game.fontstyles['whiplash_mb_1']]
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         self.whiplash_fights = self.game.getPlayerState('whiplash_fights')
         self.hits = self.game.getPlayerState('whiplash_hits')
         self.hits_for_mb = self.game.getPlayerState('whiplash_hits_for_mb')

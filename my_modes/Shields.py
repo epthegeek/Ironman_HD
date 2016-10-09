@@ -25,15 +25,19 @@ class Shields(procgame.game.AdvancedMode):
         self.shield_tracking = [False,False,False,False,False,False]
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         self.shield_tracking = self.game.getPlayerState('shields')
         self.shield_awards_pending = self.game.getPlayerState('shield_awards_pending')
         self.shield_awards_collected = self.game.getPlayerState('shield_awards_collected')
+        self.shield_mark = self.game.getPlayerState('shield_mark')
         self.valid = True
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('shields',self.shield_tracking)
         self.game.setPlayerState('shield_awards_pending',self.shield_awards_pending)
         self.game.setPlayerState('shield_awards_collected', self.shield_awards_collected)
+        self.game.setPlayerState('shield_mark', self.shield_mark)
 
     ####
     ### Shields
@@ -85,6 +89,7 @@ class Shields(procgame.game.AdvancedMode):
                     self.game.sound.play('last_shield')
                 else:
                     self.game.sound.play('shield_unlit')
+                self.update_lamps()
 
             #Did we finish the set?
             if False not in self.shield_tracking:

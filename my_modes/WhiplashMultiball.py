@@ -60,6 +60,9 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.orbit_inactive = False
         self.hold = True
 
+    def evt_ball_starting(self):
+        self.wipe_delays()
+
     def mode_started(self):
         self.hold = True
         self.jackpot_index = 0

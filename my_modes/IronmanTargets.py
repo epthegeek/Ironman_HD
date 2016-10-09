@@ -53,6 +53,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
     # read the current player information
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         # TODO: check if targets hit stay ball to ball
         self.left_tracking = self.game.getPlayerState('im_left_targets')
         self.right_tracking = self.game.getPlayerState('im_right_targets')

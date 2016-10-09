@@ -85,6 +85,10 @@ class Bogey(procgame.game.AdvancedMode):
         self.bogey_award_score_dim = dmd.HDTextLayer(1920/2,300,self.game.fonts['main_score'],"center",line_color=[16,16,0],line_width=6,interior_color=[64,64,0])
         self.flash_text = dmd.ScriptedLayer(1920,800,[{'seconds':0.2,'layer':self.bogey_award_score},{'seconds':0.2,'layer':self.bogey_award_score_dim}])
 
+    def evt_ball_starting(self):
+        self.wipe_delays()
+
+
     def mode_started(self):
         # set the timer value TODO: adust for settings later
         self.timer_value = 41

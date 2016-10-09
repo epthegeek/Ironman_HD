@@ -76,6 +76,8 @@ class IronMonger(procgame.game.AdvancedMode):
         self.second_scripts_index = 0
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         # clear used to determine wait time on repeat hits to switches
         self.clear = True
         self.letters = self.game.getPlayerState('monger_letters')

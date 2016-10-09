@@ -48,6 +48,8 @@ class Marks(procgame.game.AdvancedMode):
         self.modes_lit = [False,False,False,False,False]
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         self.player_mark = self.game.getPlayerState('marks')
         self.finished = self.game.getPlayerState('marks_finished')
         self.modes_finished = self.game.getPlayerState('modes_finished')

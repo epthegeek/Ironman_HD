@@ -46,6 +46,9 @@ Animations:
 - key: 'gold_bar'
   file: 'gold-texture-bar.png'
   holdLastFrame: True
+- key: 'bonus_backdrop'
+  file: 'bonus_backdrop.jpg'
+  holdLastFrame: True
 - key: 'drone_0_image'
   file: 'drone_0.jpg'
   holdLastFrame: True
@@ -75,6 +78,9 @@ Animations:
   holdLastFrame: False
   streamingMovie: True
 - key: 'black'
+  file: 'black.png'
+  holdLastFrame: True
+- key: 'gameover'
   file: 'black.png'
   holdLastFrame: True
 - key: 'metal_bg'
@@ -674,6 +680,15 @@ Fonts:
   - key: 'demo5'
     file: 'Plane Crash.ttf'
     size: 250
+  - key: 'high_score_entry_inits'
+    file: 'IRON MAN OF WAR 002 NCV.ttf'
+    size: 200
+  - key: 'high_score_entry_msg'
+    file: 'BebasNeue.otf'
+    size: 120
+  - key: 'high_score_entry_letters'
+    file: 'BebasNeue.otf'
+    size: 150
 Audio:
   Music:
     - key: 'main_shooter_lane'
@@ -708,6 +723,9 @@ Audio:
       volume: 0.8
     - key: 'game_over'
       file: 'Sound-0406.wav'
+      volume: 0.8
+    - key: 'bonus'
+      file: 'Sound-03FD.wav'
       volume: 0.8
   Effects:
     - key: 'scoring_mode_start'
@@ -874,6 +892,9 @@ Audio:
       volume: 1
     - key: 'fast_scoring'
       file: 'Sound-00AF.wav'
+      volume: 1
+    - key: 'bonus_chord'
+      file: 'Sound-0048.wav'
       volume: 1
   Voice:
     - key: 'mark_1_completed'

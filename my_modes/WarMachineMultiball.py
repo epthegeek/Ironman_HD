@@ -78,6 +78,9 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         self.intro_movie = self.game.animations['war_machine_ready']
         self.intro = dmd.GroupedLayer(1920,800,[self.intro_movie,intro_1,intro_2,intro_3],opaque = True)
 
+    def evt_ball_starting(self):
+        self.wipe_delays()
+
     def mode_started(self):
         self.valid = [True, True]
         self.display_type = "drones"

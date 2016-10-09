@@ -27,6 +27,8 @@ class MongerToy(procgame.game.AdvancedMode):
         self.reset_toy()
 
     def evt_ball_starting(self):
+        self.wipe_delays()
+
         # check if the monger should be up for the player, and if not, raise - if up and should be down - lower
         stat = self.game.getPlayerState('monger_status')
         if stat == "UP" or stat == "READY":

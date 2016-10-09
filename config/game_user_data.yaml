@@ -1,8 +1,8 @@
-Audits: {Avg Ball Time: '0:32', Avg Extra Balls: 0, Avg Game Time: '1:42', Avg Score: 1790175,
-  Balls Played: 3, Games Played: 1, Games Started: 827}
+Audits: {Avg Ball Time: '0:27', Avg Extra Balls: 0, Avg Game Time: '2:26', Avg Score: 61612993,
+  Balls Played: 12, Games Played: 4, Games Started: 844}
 ClassicHighScores:
-- {inits: AAA, score: 500}
-- {inits: BBB, score: 600}
-- {inits: CCC, score: 700}
-- {inits: DDD, score: 800}
-- {inits: EEE, score: 900}
+- {date: 'Sun Oct  9 13:52:48 2016', inits: XXYYYYYZ, score: 302109480}
+- {date: 'Sun Oct  9 10:37:39 2016', inits: DDDDDDDDDD, score: 1145440}
+- {date: 'Sun Oct  9 10:37:39 2016', inits: EEE, score: 900}
+- {date: 'Sun Oct  9 10:37:39 2016', inits: DDD, score: 800}
+- {date: 'Sun Oct  9 10:37:39 2016', inits: CCC, score: 700}
