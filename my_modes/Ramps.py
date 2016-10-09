@@ -157,7 +157,6 @@ class Ramps(procgame.game.AdvancedMode):
         else:
             self.disable_lamps()
             # if both ramps add up to 8, we're ready for bogey and they should all flash
-            print "RAMPS STAGE SHIT L: " + str(self.ramp_stage[0]) + " R: " + str(self.ramp_stage[1])
             if (self.ramp_stage[0] + self.ramp_stage[1]) == 8:
                 for n in range(0,4,1):
                     self.left_ramp_lamps[n].schedule(0x00FF00FF)

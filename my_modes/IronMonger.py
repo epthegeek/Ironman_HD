@@ -282,8 +282,6 @@ class IronMonger(procgame.game.AdvancedMode):
         self.spinner_text_layer.set_text(text)
 
     def hit_toy(self):
-        print "HIT TOY, BITCH"
-        print "STATUS = " +self.game.monger_toy.status
         if self.game.monger_toy.status == "UP" or self.game.monger_toy.status == "MOVING":
             # play a sound
             self.game.sound.play('monger_clank')

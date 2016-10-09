@@ -101,17 +101,14 @@ class Skillshot(procgame.game.AdvancedMode):
         self.update_lamps()
 
     def update_lamps(self):
-        print "SKILLSHOT LAMP UPDATE"
         self.game.lamps['topLeftLane'].disable()
         self.game.lamps['topRightLane'].disable()
         other_shields = [self.game.lamps['leftOutlane'],self.game.lamps['leftReturnLane'],self.game.lamps['rightReturnLane'],self.game.lamps['rightOutlane']]
         for lamp in other_shields:
             lamp.disable()
         if self.light == 0:
-            print "SS: TURN ON LEFT LIGHT"
             self.game.lamps['topLeftLane'].enable()
         else:
-            print "SS: TURN ON RIGHT LIGHT"
             self.game.lamps['topRightLane'].enable()
 
     def unload(self):

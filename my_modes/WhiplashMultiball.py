@@ -151,7 +151,6 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             self.jackpot_shot()
 
     def jackpot_shot(self,):
-        print "JACKPOT SHOT BITCH"
         self.cancel_delayed("clear")
         # set the points to score to the current JP value
         points = self.jackpot_value

@@ -96,12 +96,10 @@ class Marks(procgame.game.AdvancedMode):
         print "Whoa, DOD MB"
 
     def completed(self,callback=None):
-        print "MARK COMPLETED"
         # If we're playing the mark 6 - set the finished flag
         if self.player_mark == 6:
             self.finished = True
         # play a quote
-        print "PLAYING VOICE " + str(self.mark_quotes[self.player_mark])
         self.game.sound.play_voice(self.mark_quotes[self.player_mark],action=procgame.sound.PLAY_QUEUED)
         # play the video
         self.game.animations[self.mark_movies[self.player_mark]].reset()

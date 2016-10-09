@@ -126,7 +126,6 @@ class MongerMultiball(procgame.game.AdvancedMode):
                 self.lower_monger()
 
     def set_main_display(self):
-        print "OOBA DOOBA"
         self.layer = self.main_display_layer
 
     def start_multiball(self):
@@ -173,7 +172,6 @@ class MongerMultiball(procgame.game.AdvancedMode):
             pass
 
     def orbit_hit(self):
-        print "MONGER MB ORBIT BOOP"
         if self.monger_status == "DOWN":
             self.raise_monger()
 

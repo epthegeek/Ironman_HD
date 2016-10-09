@@ -64,7 +64,6 @@ class Bonus(procgame.game.AdvancedMode):
         self.delay(delay = 2,handler=self.shutdown)
 
     def shutdown(self):
-        print "DO NEXT BALL NOW"
         self.game.base.force_event_next()
         self.unload()
 

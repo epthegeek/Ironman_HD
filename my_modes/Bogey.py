@@ -182,7 +182,7 @@ class Bogey(procgame.game.AdvancedMode):
             else:
                 self.delay("timer",delay=1,handler=self.end_bogey)
         else:
-            print "BOGEY OVER"
+            pass
 
     def end_bogey(self):
         bg = self.game.animations['bright_clouds']
@@ -218,12 +218,20 @@ class Bogey(procgame.game.AdvancedMode):
         self.bogey_award_score_dim.set_text(str(points))
 
     def update_lamps(self):
-        for lamp in self.bogey_lamps:
-            lamp.schedule(0x00FF00FF)
         self.bogey_lamps[0].schedule(0X000F000F)
         self.bogey_lamps[1].schedule(0x00F000F0)
         self.bogey_lamps[2].schedule(0x0F000F00)
         self.bogey_lamps[3].schedule(0xF000F000)
+
+        self.bogey_lamps[4].schedule(0X000F000F)
+        self.bogey_lamps[5].schedule(0x00F000F0)
+        self.bogey_lamps[6].schedule(0x0F000F00)
+        self.bogey_lamps[7].schedule(0xF000F000)
+
+        self.bogey_lamps[8].schedule(0x00FF00FF)
+        self.bogey_lamps[9].schedule(0x00FF00FF)
+        self.bogey_lamps[10].schedule(0x00FF00FF)
+        self.bogey_lamps[11].schedule(0x00FF00FF)
 
     def clear_layer(self):
         self.layer = None
