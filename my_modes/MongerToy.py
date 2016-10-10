@@ -24,7 +24,7 @@ class MongerToy(procgame.game.AdvancedMode):
         self.monger_hit_idx = 0
         self.hit_score_text = dmd.HDTextLayer(1820, 550, self.game.fonts['bebas200'], "right", line_color=[0, 0, 0],line_width=4, interior_color=[146, 24, 222])
         # lower the monger
-        self.reset_toy()
+        self.delay(delay=1,handler=self.reset_toy)
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -98,20 +98,26 @@ class MongerToy(procgame.game.AdvancedMode):
             pass
 
     def reset_toy(self):
+        print "RESET THE DAMN TOY FOOL"
+        print self.status
+        print self.target
         if self.status == "INIT" and self.game.switches['motorSwitchBot'].is_active():
+            print "I THINK ITS DOWN ALREADY"
             self.status = "DOWN"
         # if the toy is already down, fine
         elif self.status == "DOWN":
             pass
         # if not, or we don't know, cycle until it is
         else:
+            print "WE NEED TO MOVE IT"
             self.target = "DOWN"
             self.status = "MOVING"
             self.run_motor()
 
     def run_motor(self):
-        self.game.coils.mongerMotor.patter(on_time=6,off_time=6)
-
+        print "THIS SHIT SHOULD BE RUNNING THE MOTOR"
+        #self.game.coils['mongerMotor'].patter(on_time=6,off_time=6)
+        self.game.coils.mongerMotor.enable()
 
     def monger_rise_video(self):
         self.game.animations['monger_rise'].reset()

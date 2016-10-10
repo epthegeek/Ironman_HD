@@ -139,6 +139,7 @@ class Driver(GameItem):
         self.logger.debug("Driver %s - future pulse %d", self.name, milliseconds, timestamp)
         self.game.proc.driver_future_pulse(self.number, milliseconds, timestamp)
         self.last_time_changed = time.time()
+
     def patter(self, on_time=10, off_time=10, original_on_time=0, now=True):
         """Enables a pitter-patter sequence.  
 
@@ -157,6 +158,7 @@ class Driver(GameItem):
         self.logger.debug("Driver %s - patter on:%d, off:%d, orig_on:%d, now:%s", self.name, on_time, off_time, original_on_time, now)
         self.game.proc.driver_patter(self.number, on_time, off_time, original_on_time, now)
         self.last_time_changed = time.time()
+
     def pulsed_patter(self, on_time=10, off_time=10, run_time=0, now=True):
         """Enables a pitter-patter sequence that runs for `run_time` milliseconds.  
 

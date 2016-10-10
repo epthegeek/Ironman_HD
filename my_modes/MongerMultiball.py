@@ -23,7 +23,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
                              self.game.lamps['mongerE'],
                              self.game.lamps['mongerR']]
         backdrop = self.game.animations['monger_multiball_backdrop']
-        title = dmd.HDTextLayer(1100,20,self.game.fonts['bebas1800'],"center",line_color=(0,0,0),line_width=3,interior_color=(146, 24, 222))
+        title = dmd.HDTextLayer(1100,20,self.game.fonts['bebas180'],"center",line_color=(0,0,0),line_width=3,interior_color=(146, 24, 222))
         title.set_text("IRON MONGER MULTIBALL")
         self.score_layer = dmd.HDTextLayer(1100,140,self.game.fonts['bebas300'],"center",line_color=(0,0,0),line_width=3,interior_color=(255, 255, 255))
         shoot = dmd.HDTextLayer(1100,450,self.game.fonts['default'],"center",line_color=(0,0,0),line_width=3,interior_color=(255, 0, 0))

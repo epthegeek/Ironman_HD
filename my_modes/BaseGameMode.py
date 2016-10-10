@@ -153,8 +153,10 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     # slings
     def sw_leftSlingshot_active(self,sw):
+        print "LEFTY SLANG"
         self.sling_hit()
     def sw_rightSlingshot_active(self,sw):
+        print "RIGHTY SLANG"
         self.sling_hit()
     def sling_hit(self):
         # play a sound

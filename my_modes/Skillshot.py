@@ -191,8 +191,5 @@ class Skillshot(procgame.game.AdvancedMode):
         return duration
 
     def start_save(self):
-        print "START BALL SAVE"
-        print "DO IT"
-        print "SAVE THAT BALL"
         self.saver = True
         self.game.enable_ball_saver()
