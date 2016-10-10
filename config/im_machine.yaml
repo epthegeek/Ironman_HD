@@ -407,7 +407,7 @@ PRLamps:
     shootAgain:
         number: L03
         label: Shoot Again
-        tags: Playfield
+        tags: Playfield,shoot_again
     leftOutlane:
         number: L04
         label: Left Outlane Shield

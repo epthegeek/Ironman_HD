@@ -103,6 +103,9 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.jackpot_shot()
 
     def start_multiball(self,type):
+        # start a ball save
+        self.game.enable_ball_save(allow_multiple_saves=True)
+
         self.type = type
         # set the colors?
         if type == 0:

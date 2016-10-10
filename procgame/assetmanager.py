@@ -299,8 +299,9 @@ class AssetManager(object):
             k  = value_for_key(s,'key')
             fname = value_for_key(s,'file')
             volume = value_for_key(s,'volume',.5)
+            is_voice = value_for_key(s, 'voice', False)
             self.updateProgressBar("Audio SFX", fname)
-            self.game.sound.register_sound(k,self.game.sfx_path+fname, volume=volume)
+            self.game.sound.register_sound(k,self.game.sfx_path+fname, volume=volume, is_voice=is_voice)
             self.numLoaded += 1
 
         for s in voice:
@@ -308,7 +309,7 @@ class AssetManager(object):
             fname = value_for_key(s,'file')
             volume = value_for_key(s,'volume',.5)
             self.updateProgressBar("Audio Voices", fname)
-            self.game.sound.register_sound(k,self.game.voice_path+fname, volume=volume) #, is_voice=True)
+            self.game.sound.register_sound(k,self.game.voice_path+fname, volume=volume, is_voice=True)
             self.numLoaded += 1
 
 

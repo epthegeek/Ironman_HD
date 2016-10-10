@@ -181,6 +181,9 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         self.game.score(10000)
 
     def start_multiball(self):
+        # start a ball save
+        self.game.enable_ball_save(allow_multiple_saves=True)
+
         self.running = True
         # display
         self.intro_movie.reset()

@@ -129,6 +129,8 @@ class MongerMultiball(procgame.game.AdvancedMode):
         self.layer = self.main_display_layer
 
     def start_multiball(self):
+        # start a ball save
+        self.game.enable_ball_save(allow_multiple_saves=True)
         # play the clip and the audio
         self.game.sound.play('monger_big_yell')
         video = random.choice(self.start_movies)
@@ -151,6 +153,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
         self.game.monger.magnet("Release")
         # up the mark
         # do the mark here - if needed
+
 
     def center_spinner_hit(self):
         if self.super:
@@ -194,10 +197,11 @@ class MongerMultiball(procgame.game.AdvancedMode):
         # play a quote - from the 2nd raise on
         # TODO: Does it say anything on the first one?
         if self.loop_count > 0:
-            self.game.play_voice('repeat_raise',action=procgame.sound.PLAY_NOTBUSY)
+            self.game.sound.play_voice('repeat_raise',action=procgame.sound.PLAY_NOTBUSY)
         self.loop_count += 1
 
     def lower_monger(self):
+        self.game.sound.play_voice("mogner_big_yell",action=procgame.sound.PLAY_FORCE)
         self.monger_status = "DOWN"
         self.super = True
         self.game.monger_toy.fall()
@@ -238,6 +242,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
     def end_multiball(self):
         self.game.monger_toy.fall()
         self.running = False
+        self.game.base.set_music()
         # reset the iron monger letters
         self.game.monger.letters = 0
         # check for the switch stop

@@ -81,7 +81,7 @@ class IMGame(SkeletonGame):
 
         # try setting the ducking?
         self.sound.ducking_enabled = True
-        self.music_ducking_effect = 0.2
+        self.music_ducking_effect = 0.4
 
         self.reset()
 

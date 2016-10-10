@@ -693,40 +693,40 @@ Audio:
   Music:
     - key: 'main_shooter_lane'
       file: 'Sound-03F8.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'wm_ready_shooter_lane'
       file: 'Sound-0401.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'monger_ready_shooter_lane'
       file: 'Sound-0408.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'war_machine_ready'
       file: 'Sound-0402.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'war_machine_mb'
       file: 'Sound-03F7.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'whiplash_mb'
       file: 'Sound-03F6.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'bogey'
       file: 'Sound-0405.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'monger_ready'
       file: 'Sound-0409.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'monger_mb'
       file: 'Sound-03FF.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'general_gameplay'
       file: 'Sound-03FA.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'game_over'
       file: 'Sound-0406.wav'
-      volume: 0.8
+      volume: 0.6
     - key: 'bonus'
       file: 'Sound-03FD.wav'
-      volume: 0.8
+      volume: 0.6
   Effects:
     - key: 'scoring_mode_start'
       file: 'Sound-004A.wav'

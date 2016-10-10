@@ -239,6 +239,8 @@ class IronMonger(procgame.game.AdvancedMode):
         # set the next quote script
         self.script_details[0] = random.choice(self.second_scripts)
         self.script_details[1] = 0
+        # set the music
+        self.game.base.set_music()
 
     def raise_quote(self):
         self.game.sound.play_voice('monger_raise_quote',action=procgame.sound.PLAY_NOTBUSY)
@@ -337,7 +339,7 @@ class IronMonger(procgame.game.AdvancedMode):
             for lamp in self.orbit_lamps:
                 lamp.schedule(0x0F0F0F0F)
         if self.status == "UP":
-            for n in range(0, 7, 1):
+            for n in range(0, 6, 1):
                 if n <= self.toy_letters:
                     self.monger_lamps[n].enable()
                 else:

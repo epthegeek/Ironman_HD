@@ -187,6 +187,7 @@ class SkeletonGame(BasicGame):
             self.use_stock_servicemode = config.value_for_key_path('default_modes.service_mode', True)
             self.use_stock_tiltmode = config.value_for_key_path('default_modes.tilt_mode', True)
             self.use_ballsearch_mode = config.value_for_key_path('default_modes.ball_search', True)
+            self.use_multiline_score_entry = config.value_for_key_path('default_modes.multiline_highscore_entry', False)
 
             self.dmdHelper = DMDHelper(game=self)
             self.modes.add(self.dmdHelper)
@@ -209,7 +210,7 @@ class SkeletonGame(BasicGame):
                 self.tilt_mode = Tilt(game=self, priority=98, font_big=self.fonts['tilt-font-big'], 
                     font_small=self.fonts['tilt-font-small'], tilt_sw=tilt_sw_name, slam_tilt_sw=slamtilt_sw_name)
 
-            shoot_again = self.find_item_name('shoot_again', self.lamps)
+            shoot_again = self.lamps.item_named_or_tagged('shoot_again')
             shooter_lane_sw_name = self.find_item_name('shooter',self.switches)
             self.ball_save = ballsave.BallSave(self, lamp=shoot_again, delayed_start_switch=shooter_lane_sw_name)
 
@@ -248,7 +249,12 @@ class SkeletonGame(BasicGame):
                         break
                 if(trough_coil_name is None):
                     raise ValueError, "machine YAML must define a coil named 'Trough' or that starts with"
-            self.trough = Trough(self,trough_switchnames, trough_switchnames[-1], trough_coil_name, early_save_switchnames, shooter_lane_sw_name, drain_callback=None,plunge_coilname=plunge_coilname)
+
+            if(hasattr(self,'autoplunge_settle_time')):
+                autoplunge_settle_time = self.autoplunge_settle_time
+            else:
+                autoplunge_settle_time = 0.3
+            self.trough = Trough(self,trough_switchnames, trough_switchnames[-1], trough_coil_name, early_save_switchnames, shooter_lane_sw_name, drain_callback=None,plunge_coilname=plunge_coilname, autoplunge_settle_time=autoplunge_settle_time)
 
             # Only once the ball is fed to the shooter lane is it possible for the ball
             # drain to actually end a ball
@@ -416,7 +422,7 @@ class SkeletonGame(BasicGame):
         
         self.logger.debug("ball saver enabled balls=[%d], time left=[%d]" % (num_balls_to_save,time))
         self.ball_save.start(num_balls_to_save, time, now, allow_multiple_saves, tick_rate)
-        self.ball_save.callback = callback=self.__ball_saved
+        self.ball_save.callback = self.__ball_saved
 
     def __ball_saved(self):
         self.notifyModes('evt_ball_saved', args=None, event_complete_fn=None)
@@ -491,12 +497,17 @@ class SkeletonGame(BasicGame):
         # else:
         #     d = evt_handler(self.args)
 
-        if(d is not None and (type(d) is int or type(d) is float) and d > 0):
-            self.curr_delayed_by_mode = next_handler
-            self.switchmonitor.delay(name='notifyNextMode',
-               event_type=None, 
-               delay=d, 
-               handler=self.notifyNextMode)            
+        if(d is not None and (type(d) is int or type(d) is float)):
+            if(d == 0):
+                self.notifyNextMode()
+            else:
+                self.curr_delayed_by_mode = next_handler
+                if(d > 0):
+                    self.switchmonitor.delay(name='notifyNextMode',
+                       event_type=None, 
+                       delay=d, 
+                       handler=self.notifyNextMode)
+                # else, handler will need to handle the event itself (self.force_event_next())
         elif(type(d) is tuple):
             if(d[1] == True): # flag to stop event propegation and jump to the event 
                 self.notify_list = list() # zero out the list so the next 'notifyNext' call will just call the final event handler
@@ -506,10 +517,17 @@ class SkeletonGame(BasicGame):
                 self.switchmonitor.delay(name='notifyNextMode',
                    event_type=None, 
                    delay=d[0], 
-                   handler=self.notifyNextMode)            
-            else: # no delay specified
-                self.notifyNextMode() # note: next call will either fire event or notify next mode accordingly
+                   handler=self.notifyNextMode)
+            elif(d[0]==0):
+                # no delay specified
+                self.notifyNextMode()
+            else: 
+                # time reported is less than zero (e.g., -1) --user is saying they do not
+                # want to return a bound on how long they need to handle the event, so
+                # the mode is responsible for indicating the completion of handling (self.force_event_next())
+                self.curr_delayed_by_mode = next_handler
         else:
+            # returning None from an event handler (or not returning at all) means no delay will be given
             self.notifyNextMode()
         
     def notifyNextModeNow(self, caller_mode):
@@ -565,6 +583,14 @@ class SkeletonGame(BasicGame):
     # called when you want to fully reset the game
     def reset(self):
         self.logger.info("Skel: RESET()")
+
+        # reset mid-game can leave Lamps, coils or flippers on.  Turn them OFF
+        # as modes might use delay() to disable them, but those won't run now
+        self.disableAllLamps()
+        self.disableAllCoils()
+
+        self.enable_flippers(False)
+        self.enable_alphanumeric_flippers(False)
 
         self.dmdHelper.reset()
         if(hasattr(self,'bonus_mode')):
@@ -634,7 +660,11 @@ class SkeletonGame(BasicGame):
         self.modes.add(self.switchmonitor)
 
         if(self.use_stock_attractmode):
-            self.attract_mode = Attract(game=self)
+            start_lamp = self.lamps.item_named_or_tagged('start_button')
+            # start_lamp = self.find_item_name('start_button', self.lamps)
+            # if(start_lamp is not None):
+            #     start_lamp = self.lamps[start_lamp]
+            self.attract_mode = Attract(game=self, start_button_lamp=start_lamp)
         
     def start_attract_mode(self):
         self.attract_mode.reset()
@@ -718,7 +748,7 @@ class SkeletonGame(BasicGame):
 
         for category in self.highscore_categories:
             category.load_from_game(self)
-        
+
 
     def save_settings(self, filename=None):
         if(filename is None):
@@ -807,7 +837,12 @@ class SkeletonGame(BasicGame):
             self.notifyModes('evt_ball_ending', args=(shoot_again,last_ball), event_complete_fn=self.end_ball)
         elif self.trough.num_balls_in_play == 1:
             """ TODO: Ensure we are only seeing this event during multiball """
-            self.notifyModes('evt_single_ball_play', args=None, event_complete_fn=None)
+
+            # ensure this isn't a situation of a fast-drain when more balls are pending launch
+            if(self.trough.num_balls_to_launch >= 1):
+                self.logger.warning("one ball in play, but more balls are pending launch (supressing evt_single_ball_play)")
+            else:
+                self.notifyModes('evt_single_ball_play', args=None, event_complete_fn=None)
 
     def your_search_is_over(self):
         """ all balls have been accounted for --if you were blocking a game start, stop that. """
@@ -977,7 +1012,7 @@ class SkeletonGame(BasicGame):
             self.modes.remove(m())
         pass
 
-        seq_manager = highscore.HD_EntrySequenceManager(game=self, priority=2)
+        seq_manager = highscore.HD_EntrySequenceManager(game=self, priority=2, multiline=self.use_multiline_score_entry)
         seq_manager.finished_handler = self.high_score_entry_completed
         seq_manager.logic = highscore.CategoryLogic(game=self, categories=self.highscore_categories)
         self.modes.add(seq_manager)
@@ -1030,6 +1065,18 @@ class SkeletonGame(BasicGame):
         self.save_settings()
         self.load_settings_and_stats()
         self.reset()
+
+    def disableAllCoils(self):
+        """ turn off all coils
+            needed after a reset while the game is in progress, we don't want
+            to leave coils energized that might have been disabled by now cancelled
+            delays 
+        # NOTE: If this behavior is undesirable in your machine, define your own reset method
+            and re-engergize any coils you need to OR define your own disableAllCoils that
+            leaves some on
+        """        
+        for coil in self.coils:
+            coil.disable()
 
     def disableAllLamps(self):
         # turn off all the lamps

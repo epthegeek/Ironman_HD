@@ -471,10 +471,10 @@ class GameController(object):
             main_coil = self.coils[flipper+'Main']
             if self.coils.has_key(flipper+'Hold'): 
                 style = 'wpc'
-                self.logger.info("%sabling WPC style flipper" % "En" if enable else "Dis")
+                self.logger.info("%sabling WPC style flipper" % ("En" if enable else "Dis"))
                 hold_coil = self.coils[flipper+'Hold']
             else: 
-                self.logger.info("%sabling Stern style flipper" % "En" if enable else "Dis")
+                self.logger.info("%sabling Stern style flipper" % ("En" if enable else "Dis"))
                 style = 'stern'
             switch_num = self.switches[flipper].number
 
@@ -565,9 +565,9 @@ class GameController(object):
         elif event_type == pinproc.EventTypeDMDFrameDisplayed: # DMD events
             # print "% 10.3f Frame event.  Value=%x" % (time.time()-self.t0, event_value)
             self.dmd_event()
-        #elif event_type == pinproc.EventTypeBurstSwitchOpen or \
-        #     event_type == pinproc.EventTypeBurstSwitchClosed:
-        #    self.burst_event(event)
+  #      elif event_type == pinproc.EventTypeBurstSwitchOpen or \
+  #           event_type == pinproc.EventTypeBurstSwitchClosed:
+  #          self.burst_event(event)
         elif event_type == pinproc.EventTypeSwitchClosedDebounced or \
              event_type == pinproc.EventTypeSwitchOpenDebounced or \
              event_type == pinproc.EventTypeSwitchClosedNondebounced or \

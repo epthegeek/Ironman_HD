@@ -23,9 +23,11 @@ class Skillshot(procgame.game.AdvancedMode):
         self.display = dmd.GroupedLayer(1920, 800, [bg, bar, title, self.score_text],opaque=True)
         self.light = 0
         self.hit = False
+        self.saver = False
 
     def evt_ball_starting(self):
         self.wipe_delays()
+        self.saver = False
 
     def mode_started(self):
         self.leaving = False
@@ -34,6 +36,7 @@ class Skillshot(procgame.game.AdvancedMode):
         self.hit = False
         self.right_orbit_count = 0
         self.update_lamps()
+        self.saver = False
 
     def sw_flipperLwL_active(self,sw):
         self.change_lane()
@@ -48,6 +51,8 @@ class Skillshot(procgame.game.AdvancedMode):
         self.check_ss(1)
 
     def sw_rightOrbit_active(self,sw):
+        if not self.saver:
+            self.start_save()
         self.right_orbit_count +=1
         # this is to unload on a short plunge
         if self.right_orbit_count >= 2:
@@ -59,14 +64,16 @@ class Skillshot(procgame.game.AdvancedMode):
         self.cancel_delayed("unload")
 
     def sw_shooterLane_inactive(self,sw):
-        # and fire the orbit post
-        self.game.coils['orbitPost'].patter(on_time=4,off_time=4,original_on_time=20)
-        # drop the post in 2 seconds
-        self.delay(delay=2,handler=self.game.coils['orbitPost'].disable)
         # trying merged lampshow
         self.game.lampctrl.play_show('bottom-to-top', repeat=False,merge=True)
 
+    def sw_shooterLane_inactive_for_2s(self,sw):
+        if not self.saver:
+            self.start_save()
+
     def check_ss(self,lane):
+        if not self.saver:
+            self.start_save()
         self.cancel_delayed("unload")
         self.game.shields.update_lamps()
         if self.light == lane and not self.hit:
@@ -112,6 +119,7 @@ class Skillshot(procgame.game.AdvancedMode):
             self.game.lamps['topRightLane'].enable()
 
     def unload(self):
+        print "Unloading: " + self.myID
         # switch to the general gameplay music
         self.game.base.set_music()
         # drop the post just to be safe
@@ -177,13 +185,14 @@ class Skillshot(procgame.game.AdvancedMode):
 
         # simple mode shutdown
 
-    def unload(self):
-        print "Unloading: " + self.myID
-        self.wipe_delays()
-        self.layer = None
-        self.game.modes.remove(self)
-
     # delayed voice quote helper with a list input
     def voice_helper(self, options):
         duration = self.game.sound.play_voice(options[0], action=options[1])
         return duration
+
+    def start_save(self):
+        print "START BALL SAVE"
+        print "DO IT"
+        print "SAVE THAT BALL"
+        self.saver = True
+        self.game.enable_ball_saver()

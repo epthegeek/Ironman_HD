@@ -116,9 +116,18 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.modes_this_ball = [0,0,0,0,0]
         self.tut_status = self.game.getPlayerState('tutorials')
 
+    def evt_ball_saved(self):
+        """ this event is fired to notify us that a ball has been saved
+        """
+        self.game.log("BaseGameMode: BALL SAVED from Trough callback")
+        self.game.sound.play('ball_saved')
+        self.game.displayText('Ball Saved!')
+        # Do NOT tell the trough to launch balls!  It's handled automatically!
+        # self.game.trough.launch_balls(1)
+
     def ballsaved(self):
         self.game.log("BaseGameMode: BALL SAVED from Trough Callback")
-        self.game.displayText('Ball Saved!')
+        self.game.set_status('Ball Saved!')
 
     def mode_started(self):
         pass
@@ -153,6 +162,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     # music controller
     def set_music(self):
+        print "SET MUSIC"
         if self.game.monger_multiball.running:
             # play the monger mb music
             song = 'monger_mb'
@@ -175,7 +185,17 @@ class BaseGameMode(procgame.game.AdvancedMode):
         else:
             song = 'general_gameplay'
         # turn it up, man
+        print "SONG SELECTED: " + song
         self.game.sound.play_music(song,loops=-1)
+
+    # to catch any launched ball to the pops - if the shooterlane is inactive for half second, pop the post.
+    def sw_shooterLane_inactive_for_500ms(self,sw):
+        self.cancel_delayed("post")
+        # and fire the orbit post
+        self.game.coils['orbitPost'].patter(on_time=4,off_time=4,original_on_time=20)
+        # drop the post in 2 seconds
+        self.delay("post",delay=2,handler=self.game.coils['orbitPost'].disable)
+
 
     def clear_layer(self):
         self.layer = None
