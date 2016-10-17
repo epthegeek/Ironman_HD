@@ -77,8 +77,10 @@ class Ramps(procgame.game.AdvancedMode):
 
         ## If bogey is ready, start that
         if self.bogey_status == 'READY':
+            self.bogey_status == 'RUNNING'
             # start bogey chase here
-            self.start_bogey_chase()
+            if self.game.bogey.running == False:
+                self.game.modes.add(self.game.bogey)
 
         ## If bogey chase is not ready, then process normally
         else:
@@ -145,10 +147,6 @@ class Ramps(procgame.game.AdvancedMode):
     def end_ramp_double(self):
         self.rampDoubled = 9
         # turn off the lamp
-
-    def start_bogey_chase(self):
-        if self.game.bogey.running == False:
-            self.game.modes.add(self.game.bogey)
 
 
     def update_lamps(self):

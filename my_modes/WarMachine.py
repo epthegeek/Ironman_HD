@@ -56,14 +56,17 @@ class WarMachine(procgame.game.AdvancedMode):
         else:
             self.jp_now_text.set_text(self.game.score_display.format_score(self.game.drones.drone_jp_value),blink_frames=10)
             self.layer = self.jp_now_display
-            self.delay(delay=5,handler=self.clear_layer)
+            self.delay(delay=3,handler=self.clear_layer)
             pass
 
 
     def light_multiball(self):
         self.multiball_status = "READY"
         # do a display?
-        self.layer = self.game.animations['war_machine_start']
+        anim = self.game.animations['war_machine_start']
+        anim.reset()
+        anim.opaque = True
+        self.layer = anim
         # change the music
         self.game.base.set_music()
         self.delay(delay=0.5,handler=self.voice_helper,param=['war_machine_ready',procgame.sound.PLAY_QUEUED])

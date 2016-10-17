@@ -53,6 +53,10 @@ class Marks(procgame.game.AdvancedMode):
         self.player_mark = self.game.getPlayerState('marks')
         self.finished = self.game.getPlayerState('marks_finished')
         self.modes_finished = self.game.getPlayerState('modes_finished')
+        # no setting to make mode progress carry ball to ball at this point
+        # so reset it even though I'm saving it per player
+        self.modes_finished = [False,False,False,False,False]
+
         self.shield_flag = self.game.getPlayerState('shield_mark')
         # if ball mode count makes it to 5, then DOD is lit
         self.ball_mode_count = 0

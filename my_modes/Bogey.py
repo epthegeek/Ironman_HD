@@ -90,6 +90,7 @@ class Bogey(procgame.game.AdvancedMode):
 
 
     def mode_started(self):
+        self.running = True
         # set the timer value TODO: adust for settings later
         self.timer_value = 41
         # set the point value
@@ -159,8 +160,8 @@ class Bogey(procgame.game.AdvancedMode):
         # sounds and whatnot
         # Do the display
         # reset the anim layer
-        self.game.animations[self.bogey_clips[self.clip_index]].reset()
         anim = self.game.animations[self.bogey_clips[self.clip_index]]
+        anim.reset()
         self.increase_index()
         self.layer = dmd.GroupedLayer(1920,800,[anim,self.bogey_award_text,self.flash_text])
         # clear after time
@@ -197,6 +198,8 @@ class Bogey(procgame.game.AdvancedMode):
         score.set_text(self.game.score_display.format_score(self.total))
         self.layer = dmd.GroupedLayer(1920,800,[bg,text,text2,score])
         self.running = False
+        # reset the ramps status
+        self.game.ramps.bogey_status = "OPEN"
         self.game.base.set_music()
         self.delay(delay=3,handler=self.unload)
         # update the ramp lamps
