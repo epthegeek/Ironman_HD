@@ -56,6 +56,9 @@ class MongerMultiball(procgame.game.AdvancedMode):
         script3 = ['immb_script3a', 'immb_script3b', 'immb_sript3c', 'immb_script3d']
         self.scripts = [script0, script1, script2, script3]
 
+        # pick out a script
+        self.selected_script = random.choice(self.scripts)
+
     def evt_ball_starting(self):
         self.wipe_delays()
 
@@ -77,6 +80,8 @@ class MongerMultiball(procgame.game.AdvancedMode):
         # reset the jacpot hit count
         self.jackpot_hits = 0
         self.jackpots_total = 0
+        self.script_index = 0
+
         # reset to the start of MB, function used later after super as well.
         self.reset_mb()
         # start the score update
@@ -88,6 +93,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
         # update the mode light
         self.game.mark.mode_light(2)
         self.loop_count = 0
+        self.update_lamps()
 
     def sw_mongerOptoLeft_active(self,sw):
         self.monger_opto_hit()
@@ -124,13 +130,14 @@ class MongerMultiball(procgame.game.AdvancedMode):
             # if that was the last hit, lower the monger
             if self.jackpot_hits == 6:
                 self.lower_monger()
+            self.update_lamps()
 
     def set_main_display(self):
         self.layer = self.main_display_layer
 
     def start_multiball(self):
         # start a ball save
-        self.game.enable_ball_save(allow_multiple_saves=True)
+        #self.game.enable_ball_saver(allow_multiple_saves=True,num_balls_to_save=8)
         # play the clip and the audio
         self.game.sound.play('monger_big_yell')
         video = random.choice(self.start_movies)
@@ -157,8 +164,11 @@ class MongerMultiball(procgame.game.AdvancedMode):
 
     def center_spinner_hit(self):
         if self.super:
+            self.game.coils['centerShotPost'].patter(on_time=4, off_time=4, original_on_time=20)
+            self.delay(delay=7,handler=self.drop_post)
             # award the super jackpot
             self.super = False
+            self.jackpot_hits = 0
             self.super_display = True
             # turn on the mode complete light
             self.game.mark.mode_completed(1)
@@ -173,6 +183,9 @@ class MongerMultiball(procgame.game.AdvancedMode):
             self.raise_monger()
         else:
             pass
+
+    def drop_post(self):
+        self.game.coils['centerShotPost'].disable()
 
     def orbit_hit(self):
         if self.monger_status == "DOWN":
@@ -247,15 +260,19 @@ class MongerMultiball(procgame.game.AdvancedMode):
         self.game.monger.letters = 0
         # check for the switch stop
         self.game.mb_switch_stop.check_remove()
+        # reset the toy letters for MB Qualify
+        self.game.monger.toy_letters = 0
+        # saftey catch - kill the up post
+        self.game.coils['centerShotPost'].disable()
         self.unload()
 
     def update_lamps(self):
         # the jackpot arrows
         # the letters in front of monger
-        for lamp in self.monger_lamps:
-            lamp.disable()
+        for n in range(1,7,1):
+            self.monger_lamps[n].disable()
         if self.jackpot_hits > 0:
-            for n in range (1,8,1):
+            for n in range(1,7,1):
                 if n <= self.jackpot_hits and n != 0:
                     self.monger_lamps[n].enable()
 

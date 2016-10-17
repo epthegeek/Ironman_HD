@@ -20,6 +20,7 @@ class WarMachine(procgame.game.AdvancedMode):
 
     def evt_ball_starting(self):
         self.wipe_delays()
+        self.disable_lamps()
 
         self.valid = True
         self.multiball_status = self.game.getPlayerState('wm_multiball_status')
@@ -61,7 +62,6 @@ class WarMachine(procgame.game.AdvancedMode):
 
     def light_multiball(self):
         self.multiball_status = "READY"
-        self.update_lamps()
         # do a display?
         self.layer = self.game.animations['war_machine_start']
         # change the music
@@ -69,6 +69,7 @@ class WarMachine(procgame.game.AdvancedMode):
         self.delay(delay=0.5,handler=self.voice_helper,param=['war_machine_ready',procgame.sound.PLAY_QUEUED])
         self.delay(delay=3.6,handler=self.clear_layer)
         # update the lamps?
+        self.update_lamps()
 
     def make_valid(self):
         self.valid = True

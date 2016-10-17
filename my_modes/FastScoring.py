@@ -74,7 +74,7 @@ class FastScoring(procgame.game.AdvancedMode):
         self.layer = self.display
         self.last_score = 0
 
-    def evt_ball_ending(self):
+    def evt_ball_ending(self,(shoot_again,last_ball)):
         self.end()
 
     def switch_hit(self):
@@ -88,14 +88,14 @@ class FastScoring(procgame.game.AdvancedMode):
         self.reset_layer(self.score_layers[score_number],self.game.score_display.format_score(self.switch_value))
         self.delay(name=self.names[score_number],delay=1,handler=self.disable_layer,param=self.score_layers[score_number])
         # play the fast scoring sound effect - just jumble that crap with the other sounds for now
-        self.game.sound.play('fast_scoring')
+        self.game.sound.play('fast_scoring_sfx')
 
     def end(self):
         self.layer = None
-        self.game.im_targets.end_target_mode()
         self.running = False
         # add up the tally for how many times FS has run
         self.game.setPlayerState('fast_scoring_runs', (self.fast_scoring_runs + 1))
+        self.game.im_targets.end_target_mode()
         self.unload()
 
     # updates the score layers and triggers the update to the info line

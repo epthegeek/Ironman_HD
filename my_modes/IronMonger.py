@@ -339,11 +339,15 @@ class IronMonger(procgame.game.AdvancedMode):
             for lamp in self.orbit_lamps:
                 lamp.schedule(0x0F0F0F0F)
         if self.status == "UP":
-            for n in range(0, 6, 1):
-                if n <= self.toy_letters:
-                    self.monger_lamps[n].enable()
-                else:
-                    pass
+            if self.toy_letters == 5:
+                for lamp in self.monger_lamps:
+                    lamp.schedule(0x0F0F0F0F)
+            else:
+                for n in range(0, 6, 1):
+                    if n <= self.toy_letters:
+                        self.monger_lamps[n].enable()
+                    else:
+                        pass
 
     def disable_lamps(self):
         for lamp in self.monger_lamps:
@@ -423,9 +427,12 @@ class IronMonger(procgame.game.AdvancedMode):
         self.orbit_quiet = False
 
     def spinner_script_quote(self):
+        print "SPINNER SCRIPT"
+        print str(len(self.script_details[0]))
+        print str(self.script_details[1] + 1)
         # play the voice clip for this players script at this players index
         # if there are quotes left in the script
-        if len(self.script_details[0]) < (self.script_details[1] + 1):
+        if len(self.script_details[0]) > (self.script_details[1] + 1):
             duration = self.voice_helper([self.script_details[0][self.script_details[1]], procgame.sound.PLAY_NOTBUSY])
             # if the quote played, update the index
             if duration > 0:

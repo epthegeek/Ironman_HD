@@ -59,6 +59,7 @@ class Whiplash(procgame.game.AdvancedMode):
         self.game.setPlayerState('whiplash_type',self.whiplash_type)
         # disable the whiplash flasher for good measure
         self.game.coils['whiplashFlasher'].disable()
+        self.clear_layer()
 
     def sw_whiplashLeft_active(self,sw):
         if not self.hold:

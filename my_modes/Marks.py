@@ -58,7 +58,7 @@ class Marks(procgame.game.AdvancedMode):
         self.ball_mode_count = 0
         # modes: Ironman, War Machine, War Monger, Whiplash, Drones.
         self.modes_lit = [False,False,False,False,False]
-        self.update_lamps()
+        self.delay(delay=0.5,handler=self.update_lamps)
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
         self.game.setPlayerState('marks',self.player_mark)

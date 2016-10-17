@@ -182,7 +182,7 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
 
     def start_multiball(self):
         # start a ball save
-        self.game.enable_ball_save(allow_multiple_saves=True)
+       # self.game.enable_ball_saver(allow_multiple_saves=True,num_balls_to_save=8)
 
         self.running = True
         # display
@@ -237,6 +237,7 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
             voice = 'jackpot'
         # reset the video clip
         self.game.animations[choice].reset()
+        self.game.animations[choice].opaque = True
         # play the video clip
         self.layer = self.game.animations[choice]
         # delay the jackpot callout
@@ -312,6 +313,8 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
             self.game.drones.drone_tracking[n] = True
         # check for the switch stop
         self.game.mb_switch_stop.check_remove()
+        # hack set the drones higher
+        self.game.drones.drones_for_mb = 10
         self.unload()
 
     def clear_layer(self):

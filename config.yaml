@@ -23,8 +23,8 @@ dmd_fullscreen: False
 desktop_dmd_scale: 1
 dmd_framerate: 46
 screen_position_x: 0
-screen_position_y: 204
-dmd_window_border: True
+screen_position_y: 195
+dmd_window_border: False
 
 keyboard_switch_map:
     1: startButton

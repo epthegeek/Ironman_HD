@@ -7,8 +7,8 @@ Audits:
   Games Started: 0
   Balls Played: 0
 ClassicHighScores:
-  - {inits: AAA, score: 500}
-  - {inits: BBB, score: 600}
-  - {inits: CCC, score: 700}
-  - {inits: DDD, score: 800}
-  - {inits: EEE, score: 900}
+  - {inits: AAA, score: 900000000}
+  - {inits: BBB, score: 800000000}
+  - {inits: CCC, score: 700000000}
+  - {inits: DDD, score: 600000000}
+  - {inits: EEE, score: 500000000}

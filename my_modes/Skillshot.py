@@ -114,9 +114,9 @@ class Skillshot(procgame.game.AdvancedMode):
         for lamp in other_shields:
             lamp.disable()
         if self.light == 0:
-            self.game.lamps['topLeftLane'].enable()
+            self.game.lamps['topLeftLane'].schedule(0x0F0F0F0F)
         else:
-            self.game.lamps['topRightLane'].enable()
+            self.game.lamps['topRightLane'].schedule(0x0F0F0F0F)
 
     def unload(self):
         print "Unloading: " + self.myID

@@ -67,62 +67,65 @@ class Drones(procgame.game.AdvancedMode):
         self.drone_hit(3)
 
     def drone_hit(self,target):
-        # is the target lit?
-        if self.drone_tracking[target] == True:
-            self.drone_tracking[target] = False
-            # then we've got a hit
-            # count the hit
-            self.drone_total += 1
-
-            # if we're at 8, light the mode, if we're at 16, complete it
-            if self.drone_total == 8:
-                self.game.mark.mode_light(4)
-            elif self.drone_total == 16:
-                self.game.mark.mode_completed(4)
-
-            self.drones_for_mb -= 1
-            # play the sound effect
-            self.game.sound.play('drone_hit')
-            # if that was enough, it's time for war machine multiball
-            if self.drones_for_mb <= 0:
-                # time to do WM Multiball
-                self.game.warmachine.light_multiball()
-                # Turn all the drones off
-                for n in range (0,4,1):
-                    self.drone_tracking[n] = False
-                # bail on the rest of this junk
-                return
-            # If not, do the normal display
-            else:
-                self.drone_hit_display(target,self.drone_value)
-            # score some points
-            self.game.score(self.drone_value * 1000)
-            self.drone_value += 5
-            # Then balance the drones if needed
-            # if WM multiball hasn't run yet, always a minimum of three
-            if self.war_machine_battles <= 0:
-                # if less than three are lit
-                if sum(self.drone_tracking) < 3:
-                    #step through them
-                    for x in range(0,4,1):
-                        # for the target that just went out, skip that one
-                        if x == target:
-                            pass
-                        # for the others, turn on the False one to get back to three
-                        else:
-                            if self.drone_tracking[x] == False:
-                                self.drone_tracking[x] = True
-            # for any time after one multiball, the minimum is 2
-            else:
-                # if the sum is only one
-                if sum(self.drone_tracking) <= 1:
-                    # add another drone
-                    self.add(target)
-            # update the lamps
-            self.update_lamps()
+        if self.game.wm_multiball.running:
+            pass
         else:
-            # otherwise, it's a thunk
-            self.drone_thunk(target)
+            # is the target lit?
+            if self.drone_tracking[target] == True:
+                self.drone_tracking[target] = False
+                # then we've got a hit
+                # count the hit
+                self.drone_total += 1
+
+                # if we're at 8, light the mode, if we're at 16, complete it
+                if self.drone_total == 8:
+                    self.game.mark.mode_light(4)
+                elif self.drone_total == 16:
+                    self.game.mark.mode_completed(4)
+
+                self.drones_for_mb -= 1
+                # play the sound effect
+                self.game.sound.play('drone_hit')
+                # if that was enough, it's time for war machine multiball
+                if self.drones_for_mb <= 0:
+                    # time to do WM Multiball
+                    self.game.warmachine.light_multiball()
+                    # Turn all the drones off
+                    for n in range (0,4,1):
+                        self.drone_tracking[n] = False
+                    # bail on the rest of this junk
+                    return
+                # If not, do the normal display
+                else:
+                    self.drone_hit_display(target,self.drone_value)
+                # score some points
+                self.game.score(self.drone_value * 1000)
+                self.drone_value += 5
+                # Then balance the drones if needed
+                # if WM multiball hasn't run yet, always a minimum of three
+                if self.war_machine_battles <= 0:
+                    # if less than three are lit
+                    if sum(self.drone_tracking) < 3:
+                        #step through them
+                        for x in range(0,4,1):
+                            # for the target that just went out, skip that one
+                            if x == target:
+                                pass
+                            # for the others, turn on the False one to get back to three
+                            else:
+                                if self.drone_tracking[x] == False:
+                                    self.drone_tracking[x] = True
+                # for any time after one multiball, the minimum is 2
+                else:
+                    # if the sum is only one
+                    if sum(self.drone_tracking) <= 1:
+                        # add another drone
+                        self.add(target)
+                # update the lamps
+                self.update_lamps()
+            else:
+                # otherwise, it's a thunk
+                self.drone_thunk(target)
 
     def add(self,target=5,display=False):
         candidates = []

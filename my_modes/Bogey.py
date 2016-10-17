@@ -113,7 +113,8 @@ class Bogey(procgame.game.AdvancedMode):
         self.running = False
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
-        pass
+        if self.running:
+            self.end_bogey()
 
     def sw_leftRampExit_active(self, sw):
         self.bogey_hit()
@@ -126,6 +127,7 @@ class Bogey(procgame.game.AdvancedMode):
     def start_bogey_display(self):
         # do the display
         anim = self.game.animations['bogey_start_movie']
+        anim.reset()
         text = dmd.HDTextLayer(1920/2,20,self.game.fonts['default'],"center",line_color=[32,32,0],line_width=4,interior_color=[255,0,0])
         text.set_text("BOGEY SPOTTED")
         text.blink_frames = 8
@@ -185,6 +187,7 @@ class Bogey(procgame.game.AdvancedMode):
             pass
 
     def end_bogey(self):
+        self.game.ramps.ramp_stage = [0,0]
         bg = self.game.animations['bright_clouds']
         text = dmd.HDTextLayer(1920/2,50,self.game.fonts['default'],"center",line_color=[64,0,0],line_width=6,interior_color=[192,0,0])
         text.set_text("WE'VE GOT A BOGEY")

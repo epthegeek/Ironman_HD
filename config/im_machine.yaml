@@ -65,10 +65,10 @@ PRSwitches:
         number: SD12
         label: Right Flipper EOS
         tags: Dedicated
-    tilt:
-        number: SD17
-        label: Tilt Pendulum
-        tags: Dedicated,tilt
+    #tilt:
+    #    number: SD17
+    #    label: Tilt Pendulum
+    #    tags: Dedicated,tilt
     slamTilt:
         number: SD18
         label: Slam Tilt

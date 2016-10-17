@@ -881,16 +881,16 @@ Audio:
     - key: 'pops_super'
       file: 'Sound-00A6.wav'
       volume: 1
-    - key: 'fast_scoring'
+    - key: 'fast_scoring_sfx'
       file: 'Sound-00AC.wav'
       volume: 1
-    - key: 'fast_scoring'
+    - key: 'fast_scoring_sfx'
       file: 'Sound-00AD.wav'
       volume: 1
-    - key: 'fast_scoring'
+    - key: 'fast_scoring_sfx'
       file: 'Sound-00AE.wav'
       volume: 1
-    - key: 'fast_scoring'
+    - key: 'fast_scoring_sfx'
       file: 'Sound-00AF.wav'
       volume: 1
     - key: 'bonus_chord'

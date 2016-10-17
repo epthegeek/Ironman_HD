@@ -13,4 +13,4 @@ Machine (Standard): {Autoplunger Strength: 20, Balls Per Game: 3, Color Display 
   Match Percentage: 10, Max Initials Length: 3, Maximum Extra Balls: 2, Replay Auto Adjust: 'Yes',
   Replay Award: Extra Ball, Replay Score: 10000000, Replay Score Pad: 0, Replays: Enabled,
   Slow Attract Pages: Disabled, Tilt Warnings: 2, Trough Eject Strength: 30}
-Sound: {Initial volume: 5, Music volume offset: 0}
+Sound: {Initial volume: 3, Music volume offset: 0}

@@ -117,8 +117,6 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
     # target_activate treats as either a side hit (first set) or  single target hit
     def target_activate(self,target, target_set,tracker,side):
-        # for now play a generic sound
-        self.game.sound.play('im_target_hit')
 
         # if we have no completions so far, hits count differently
         if self.completions == 0:
@@ -127,26 +125,32 @@ class IronmanTargets(procgame.game.AdvancedMode):
                 # if this whole side is done, it's a thunk
                 self.target_thunk()
             # If this side is not done, turn on the first available
-            for n in target_set:
-                # if we find an off target, activate it
-                if tracker[n] == False:
-                    tracker[n] = True
-                    # Check if we're done
-                    data = self.check_complete()
-                    #do the display - sends activated target
-                    # if this is the first target of a set, play the tutorial quote
-                    if self.game.base.tut_status[0]:
-                        self.delay(delay=0.7,handler=self.tutorial_quote)
-                    # if completed - the delays are 4 seconds
-                    self.target_display_movie(n,side,data[0],data[2])
-                    self.update_lamps()
-                    # score points
-                    self.game.score(data[1])
-                    break
+            else:
+                # for now play a generic sound
+                self.game.sound.play('im_target_hit')
+
+                for n in target_set:
+                    # if we find an off target, activate it
+                    if tracker[n] == False:
+                        tracker[n] = True
+                        # Check if we're done
+                        data = self.check_complete()
+                        #do the display - sends activated target
+                        # if this is the first target of a set, play the tutorial quote
+                        if self.game.base.tut_status[0]:
+                            self.delay(delay=0.7,handler=self.tutorial_quote)
+                        # if completed - the delays are 4 seconds
+                        self.target_display_movie(n,side,data[0],data[2])
+                        self.update_lamps()
+                        # score points
+                        self.game.score(data[1])
+                        break
         else:
             # process as a unique target
             # if the target is off, turn it on
             if tracker[target] == False:
+                # for now play a generic sound
+                self.game.sound.play('im_target_hit')
                 tracker[target] = True
                 # Check if we're done
                 data = self.check_complete()
@@ -326,7 +330,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         # load the relevant mode
         if self.mode_index == 0:
             self.game.modes.add(self.game.fast_scoring)
-        elif self.game.mode_index == 1:
+        elif self.mode_index == 1:
             # TODO: have to add double scoring and ironman scoring yet
             # double scoring goes here
             self.end_target_mode()
@@ -359,6 +363,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.scoring_mode_running = False
         # reset the tutorial flag for the next scoring mode
         self.game.base.tut_status[0] = True
+        self.update_lamps()
 
     def flasher_pulse(self):
         self.game.coils['leftRampBottomFlasher'].pulse()

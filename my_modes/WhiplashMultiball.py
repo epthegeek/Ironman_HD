@@ -13,7 +13,9 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.myID = "WhiplashMultiball"
         self.running = False
         start_movie_1 = self.game.animations['whiplash_start']
+        start_movie_1.opaque = True
         start_movie_2 = self.game.animations['mega_whiplash_start']
+        start_movie_2.opaque = True
         self.start_movies = [start_movie_1, start_movie_2]
         self.jp_arrow_lamps = [self.game.lamps['leftOrbitArrow'],
                                self.game.lamps['leftRampArrow'],
@@ -39,7 +41,9 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.super_movies = [super_1, super_2]
         self.type = 0
         bg = self.game.animations['whiplash_mb_bg']
+        bg.opaque = True
         bg_mk2 = self.game.animations['whiplash_mk2_mb_bg']
+        bg_mk2.opaque = True
         self.line_1 = dmd.HDTextLayer(1920/2, 300, self.game.fonts['whiplash_300'], "center",line_color=(203,197,55), line_width=5, interior_color=(169,42,0))
         self.line_2 = dmd.HDTextLayer(1920/2, 200, self.game.fonts['default'], "center", line_color=(96,96,86), line_width=3,interior_color=(224,224,224))
         jp_text_1 = dmd.GroupedLayer(1920,800,[bg,self.line_1,self.line_2],opaque=True)
@@ -104,7 +108,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
 
     def start_multiball(self,type):
         # start a ball save
-        self.game.enable_ball_save(allow_multiple_saves=True)
+        #self.game.enable_ball_saver(allow_multiple_saves=True,num_balls_to_save=8)
 
         self.type = type
         # set the colors?
@@ -194,6 +198,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             toggle = False
 
         anim.reset()
+        anim.opaque = True
         anim.add_frame_listener(-1,self.show_jp_value_helper,param=[text,points])
         self.layer = anim
         self.tick_jackpot_index()
@@ -280,7 +285,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         if self.game.whiplash.whiplash_type == 0:
             self.game.whiplash.whiplash_type = 1
         else:
-            self.game.whiplash.whiplash.type = 0
+            self.game.whiplash.whiplash_type = 0
         # check the switch block
         self.game.mb_switch_stop.check_remove()
         # set the music back
