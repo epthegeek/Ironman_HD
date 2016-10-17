@@ -132,6 +132,7 @@ class Whiplash(procgame.game.AdvancedMode):
 
         self.game.score(points)
 #        anim.add_frame_listener(-1,self.whiplash_text_display_helper,param=[anim,type])
+        anim.frame_listeners = []
         anim.add_frame_listener(-1,self.delayed_clear,param=0.5)
 #        self.layer = anim
         self.layer = dmd.GroupedLayer(1920,800,layers,opaque=True)

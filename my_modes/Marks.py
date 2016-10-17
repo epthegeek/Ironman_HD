@@ -104,6 +104,7 @@ class Marks(procgame.game.AdvancedMode):
         # play the video
         self.game.animations[self.mark_movies[self.player_mark]].reset()
         anim = self.game.animations[self.mark_movies[self.player_mark]]
+        anim.frame_listeners = []
         anim.add_frame_listener(-1,self.clear_layer)
         # this is so whatever called completed can do something after
         if callback:

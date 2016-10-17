@@ -77,6 +77,10 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         intro_3.set_text("WAR",blink_frames=6)
         self.intro_movie = self.game.animations['war_machine_ready']
         self.intro = dmd.GroupedLayer(1920,800,[self.intro_movie,intro_1,intro_2,intro_3],opaque = True)
+        self.drone_lamps = [self.game.lamps['droneTarget0'],
+                            self.game.lamps['droneTarget1'],
+                            self.game.lamps['droneTarget2'],
+                            self.game.lamps['droneTarget3']]
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -173,6 +177,8 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
             # play the sound
             self.game.sound.play(self.d_jp_audio_clips[self.d_jp_audio_idx])
             self.d_jp_audio_idx += 1
+            # trigger the lamp update for the shared arrows
+            self.game.mb_switch_stop.update_lamps()
         else:
             self.double_jp_thunk()
 
@@ -219,7 +225,7 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
             # complete the mode light
             self.game.mark.mode_completed(1)
 
-        elif type == self.d_jp_movies:
+        elif type == 'big5':
             text = "DOUBLE JACKPOT"
             choice = self.d_jp_movies[self.d_jp_idx]
             delay = self.d_jp_delays[self.d_jp_idx]
@@ -259,12 +265,16 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         if True not in self.drone_jackpots and self.display_type == 'drones':
             self.jackpots_init('big5', True)
             self.display_type = 'big5'
+            # update the shared arrows lamps
+            self.game.mb_switch_stop.update_lamps()
         elif True not in self.big5_jackpots and self.display_type == 'big5':
             self.display_type = 'super'
             self.light_super()
         elif self.display_type == 'super':
             self.jackpots_init('drones',True)
             self.display_type = 'drones'
+            self.game.mb_switch_stop.update_lamps()
+            self.disable_lamps()
 
         self.update_main_layers()
         if self.display_type == 'super':
@@ -279,7 +289,13 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
 
     def light_super(self):
         # this should turn on light so rsomething - or maybe update_lamps can handle it
-        pass
+        self.game.mb.switch_stop.update_lamps()
+        self.game.coils['warMachineFlasher'].schedule(0x11111111)
+        self.game.lamps['warMachine'].enable()
+
+    def disable_lamps(self):
+        self.game.coils['warMachineFlasher'].disable()
+        self.game.lamps['warMachine'].disable()
 
     def update_main_layers(self):
         for x in range (0,4,1):
@@ -316,6 +332,18 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         # hack set the drones higher
         self.game.drones.drones_for_mb = 10
         self.unload()
+
+    def disable_lamps(self):
+        for lamp in self.drone_lamps:
+            lamp.disable()
+
+    def update_lamps(self):
+        self.disable_lamps()
+        # flash any drone lamp that is active
+        for x in range (0,4,1):
+            if self.drone_jackpots[x]:
+                self.drone_lamps[x].schedule(0x0F0F0F0F)
+        # also trigger the MB shared lamp arrows
 
     def clear_layer(self):
         self.layer = None

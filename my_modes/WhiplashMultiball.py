@@ -17,11 +17,6 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         start_movie_2 = self.game.animations['mega_whiplash_start']
         start_movie_2.opaque = True
         self.start_movies = [start_movie_1, start_movie_2]
-        self.jp_arrow_lamps = [self.game.lamps['leftOrbitArrow'],
-                               self.game.lamps['leftRampArrow'],
-                               self.game.lamps['centerShotArrow'],
-                               self.game.lamps['rightRampArrow'],
-                               self.game.lamps['rightOrbitArrow']]
         jp_movies_1 = [self.game.animations['whiplash_jp_1'],
                        self.game.animations['whiplash_jp_2'],
                        self.game.animations['whiplash_jp_3'],
@@ -63,6 +58,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.points = 0
         self.orbit_inactive = False
         self.hold = True
+        self.arrows = False
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -129,16 +125,19 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         # play some music
         self.game.base.set_music()
         # do the display
-        self.start_movies[self.type].reset()
+        anim = self.start_movies[self.type]
+        anim.reset()
+        anim.opaque = True
+        anim.frame_listeners = []
         if self.game.mark.player_mark < 6:
             self.game.mark.player_mark += 1
             self.game.mark.score()
             # add a listener to do the completed with a callback to the main display here.
-            self.start_movies[self.type].add_frame_listener(-1,self.game.mark.completed,param=self.do_main_display)
-            self.start_movies[self.type].add_frame_listener(-1,self.clear_layer)
+            anim.add_frame_listener(-1,self.game.mark.completed,param=self.do_main_display)
+            anim.add_frame_listener(-1,self.clear_layer)
         else:
-            self.start_movies[self.type].add_frame_listener(-1,self.do_main_display)
-        self.layer = self.start_movies[self.type]
+            anim.add_frame_listener(-1,self.do_main_display)
+        self.layer = anim
         # set the total score to zero
         self.total_points = 0
         # launch another ball
@@ -146,7 +145,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         # light the mode light
         self.game.mark.mode_light(3)
         # Turn on the jackpot arrows
-        self.flash_arrows()
+        self.arrows = True
+        self.update_lamps()
         # Turn off the hold
         self.hold = False
 
@@ -174,7 +174,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
                 # turn off the flasher
                 self.game.coils.whiplashFlasher.disable()
                 # turn on the arrows
-                self.flash_arrows()
+                self.arrows = True
+                self.update_lamps()
                 toggle = True
                 anim = self.super_movies[self.type][1]
                 self.jackpot_value = 500000
@@ -189,7 +190,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
                 # turn off the flasher
                 self.game.coils.whiplashFlasher.disable()
                 # turn on the arrows
-                self.flash_arrows()
+                self.arrows = True
+                self.update_lamps()
                 toggle = True
                 self.jackpot_value = 250000
         else:
@@ -199,6 +201,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
 
         anim.reset()
         anim.opaque = True
+        anim.frame_listeners = []
         anim.add_frame_listener(-1,self.show_jp_value_helper,param=[text,points])
         self.layer = anim
         self.tick_jackpot_index()
@@ -226,7 +229,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
                 self.update_info_layer()
                 self.super = True
                 # turn off the arrows
-                self.disable_arrows()
+                self.arrows = False
+                self.update_lamps()
                 # turn on the flasher
                 self.game.coils.whiplashFlasher.schedule(0x03030303)
                 if self.round == 0:
@@ -273,7 +277,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         # turn off the flasher just in case
         self.game.coils.whiplashFlasher.disable()
         # turn off the ramp arrows
-        self.disable_arrows()
+        self.arrows = False
+        self.update_lamps()
         # remove the run flag
         self.running = False
         # set the whiplash status off of ready
@@ -295,20 +300,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
     def clear_hold(self):
         self.hold = False
 
-    # Jackpot arrows control -- do nothing if the other MBs are running.
-    def flash_arrows(self):
-        if self.game.wm_multiball.running or self.game.monger_multiball.running:
-            pass
-        else:
-            for lamp in self.jp_arrow_lamps:
-                lamp.schedule(0x00FF00FF)
-
-    def disable_arrows(self):
-        if self.game.wm_multiball.running or self.game.monger_multiball.running:
-            pass
-        else:
-            for lamp in self.jp_arrow_lamps:
-                lamp.disable()
+    def update_lamps(self):
+        self.game.mb_switch_stop.update_lamps()
 
     def clear_layer(self):
         self.layer = None

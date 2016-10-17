@@ -15,6 +15,14 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         self.target_lights = ['leftTargetsI','leftTargetsR','leftTargetsO','leftTargetsN','rightTargetsM','rightTargetsA','rightTargetsN']
         self.orbits_inactive = False
 
+        ## Shared arrow inserts from oribts/ramps
+
+        self.jp_arrow_lamps = [self.game.lamps['leftOrbitArrow'],
+                               self.game.lamps['leftRampArrow'],
+                               self.game.lamps['centerShotArrow'],
+                               self.game.lamps['rightRampArrow'],
+                               self.game.lamps['rightOrbitArrow']]
+
     def setup(self):
         # checks should be in this oder: Bogey, Whiplash, War Machine, Monger
         self.BO = self.game.bogey
@@ -184,6 +192,39 @@ class MBSwitchStop(procgame.game.AdvancedMode):
         self.game.modes.remove(self)
 
     # delayed voice quote helper with a list input
-    def voice_helper(self, options):
-        duration = self.game.sound.play_voice(options[0], action=options[1])
-        return duration
+    if __name__ == '__main__':
+        def voice_helper(self, options):
+            duration = self.game.sound.play_voice(options[0], action=options[1])
+            return duration
+
+
+    ## Also doing shared insert lamp control for multiballs & modes here as well
+    def disable_lamps(self):
+        for lamp in self.jp_arrow_lamps:
+            lamp.disable()
+
+    def update_lamps(self):
+        self.disable_lamps()
+        for x in range (0,5,1):
+            count = 0
+            # for each lamp - should the insert flash for any of the 3 multiballs?
+            if self.game.whiplash_multiball.running and self.game.whiplash_multiball.arrows:
+                count += 1
+            if self.game.wm_multiball.running and self.game.wm_multiball.big5_jackpots[x]:
+                count += 1
+            # all arrows but the center are affected by bogey
+            if x != 2:
+                if self.game.bogey.running:
+                    count += 1
+
+            # flash the lamp accordingly
+            if count == 0:
+                pass
+            elif count == 1:
+                self.jp_arrow_lamps[x].schedule(0x00FF00FF)
+            elif count == 2:
+                self.jp_arrow_lamps[x].schedule(0x0F0F0F0F)
+            elif count == 3:
+                self.jp_arrow_lamps[x].schedule(0x33333333)
+            elif count > 3:
+                self.jp_arrow_lamps[x].schedule(0x55555555)

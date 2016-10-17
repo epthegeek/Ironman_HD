@@ -164,6 +164,9 @@ class IronMonger(procgame.game.AdvancedMode):
             else:
                 self.set_valid_switches(3)
                 self.letter_hit()
+            # if bogey is running, score that too
+            if self.game.bogey.running:
+                self.game.bogey.bogey_hit()
         # play the orbit noise
         self.orbit_noise()
 
@@ -175,6 +178,10 @@ class IronMonger(procgame.game.AdvancedMode):
             else:
                 self.set_valid_switches(4)
                 self.letter_hit()
+            # if bogey is running, score that too
+            if self.game.bogey.running:
+                self.game.bogey.bogey_hit()
+
         # play the orbit noise
         self.orbit_noise()
 
@@ -232,6 +239,7 @@ class IronMonger(procgame.game.AdvancedMode):
         self.game.monger_toy.rise()
         anim = self.game.animations['monger_rise']
         anim.reset()
+        anim.frame_listeners = []
         anim.add_frame_listener(-1,self.clear_layer)
         self.layer = anim
         # the count it

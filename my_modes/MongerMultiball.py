@@ -58,6 +58,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
 
         # pick out a script
         self.selected_script = random.choice(self.scripts)
+        self.center_valid = False
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -81,6 +82,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
         self.jackpot_hits = 0
         self.jackpots_total = 0
         self.script_index = 0
+        self.center_valid = True
 
         # reset to the start of MB, function used later after super as well.
         self.reset_mb()
@@ -120,6 +122,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
             self.game.score(points)
             anim = self.game.animations[self.hit_movies[self.jackpot_hits]]
             anim.reset()
+            anim.frame_listeners = []
             anim.add_frame_listener(-1, self.set_main_display)
             self.layer = dmd.GroupedLayer(1920,800,[anim,self.points_layer],opaque=True)
             # play a script quote
@@ -146,6 +149,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
         if self.game.mark.player_mark < 6:
             self.game.mark.player_mark += 1
             self.game.mark.score()
+            anim.frame_listeners = []
             anim.add_frame_listener(-1,self.game.mark.completed, param=self.set_main_display)
             anim.add_frame_listener(-1,self.clear_layer)
         else:
@@ -163,26 +167,33 @@ class MongerMultiball(procgame.game.AdvancedMode):
 
 
     def center_spinner_hit(self):
-        if self.super:
-            self.game.coils['centerShotPost'].patter(on_time=4, off_time=4, original_on_time=20)
-            self.delay(delay=7,handler=self.drop_post)
-            # award the super jackpot
-            self.super = False
-            self.jackpot_hits = 0
-            self.super_display = True
-            # turn on the mode complete light
-            self.game.mark.mode_completed(1)
-            # score the points
-            self.game.score(3000000)
-            # play the animations
-            anim = self.game.animations['monger_super']
-            anim.reset()
-            anim.add_frame_listener(-1, self.reset_mb)
-            self.layer = anim
-        elif self.monger_status == "DOWN":
-            self.raise_monger()
-        else:
-            pass
+        if self.center_valid:
+            self.center_valid = False
+            self.delay(delay=2,handler=self.center_revalidate)
+            if self.super:
+                self.game.coils['centerShotPost'].patter(on_time=4, off_time=4, original_on_time=20)
+                self.delay(delay=7,handler=self.drop_post)
+                # award the super jackpot
+                self.super = False
+                self.jackpot_hits = 0
+                self.super_display = True
+                # turn on the mode complete light
+                self.game.mark.mode_completed(1)
+                # score the points
+                self.game.score(3000000)
+                # play the animations
+                anim = self.game.animations['monger_super']
+                anim.reset()
+                anim.frame_listeners = []
+                anim.add_frame_listener(-1, self.reset_mb)
+                self.layer = anim
+            elif self.monger_status == "DOWN":
+                self.raise_monger()
+            else:
+                pass
+
+    def center_revalidate(self):
+        self.center_valid = True
 
     def drop_post(self):
         self.game.coils['centerShotPost'].disable()
@@ -202,6 +213,8 @@ class MongerMultiball(procgame.game.AdvancedMode):
         # do the display
         anim = self.game.animations['monger_mb_raise']
         anim.reset()
+        anim.opaque = True
+        anim.frame_listeners = []
         anim.add_frame_listener(-1,self.set_main_display)
         self.layer = anim
         # pick out a script
