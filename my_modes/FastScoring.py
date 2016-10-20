@@ -148,10 +148,18 @@ class FastScoring(procgame.game.AdvancedMode):
         self.timer_layer.set_text(text)
         if self.timer_value <= 0:
             # it's overrrrrr
-            self.delay(delay = 1,handler=self.end)
+            self.delay("timer",delay = 1,handler=self.end)
         else:
             # or loop back
-            self.delay(delay = 1,handler=self.timer)
+            self.delay("timer",delay = 1,handler=self.timer)
+
+    def add_time(self):
+        # just in case it's the last second - cancel the delay to avoid ending
+        self.cancel_delayed("timer")
+        # adding 20 seconds to the timer
+        self.timer_value += 20
+        # schedule new timer delay
+        self.delay(delay=1,handler=self.timer)
 
     def clear_layer(self):
         self.layer = None

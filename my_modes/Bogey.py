@@ -187,6 +187,14 @@ class Bogey(procgame.game.AdvancedMode):
         else:
             pass
 
+    def add_time(self):
+        # just in case it's the last second - cancel the delay to avoid ending
+        self.cancel_delayed("timer")
+        # adding 20 seconds to the timer
+        self.timer_value += 20
+        # schedule new timer delay
+        self.delay(delay=1,handler=self.timer)
+
     def end_bogey(self):
         self.game.ramps.ramp_stage = [0,0]
         bg = self.game.animations['bright_clouds']

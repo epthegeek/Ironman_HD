@@ -59,6 +59,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
         # pick out a script
         self.selected_script = random.choice(self.scripts)
         self.center_valid = False
+        self.ball_added = False
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -73,6 +74,7 @@ class MongerMultiball(procgame.game.AdvancedMode):
 
     def mode_started(self):
         self.running = True
+        self.ball_added = False
         # add the switch filter
         if self.game.mb_switch_stop not in self.game.modes:
             self.game.modes.add(self.game.mb_switch_stop)
@@ -278,6 +280,12 @@ class MongerMultiball(procgame.game.AdvancedMode):
         # saftey catch - kill the up post
         self.game.coils['centerShotPost'].disable()
         self.unload()
+
+    def add_ball(self):
+        # Only do this if all 4 aren't already in play
+        if self.game.trough.num_ball_in_play < 4:
+            self.ball_added = True
+            self.game.trough.launch_and_autoplunge_balls(1)
 
     def update_lamps(self):
         # the jackpot arrows

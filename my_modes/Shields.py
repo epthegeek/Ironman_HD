@@ -137,54 +137,89 @@ class Shields(procgame.game.AdvancedMode):
     def collect_award(self):
         if self.shield_awards_pending > 0:
             self.shield_awards_pending -= 1
-            # TODO: during scoring modes add time, during MB add a ball
-            choices = []
-            # Basic Awards 2 = 200,00, 3 = POPs Jackpot 100,000, 4 = Bonus multiplier +10x, 5 = EB, 6 = Special
-            choices.append([2,2,2,2,2])
-            choices.append([3,3,3,3,3])
-            # Only add bonus x if they're below 20 already
-            if self.game.base.bonus_x < 20:
-                choices.append([4,4,4,4])
-            # Oly add extra balls if they're below max extra balls
-            if self.game.getPlayerState('extra_balls_total') < self.game.settings['Machine (Standard)']['Maximum Extra Balls']:
-                choices.append([5,5])
-            choices.append([6])
-            # shuffle that shit up
-            for n in range (0,9,1):
-                random.shuffle(choices)
-                print choices
-            # then pick one
-            selected = random.choice(choices)
-            # and do a thing
             layers = [self.shield_bg,self.title]
-            if selected == 2:
-                self.bot_text = "200,000"
+            # if monger is running and we haven't added a ball -- do that
+            if self.game.monger_multiball.running and \
+                self.game.monger_multiball.ball_added == False and \
+                    self.game.trough.num_balls_in_play < 4:
+
+                self.bot_text.set_text("ADD-A-BALL")
                 layers.append(self.bot_text)
-                self.game.score(200000)
-            elif selected == 3:
-                self.twolineA.set_text("POPS JACKPOT GROWS")
-                self.twolineB.set_text("100,000")
-                self.game.pops.increase_jackpot_value(9)
-                layers.append([self.twolineA,self.twolineB])
-            elif selected == 4:
-                self.twolineA.set_text("10 X BONUS")
-                self.twolineB.set_text("MULTIPLIER")
-                self.increase_bonus_x(10)
-                layers.append([self.twolineA, self.twolineB])
-            elif selected == 5:
-                self.twolineA.set_text("EXTRA BALL")
-                self.twolineB.set_text("IS LIT")
-                self.game.base.light_extra_ball()
-                layers.append([self.twolineA, self.twolineB])
-            elif selected == 6:
-                self.twolineA.set_text("SPECIAL")
-                self.twolineB.set_text("IS LIT")
-                self.game.base.light_special()
-                layers.append([self.twolineA,self.twolineB])
+                self.game.monger_multiball.add_ball()
+            # if whiplash is running and we haven't added a ball there -- do that
+            elif self.game.whiplash_multiball.running and \
+                self.game.whiplash_multiball.ball_added == False and \
+                self.game.trough.num_balls_in_play < 4:
+
+                self.bot_text.set_text("ADD-A-BALL")
+                layers.append(self.bot_text)
+                self.game.whiplash_multiball.add_ball()
+            # if any timed mode is running, add time to any running mode
+            elif self.game.fast_scoring.running or \
+                    self.game.double_scoring.running or \
+                    self.game.bogey.running:
+                if self.game.fast_scoring.running:
+                    self.game.fast_scoring.add_time()
+                if self.game.double_scoring.running:
+                    self.game.double_scoring.add_time()
+                if self.game.bogey.running:
+                    self.game.bogey.add_time()
+                self.bot_text.set_text("TIME ADDED")
+                layers.append(self.bot_text)
+            # otherwise it is basic award time
+            else:
+                choices = [2,2,2,2,2,3,3,3,3,3]
+                # Basic Awards 2 = 200,00, 3 = POPs Jackpot 100,000, 4 = Bonus multiplier +10x, 5 = EB, 6 = Special
+                # Only add bonus x if they're below 20 already
+                if self.game.base.bonus_x < 20:
+                    for n in range (0,4,1):
+                        choices.append(4)
+                # Oly add extra balls if they're below max extra balls
+                if self.game.getPlayerState('extra_balls_earned') < self.game.settings['Machine (Standard)']['Maximum Extra Balls']:
+                    for n in range (0,2,1):
+                        choices.append(5)
+                choices.append(6)
+                # shuffle that shit up
+                for n in range (0,9,1):
+                    random.shuffle(choices)
+                    print choices
+                # then pick one
+                selected = random.choice(choices)
+                # and do a thing
+                if selected == 2:
+                    self.bot_text.set_text("200,000")
+                    layers.append(self.bot_text)
+                    self.game.score(200000)
+                elif selected == 3:
+                    self.twolineA.set_text("POPS JACKPOT GROWS")
+                    self.twolineB.set_text("100,000")
+                    self.game.pops.increase_jackpot_value(9)
+                    layers.append(self.twolineA)
+                    layers.append(self.twolineB)
+                elif selected == 4:
+                    self.twolineA.set_text("10 X BONUS")
+                    self.twolineB.set_text("MULTIPLIER")
+                    self.increase_bonus_x(10)
+                    layers.append(self.twolineA)
+                    layers.append(self.twolineB)
+                elif selected == 5:
+                    self.twolineA.set_text("EXTRA BALL")
+                    self.twolineB.set_text("IS LIT")
+                    self.game.base.light_extra_ball()
+                    layers.append(self.twolineA)
+                    layers.append(self.twolineB)
+                elif selected == 6:
+                    self.twolineA.set_text("SPECIAL")
+                    self.twolineB.set_text("IS LIT")
+                    self.game.base.light_special()
+                    layers.append(self.twolineA)
+                    layers.append(self.twolineB)
             # set up the display
-            display = dmd.GroupedLayer(1920,1080,layers,opaque = True)
+            print "IMG SELECTED PRIZ " + str(selected)
+            myDisplay = dmd.GroupedLayer(1920,1080,layers,opaque = True)
             # have interrupted show it
-            self.game.interrupt.display(display,3)
+            print "Display built, calling interrupter jones"
+            self.game.interrupt.display(myDisplay,3)
 
     def reset_shields(self):
         self.shield_tracking = [False,False,False,False,False,False]

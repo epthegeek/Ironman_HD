@@ -43,13 +43,13 @@ class WarMachine(procgame.game.AdvancedMode):
             # raise the drone jackpot by some amount - every time
             self.game.drones.raise_jackpot()
 
-        # if there are shield awards waiting, do that
-        if self.game.shields.shield_awards_pending > 0:
-            self.game.shields.collect_award()
         if self.multiball_status == "READY":
             # if war machine multiball is ready, do that
             self.disable_lamps()
             self.game.modes.add(self.game.wm_multiball)
+        # if there are shield awards waiting, do that
+        elif self.game.shields.shield_awards_pending > 0:
+            self.game.shields.collect_award()
         # this option is add a drone if needed
         elif sum(self.game.drones.drone_tracking) < 4:
             self.game.drones.add(display=True)

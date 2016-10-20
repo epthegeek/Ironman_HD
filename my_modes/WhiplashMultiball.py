@@ -59,6 +59,7 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.orbit_inactive = False
         self.hold = True
         self.arrows = False
+        self.ball_added = False
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -115,6 +116,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
             self.line_1.interior_color = (40,109,204)
             self.line_2.line_color = (160,156,201)
         self.running = True
+        # set a flag for if ball add has been used
+        self.ball_added = False
         # update all the lamps
         self.game.update_lamps()
         # bring in the switch blocker
@@ -296,6 +299,12 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         # set the music back
         self.game.base.set_music()
         self.unload()
+
+    def add_ball(self):
+        # Only do this if all 4 aren't already in play
+        if self.game.trough.num_ball_in_play < 4:
+            self.ball_added = True
+            self.game.trough.launch_and_autoplunge_balls(1)
 
     def clear_hold(self):
         self.hold = False

@@ -46,7 +46,7 @@ keyboard_switch_map:
     d: droneTarget1
     f: droneTarget2
     g: droneTarget3
-    a: warMachineOpto
+    a: warMachineKicker
     w: leftSpinner
     e: leftOrbit
     r: leftRampExit

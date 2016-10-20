@@ -616,7 +616,7 @@ PRLamps:
         number: L55
         label: Mark VI
         tags: Playfield
-    Special:
+    special:
         number: L56
         label: Special
         tags: Playfield

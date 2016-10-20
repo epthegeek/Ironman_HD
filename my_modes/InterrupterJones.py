@@ -14,6 +14,7 @@ class InterrupterJones(procgame.game.AdvancedMode):
 
     ## This mode is just for putting high priority junk on the display - sledgehammer style
     def display(self,layer,time):
+        print "INTERRUPTER JONES DISPLAY"
         self.cancel_delayed("display")
         self.layer = layer
         self.delay("display",delay=time,handler=self.clear_layer)
