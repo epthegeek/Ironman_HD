@@ -3,6 +3,7 @@ __all__ = [
     'Ramps',
     'IronmanTargets',
     'FastScoring',
+    'DoubleScoring',
     'Shields',
     'Drones',
     'Whiplash',
@@ -25,6 +26,7 @@ from BaseGameMode import *
 from Ramps import *
 from IronmanTargets import *
 from FastScoring import *
+from DoubleScoring import *
 from Shields import *
 from Drones import *
 from Whiplash import *

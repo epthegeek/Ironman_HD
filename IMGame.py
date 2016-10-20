@@ -13,6 +13,7 @@ from my_modes import BaseGameMode
 from my_modes import Ramps
 from my_modes import IronmanTargets
 from my_modes import FastScoring
+from my_modes import DoubleScoring
 from my_modes import Shields
 from my_modes import Drones
 from my_modes import Whiplash
@@ -48,6 +49,7 @@ class IMGame(SkeletonGame):
         self.base = BaseGameMode(game=self) # pri 5
 
         self.fast_scoring = FastScoring(game=self) # pri 9
+        self.double_scoring = DoubleScoring(game=self) # pri 9
 
         self.pops = Pops(game=self) # pri 10
         self.ramps = Ramps(game=self) # pri 11
@@ -83,6 +85,9 @@ class IMGame(SkeletonGame):
         self.sound.ducking_enabled = True
         self.music_ducking_effect = 0.4
 
+        # score multiplier
+        self.multiplier = 1
+
         self.reset()
 
 
@@ -96,7 +101,7 @@ class IMGame(SkeletonGame):
             lamp.disable()
         self.start_attract_mode()
 
-    ## GI LAMPS
+    ## GI LAMPS ?
 
     def gi_control(self, state):
         if state == "OFF":
@@ -105,6 +110,20 @@ class IMGame(SkeletonGame):
         else:
             self.giState = "ON"
             self.lamps['playfieldGI'].enable()
+
+    ## score thing
+    def score(self, points,):
+        """Convenience method to add *points* to the current player."""
+        p = self.current_player()
+        p.score += (points * self.multiplier)
+        # check replay if they're enabled and the player hasn't earned it yet
+
+        ## Replay award bit - not implemented currently - old code from CCC
+#        if self.replays and not self.show_tracking('replay_earned'):
+#            if p.score >= self.user_settings['Machine (Standard)']['Replay Score']:
+#                self.set_tracking('replay_earned',True)
+#                self.award_replay()
+
 
 
 ## the following just set things up such that you can run Python ExampleGame.py

@@ -26,6 +26,7 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # set the completion total to 0
         player.setState('im_targets_completions',0)
         player.setState('fast_scoring_runs',0)
+        player.setState('double_scoring_runs', 0)
         # tutorial quotes: 0 = IM Targets, 1 = Drones, 2 = Spinners
         player.setState('tutorials', [True,True,True])
         player.setState('im_mode_index',0)
@@ -140,6 +141,8 @@ class BaseGameMode(procgame.game.AdvancedMode):
         self.game.log("BaseGameMode trough changed notification ('ball_ending - again=%s, last=%s')" % (shoot_again,last_ball))
         # do the bonus here
         self.game.modes.add(self.game.bonus)
+        # just as a precaution - set the multiplier back to 1 here
+        self.game.multiplier = 1
         # return a special flag that says wait until I say so for the next event
         #return (False, -1)
         return 600

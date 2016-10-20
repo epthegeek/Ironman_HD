@@ -7,6 +7,7 @@ from pygame.locals import *
 from pygame.font import *
 from procgame import dmd
 import random
+import math
 
 class FastScoring(procgame.game.AdvancedMode):
 
@@ -51,6 +52,7 @@ class FastScoring(procgame.game.AdvancedMode):
                                                     self.score6], opaque=True)
         self.names = ['fast5','fast4','fast3','fast2','fast1','fast0']
         self.timer_start_value = 41
+        self.fade_index = 0
 
     def evt_ball_starting(self):
         self.wipe_delays()
@@ -73,6 +75,9 @@ class FastScoring(procgame.game.AdvancedMode):
         self.timer()
         self.layer = self.display
         self.last_score = 0
+        self.fade_counter = 10
+        self.flash_lamps = [self.game.coils['rightRampBottomFlasher'],self.game.coils['leftRampBottomFlasher']]
+        self.lamp_pulse(self.flash_lamps)
 
     def evt_ball_ending(self,(shoot_again,last_ball)):
         self.end()
@@ -91,6 +96,7 @@ class FastScoring(procgame.game.AdvancedMode):
         self.game.sound.play('fast_scoring_sfx')
 
     def end(self):
+        self.disable_pulse()
         self.layer = None
         self.running = False
         # add up the tally for how many times FS has run
@@ -140,7 +146,7 @@ class FastScoring(procgame.game.AdvancedMode):
         else:
             text = str(self.timer_value)
         self.timer_layer.set_text(text)
-        if self.timer_value == 0:
+        if self.timer_value <= 0:
             # it's overrrrrr
             self.delay(delay = 1,handler=self.end)
         else:
@@ -165,3 +171,21 @@ class FastScoring(procgame.game.AdvancedMode):
     def voice_helper(self, options):
         duration = self.game.sound.play_voice(options[0], action=options[1])
         return duration
+
+
+    def lamp_pulse(self, lamps):
+        fade_map = [10,10,10,10,9,9,9,8,8,7,5,3,3,2,3,3,5,7,8,8,9,9,9]
+        for lamp in lamps:
+            var = fade_map[self.fade_index]
+            on_time = 10 - var
+            off_time = var
+            lamp.patter(on_time, off_time)
+        self.fade_index += 1
+        if self.fade_index >= len(fade_map):
+            self.fade_index = 0
+        self.delay("pulse", delay=0.04, handler=self.lamp_pulse,param=self.flash_lamps)
+
+    def disable_pulse(self):
+        self.cancel_delayed("pulse")
+        for lamp in self.flash_lamps:
+            lamp.disable()

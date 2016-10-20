@@ -331,9 +331,9 @@ class IronmanTargets(procgame.game.AdvancedMode):
         if self.mode_index == 0:
             self.game.modes.add(self.game.fast_scoring)
         elif self.mode_index == 1:
-            # TODO: have to add double scoring and ironman scoring yet
+            # TODO: have to add ironman scoring yet
             # double scoring goes here
-            self.end_target_mode()
+            self.game.modes.add(self.game.double_scoring)
         else:
             # ironman scoring would go here
             self.end_target_mode()
