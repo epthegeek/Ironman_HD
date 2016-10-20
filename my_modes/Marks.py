@@ -130,6 +130,12 @@ class Marks(procgame.game.AdvancedMode):
             self.mark_lamps[n].enable()
             if n == 5:
                 self.game.coils.mark6Flasher.schedule(0x00010001)
+                # if we got to 6, the first five strobe
+                self.mark_lamps[4].schedule(0x0000FFFF)
+                self.mark_lamps[3].schedule(0x000FFFF0)
+                self.mark_lamps[2].schedule(0x00FFFF00)
+                self.mark_lamps[1].schedule(0x0FFFF000)
+                self.mark_lamps[0].schedule(0xFFFF0000)
 
         for n in range (0,5,1):
             # Check modes finished first

@@ -20,7 +20,8 @@ __all__ = [
     'Skillshot',
     'MBSwitchStop',
     'Bonus',
-    'InterrupterJones'
+    'InterrupterJones',
+    'Jericho'
     ]
 
 from BaseGameMode import *
@@ -45,3 +46,4 @@ from Skillshot import *
 from MBSwitchStop import *
 from Bonus import *
 from InterrupterJones import *
+from Jericho import *

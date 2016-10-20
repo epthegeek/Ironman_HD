@@ -30,7 +30,6 @@ class DoubleScoring(procgame.game.AdvancedMode):
                                                     self.bottom2,
                                                     timer_box,
                                                     self.timer_layer], opaque=True)
-        self.names = ['fast5','fast4','fast3','fast2','fast1','fast0']
         self.timer_start_value = 41
         self.fade_index = 0
 

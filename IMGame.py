@@ -31,6 +31,7 @@ from my_modes import Skillshot
 from my_modes import MBSwitchStop
 from my_modes import Bonus
 from my_modes import InterrupterJones
+from my_modes import Jericho
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -76,6 +77,8 @@ class IMGame(SkeletonGame):
         self.whiplash_multiball = WhiplashMultiball(game=self) # pri 49
         self.wm_multiball = WarMachineMultiball(game=self) # pri 50
         self.monger_multiball = MongerMultiball(game=self) # pri 51
+
+        self.jericho = Jericho(game=self) # pri 52
 
         self.skillshot = Skillshot(game=self) #pri 60
         self.bonus = Bonus(game=self) # pri 60
