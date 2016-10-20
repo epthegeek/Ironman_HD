@@ -245,7 +245,11 @@ class Pops(procgame.game.AdvancedMode):
         self.super_lock = False
 
     def increase_jackpot_value(self,pop):
-        self.jackpot += self.pop_values[self.pop_level[pop]]
+        # this is the 100,000 call from the shield award
+        if pop == 9:
+            self.jackpot += 100000
+        else:
+            self.jackpot += self.pop_values[self.pop_level[pop]]
 
     def update_lamps(self):
         for n in range (0,3,1):

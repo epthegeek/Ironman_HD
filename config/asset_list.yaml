@@ -89,7 +89,7 @@ Animations:
 - key: 'fast_scoring_banner'
   file: 'fast_scoring_banner.png'
   holdLastFrame: True
-- key: 'doule_scoring_banner'
+- key: 'double_scoring_banner'
   file: 'double_scoring_banner.png'
   holdLastFrame: True
 - key: 'timer_box'

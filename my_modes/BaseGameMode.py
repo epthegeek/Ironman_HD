@@ -10,9 +10,11 @@ class BaseGameMode(procgame.game.AdvancedMode):
     def __init__(self,game):
         super(BaseGameMode, self).__init__(game=game, priority=5, mode_type=AdvancedMode.Game)
         self.black = self.game.animations['black']
+        self.extra_balls_lit = 0
+        self.extra_balls_pending = 0
+        self.specials_lit = 0
 
     def evt_game_starting(self):
-        print "GAME STARTING WOOT WOOT"
         self.game.mb_switch_stop.setup()
 
     # player added event
@@ -91,6 +93,12 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # pops super value starts at 20,000
         player.setState('pops_super_value',20000)
         player.setState('pops_level', 0)
+        # track extra ball stuff
+        player.setState('extra_balls_earned', 0)
+        player.setState('extra_balls_pending', 0)
+        player.setState('extra_balls_lit', 0)
+        player.setState('specials_earned', 0)
+        player.setState('specials_lit', 0)
         # and so on
         self.game.sound.play('start_button')
         # call a lamp update?
@@ -98,6 +106,12 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     def evt_ball_starting(self):
         self.wipe_delays()
+
+        # get some tracking info for the player
+        self.extra_balls_lit = self.game.getPlayerState('extra_balls_lit')
+        self.extra_balls_pending = self.game.getPlayerState('extra_balls_pending')
+        self.specials_lit = self.game.getPlayerState('specials_lit')
+        self.update_lamps()
 
         # Shooter lane music selection
         if self.game.monger.status == "UP":
@@ -138,6 +152,9 @@ class BaseGameMode(procgame.game.AdvancedMode):
 
     def evt_ball_ending(self, (shoot_again, last_ball)):
         self.game.setPlayerState('tutorials', self.tut_status)
+        self.game.setPlayerState('extra_balls_lit', self.extra_balls_lit)
+        self.game.setPlayerState('extra_balls_pending', self.extra_balls_pending)
+        self.game.setPlayerState('specials_lit', self.specials_lit)
         self.game.log("BaseGameMode trough changed notification ('ball_ending - again=%s, last=%s')" % (shoot_again,last_ball))
         # do the bonus here
         self.game.modes.add(self.game.bonus)
@@ -201,6 +218,27 @@ class BaseGameMode(procgame.game.AdvancedMode):
         # drop the post in 2 seconds
         self.delay("post",delay=2,handler=self.game.coils['orbitPost'].disable)
 
+    # extra ball and special
+    def light_extra_ball(self):
+        self.extra_balls_lit += 1
+        self.update_lamps()
+
+    def light_special(self):
+        self.specials_pending += 1
+        self.update_lamps()
+
+    def update_lamps(self):
+        self.disable_lamps()
+        if self.extra_balls_lit > 0:
+            self.game.lamps['extraBall'].schedule(0x0F0F0F0F)
+        if self.specials_lit > 0:
+            self.game.lamps['special'].schedule(0X0F0F0F0F)
+        if self.extra_balls_pending > 0:
+            self.game.lamps['shootAgain'].enable()
+
+    def disable_lamps(self):
+        self.game.lamps['extraBall'].disable()
+        self.game.lamps['special'].disable()
 
     def clear_layer(self):
         self.layer = None

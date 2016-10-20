@@ -30,6 +30,7 @@ from my_modes import WarMachineMultiball
 from my_modes import Skillshot
 from my_modes import MBSwitchStop
 from my_modes import Bonus
+from my_modes import InterrupterJones
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -78,6 +79,8 @@ class IMGame(SkeletonGame):
 
         self.skillshot = Skillshot(game=self) #pri 60
         self.bonus = Bonus(game=self) # pri 60
+
+        self.interrupt = InterrupterJones(game=self) # pri 61
 
         self.switch_filter = SwitchFilter(game=self) # pri 900
 

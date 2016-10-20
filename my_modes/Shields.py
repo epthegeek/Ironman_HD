@@ -6,6 +6,7 @@ from pygame.locals import *
 from pygame.font import *
 from collections import deque
 from procgame import dmd
+import random
 
 class Shields(procgame.game.AdvancedMode):
     def __init__(self, game):
@@ -18,9 +19,14 @@ class Shields(procgame.game.AdvancedMode):
                              self.game.lamps.leftReturnLane,
                              self.game.lamps.leftOutlane]
         self.shield_bg = dmd.FrameLayer(frame=self.game.animations['shield_logo'].frames[0])
-        self.top_text = dmd.HDTextLayer(1920 / 2, 230, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(224, 224, 224))
-        self.bot_text = dmd.HDTextLayer(1920 / 2, 450, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(0, 192, 0))
-        self.top_text.set_text("SHIELD IS LIT")
+        self.title = dmd.HDTextLayer(980,-40,self.game.fonts['main_score'],"center",line_color=(0,0,0),line_width=8,interior_color=(192,192,0))
+        self.title.set_text("S.H.I.E.L.D.")
+        self.top_text = dmd.HDTextLayer(980, 280, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(192, 192, 0))
+
+        self.bot_text = dmd.HDTextLayer(980, 490, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(0, 192, 0))
+        self.top_text.set_text("IS LIT")
+        self.twolineA = dmd.HDTextLayer(980,380, self.game.fonts['bebas200'],"center", line_color=(0,0,0), line_width=6, interior_color=(0,192,0))
+        self.twolineB = dmd.HDTextLayer(980,550, self.game.fonts['bebas200'],"center", line_color=(0,0,0), line_width=6, interior_color=(0,192,0))
         self.valid = True
         self.shield_tracking = [False,False,False,False,False,False]
 
@@ -117,7 +123,7 @@ class Shields(procgame.game.AdvancedMode):
             self.bot_text.set_text("BONUS X MAXED AT 25X")
         else:
             self.bot_text.set_text(str(self.game.base.bonus_x) + "X BONUS")
-        self.layer = dmd.GroupedLayer(1920,1080,[self.shield_bg,self.top_text,self.bot_text],opaque=True)
+        self.layer = dmd.GroupedLayer(1920,1080,[self.shield_bg,self.title,self.top_text,self.bot_text],opaque=True)
         self.delay(delay=3,handler=self.clear_layer)
         # if this player hasn't gotten a mark level from shields, add one
         if not self.shield_mark:
@@ -130,9 +136,55 @@ class Shields(procgame.game.AdvancedMode):
 
     def collect_award(self):
         if self.shield_awards_pending > 0:
-            self.game.score(10)
             self.shield_awards_pending -= 1
-            self.game.displayText("SHIELDS COLLECTED")
+            # TODO: during scoring modes add time, during MB add a ball
+            choices = []
+            # Basic Awards 2 = 200,00, 3 = POPs Jackpot 100,000, 4 = Bonus multiplier +10x, 5 = EB, 6 = Special
+            choices.append([2,2,2,2,2])
+            choices.append([3,3,3,3,3])
+            # Only add bonus x if they're below 20 already
+            if self.game.base.bonus_x < 20:
+                choices.append([4,4,4,4])
+            # Oly add extra balls if they're below max extra balls
+            if self.game.getPlayerState('extra_balls_total') < self.game.settings['Machine (Standard)']['Maximum Extra Balls']:
+                choices.append([5,5])
+            choices.append([6])
+            # shuffle that shit up
+            for n in range (0,9,1):
+                random.shuffle(choices)
+                print choices
+            # then pick one
+            selected = random.choice(choices)
+            # and do a thing
+            layers = [self.shield_bg,self.title]
+            if selected == 2:
+                self.bot_text = "200,000"
+                layers.append(self.bot_text)
+                self.game.score(200000)
+            elif selected == 3:
+                self.twolineA.set_text("POPS JACKPOT GROWS")
+                self.twolineB.set_text("100,000")
+                self.game.pops.increase_jackpot_value(9)
+                layers.append([self.twolineA,self.twolineB])
+            elif selected == 4:
+                self.twolineA.set_text("10 X BONUS")
+                self.twolineB.set_text("MULTIPLIER")
+                self.increase_bonus_x(10)
+                layers.append([self.twolineA, self.twolineB])
+            elif selected == 5:
+                self.twolineA.set_text("EXTRA BALL")
+                self.twolineB.set_text("IS LIT")
+                self.game.base.light_extra_ball()
+                layers.append([self.twolineA, self.twolineB])
+            elif selected == 6:
+                self.twolineA.set_text("SPECIAL")
+                self.twolineB.set_text("IS LIT")
+                self.game.base.light_special()
+                layers.append([self.twolineA,self.twolineB])
+            # set up the display
+            display = dmd.GroupedLayer(1920,1080,layers,opaque = True)
+            # have interrupted show it
+            self.game.interrupt.display(display,3)
 
     def reset_shields(self):
         self.shield_tracking = [False,False,False,False,False,False]
@@ -166,28 +218,25 @@ class Shields(procgame.game.AdvancedMode):
         for i in range (0,6,1):
             self.shield_lamps[i].schedule(0x00FF00FF)
 
-    def increase_bonus_x(self):
+    def increase_bonus_x(self,amount = 1):
         # bonus x maxes at 25x
-        if self.game.base.bonus_x < 25:
-            self.game.base.bonus_x += 1
+        self.game.base.bonus_x += amount
+        if self.game.base.bonus_x > 25:
+            self.game.base.bonus_x = 25
 
 
     def clear_layer(self):
         self.layer = None
 
-
     def wipe_delays(self):
         self.__delayed = []
 
-        # simple mode shutdown
-
-
+    # simple mode shutdown
     def unload(self):
         print "Unloading: " + self.myID
         self.wipe_delays()
         self.layer = None
         self.game.modes.remove(self)
-
 
     # delayed voice quote helper with a list input
     def voice_helper(self, options):

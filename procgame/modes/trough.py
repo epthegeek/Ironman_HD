@@ -263,7 +263,8 @@ class Trough(Mode):
         for switch in self.position_switchnames:
             if self.game.switches[switch].is_active():
                 ball_count += 1
-        return ball_count
+        #return ball_count
+        return 4
 
     def is_full(self):
         return self.num_balls() == self.game.num_balls_total
@@ -362,7 +363,7 @@ class Trough(Mode):
 
         self.logger.info("num_balls_requested: trough has %d of %d, of which %d are in physical locks [an additional %d balls are pending launch]" % (curr_trough_count, num_installed_balls, self.num_balls_locked, self.num_balls_to_launch))
 
-        return (balls_not_in_trough - self.num_balls_locked) + self.num_balls_to_launch 
+        return (balls_not_in_trough - self.num_balls_locked) + self.num_balls_to_launch
 
     def ball_in_shooterlane(self, sw):
         if(self.launch_in_progress):
