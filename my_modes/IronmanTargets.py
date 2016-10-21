@@ -320,6 +320,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
     def start_target_mode(self):
         # count the completion
         self.completions += 1
+        self.game.sound.play('scoring_mode_riff')
+        duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
 
         ## update the mode status
         if self.completions >= 3:
@@ -329,11 +331,15 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
         # load the relevant mode
         if self.mode_index == 0:
-            self.game.modes.add(self.game.fast_scoring)
+            self.game.interrupt.scoring_mode_start("FAST")
+            self.delay(delay=duration,handler=self.voice_helper,param=['fast_scoring',procgame.sound.PLAY_FORCE])
+#            self.game.modes.add(self.game.fast_scoring)
         elif self.mode_index == 1:
             # TODO: have to add ironman scoring yet
             # double scoring goes here
-            self.game.modes.add(self.game.double_scoring)
+            self.game.interrupt.scoring_mode_start("DOUBLE")
+            self.delay(delay=duration, handler=self.voice_helper, param=['double_scoring', procgame.sound.PLAY_FORCE])
+#            self.game.modes.add(self.game.double_scoring)
         else:
             # ironman scoring would go here
             self.end_target_mode()

@@ -60,9 +60,9 @@ class FastScoring(procgame.game.AdvancedMode):
     def mode_started(self):
         self.fast_scoring_runs = self.game.getPlayerState('fast_scoring_runs')
         # play the sound and quote
-        self.game.sound.play('scoring_mode_riff')
-        duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
-        self.delay(delay=duration,handler=self.voice_helper,param=['fast_scoring',procgame.sound.PLAY_FORCE])
+#        self.game.sound.play('scoring_mode_riff')
+#        duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
+#        self.delay(delay=duration,handler=self.voice_helper,param=['fast_scoring',procgame.sound.PLAY_FORCE])
         self.running = True
         # set the starting value
         self.switch_value = 10000 + (5000 * self.fast_scoring_runs)

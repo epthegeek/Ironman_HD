@@ -19,9 +19,9 @@ class Shields(procgame.game.AdvancedMode):
                              self.game.lamps.leftReturnLane,
                              self.game.lamps.leftOutlane]
         self.shield_bg = dmd.FrameLayer(frame=self.game.animations['shield_logo'].frames[0])
-        self.title = dmd.HDTextLayer(980,-40,self.game.fonts['main_score'],"center",line_color=(0,0,0),line_width=8,interior_color=(192,192,0))
+        self.title = dmd.HDTextLayer(980,-40,self.game.fonts['shield280'],"center",line_color=(0,0,0),line_width=8,interior_color=(255 ,255,255))
         self.title.set_text("S.H.I.E.L.D.")
-        self.top_text = dmd.HDTextLayer(980, 280, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(192, 192, 0))
+        self.top_text = dmd.HDTextLayer(980, 250, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(255, 255, 255))
 
         self.bot_text = dmd.HDTextLayer(980, 490, self.game.fonts['bebas200'], "center", line_color=(0,0,0), line_width=6,interior_color=(0, 192, 0))
         self.top_text.set_text("IS LIT")

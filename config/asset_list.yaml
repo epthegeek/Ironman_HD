@@ -34,6 +34,9 @@ Animations:
 - key: 'ironman_logo_image'
   file: 'ironman_logo.jpg'
   holdLastFrame: True
+- key: 'gold_bg'
+  file: 'gold_bg.jpg'
+  holdLastFrame: True
 - key: 'clouds_1'
   file: 'dark_clouds.png'
   holdLastFrame: True
@@ -635,6 +638,12 @@ Fonts:
       - 0
       - 0
   HDFonts:
+  - key: 'shield120'
+    file: 'bank_gothic_medium.ttf'
+    size: 120
+  - key: 'shield280'
+    file: 'bank_gothic_medium.ttf'
+    size: 280
   - key: 'whiplash_450'
     file: 'WOODCUTTER_STORM.ttf'
     size: 450
@@ -683,6 +692,12 @@ Fonts:
   - key: 'demo5'
     file: 'Plane Crash.ttf'
     size: 250
+  - key: 'IM370'
+    file: 'IRON MAN OF WAR 002 NCV.ttf'
+    size: 370
+  - key: 'IM160'
+    file: 'IRON MAN OF WAR 002 NCV.ttf'
+    size: 160
   - key: 'high_score_entry_inits'
     file: 'IRON MAN OF WAR 002 NCV.ttf'
     size: 200

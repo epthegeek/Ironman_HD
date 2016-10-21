@@ -16,8 +16,8 @@ class Skillshot(procgame.game.AdvancedMode):
         bg = self.game.animations['shield_logo']
         bar = self.game.animations['gold_bar']
         bar.set_target_position(0,200)
-        title = dmd.HDTextLayer(1920/2, 45, self.game.fonts['default'], "center", interior_color=(255, 255, 255),
-                                line_color=(0, 0, 1), line_width=4).set_text("SKILLSHOT", blink_frames=6)
+        title = dmd.HDTextLayer(1920/2, 45, self.game.fonts['shield120'], "center", interior_color=(255, 255, 255),
+                                line_color=(0, 0, 1), line_width=4).set_text("SKILLSHOT")
         self.score_text = dmd.HDTextLayer(1920/2, 185, self.game.fonts['main_score'], "center", interior_color=(200, 15, 15),
                                 line_color=(0, 0, 1), line_width=8)
         self.display = dmd.GroupedLayer(1920, 800, [bg, bar, title, self.score_text],opaque=True)
@@ -96,7 +96,7 @@ class Skillshot(procgame.game.AdvancedMode):
         # play the sound
         self.game.sound.play('skillshot_collect')
         # do the display part
-        self.score_text.set_text(self.game.score_display.format_score(points))
+        self.score_text.set_text(self.game.score_display.format_score(points),blink_frames=8)
         self.layer = self.display
         self.delay(delay=3, handler=self.unload)
 

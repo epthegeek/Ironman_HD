@@ -43,9 +43,9 @@ class DoubleScoring(procgame.game.AdvancedMode):
         self.update_score_layer()
         self.double_scoring_runs = self.game.getPlayerState('double_scoring_runs')
         # play the sound and quote
-        self.game.sound.play('scoring_mode_riff')
-        duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
-        self.delay(delay=duration,handler=self.voice_helper,param=['double_scoring',procgame.sound.PLAY_FORCE])
+#        self.game.sound.play('scoring_mode_riff')
+#        duration = self.game.sound.sounds['scoring_mode_riff']['sound_list'][0].get_length()
+#        self.delay(delay=duration,handler=self.voice_helper,param=['double_scoring',procgame.sound.PLAY_FORCE])
         self.running = True
 
         # set up the display

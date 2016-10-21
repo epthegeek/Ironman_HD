@@ -78,7 +78,7 @@ class IMGame(SkeletonGame):
         self.wm_multiball = WarMachineMultiball(game=self) # pri 50
         self.monger_multiball = MongerMultiball(game=self) # pri 51
 
-        self.jericho = Jericho(game=self) # pri 52
+        #self.jericho = Jericho(game=self) # pri 52
 
         self.skillshot = Skillshot(game=self) #pri 60
         self.bonus = Bonus(game=self) # pri 60
