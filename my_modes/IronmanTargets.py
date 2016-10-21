@@ -32,18 +32,32 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.top = dmd.HDTextLayer(15,15,self.game.fonts['bebas80'],"left",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
         self.i_layer = dmd.FrameLayer(frame=self.game.animations['target_i_image'].frames[0])
         self.i_layer.set_target_position(1301,625)
+        self.i_layer_d = dmd.FrameLayer(frame=self.game.animations['target_i_d'].frames[0])
+        self.i_layer_d.set_target_position(1301,625)
         self.r_layer = dmd.FrameLayer(frame=self.game.animations['target_r_image'].frames[0])
         self.r_layer.set_target_position(1349,625)
+        self.r_layer_d = dmd.FrameLayer(frame=self.game.animations['target_r_d'].frames[0])
+        self.r_layer_d.set_target_position(1349,625)
         self.o_layer = dmd.FrameLayer(frame=self.game.animations['target_o_image'].frames[0])
         self.o_layer.set_target_position(1437,625)
+        self.o_layer_d = dmd.FrameLayer(frame=self.game.animations['target_o_d'].frames[0])
+        self.o_layer_d.set_target_position(1437,625)
         self.n1_layer = dmd.FrameLayer(frame=self.game.animations['target_n1_image'].frames[0])
         self.n1_layer.set_target_position(1521,625)
+        self.n1_layer_d = dmd.FrameLayer(frame=self.game.animations['target_n1_d'].frames[0])
+        self.n1_layer_d.set_target_position(1521,625)
         self.m_layer = dmd.FrameLayer(frame=self.game.animations['target_m_image'].frames[0])
         self.m_layer.set_target_position(1621,625)
+        self.m_layer_d = dmd.FrameLayer(frame=self.game.animations['target_m_d'].frames[0])
+        self.m_layer_d.set_target_position(1621,625)
         self.a_layer = dmd.FrameLayer(frame=self.game.animations['target_a_image'].frames[0])
         self.a_layer.set_target_position(1733,625)
+        self.a_layer_d = dmd.FrameLayer(frame=self.game.animations['target_a_d'].frames[0])
+        self.a_layer_d.set_target_position(1733,625)
         self.n2_layer = dmd.FrameLayer(frame=self.game.animations['target_n2_image'].frames[0])
         self.n2_layer.set_target_position(1817,625)
+        self.n2_layer_d = dmd.FrameLayer(frame=self.game.animations['target_n2_d'].frames[0])
+        self.n2_layer_d.set_target_position(1817,625)
         self.left_layers = [self.i_layer,self.r_layer,self.o_layer,self.n1_layer]
         self.right_layers = [self.m_layer,self.a_layer,self.n2_layer]
         self.mode_titles = ["FAST SCORING", "DOUBLE SCORING", "IRONMAN SCORING"]
@@ -214,7 +228,7 @@ class IronmanTargets(procgame.game.AdvancedMode):
 
         anim.reset()
         # the letter display
-        layers = [anim]
+        layers = [anim,self.i_layer_d,self.r_layer_d,self.o_layer_d,self.n1_layer_d,self.m_layer_d,self.a_layer_d,self.n2_layer_d]
         for n in range(0,4,1):
             if self.left_tracking[n] == True:
                 if side == "L" and target == n:

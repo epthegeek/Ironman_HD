@@ -34,7 +34,7 @@ class InterrupterJones(procgame.game.AdvancedMode):
     def scoring_mode_start(self,title):
         self.score_title_top.set_text(title)
         self.layer = self.score_page1
-        self.delay(delay=6,handler=self.scoring_mode_start_2,param=title)
+        self.delay(delay=2,handler=self.scoring_mode_start_2,param=title)
 
     def scoring_mode_start_2(self,title):
         if title == "FAST":
@@ -56,8 +56,8 @@ class InterrupterJones(procgame.game.AdvancedMode):
         self.score_page2_mid.set_text(mid_string)
         self.score_page2_bot.set_text(bot_string)
         self.layer = self.score_page2
-        self.delay(delay=6,handler=self.clear_layer)
-        self.delay(delay=6,handler=self.game.modes.add,param=mode)
+        self.delay(delay=2,handler=self.clear_layer)
+        self.delay(delay=2,handler=self.game.modes.add,param=mode)
 
     def clear_layer(self):
         self.layer = None

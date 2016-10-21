@@ -119,6 +119,27 @@ Animations:
 - key: 'target_n2_image'
   file: 'target_n2.png'
   holdLastFrame: True
+- key: 'target_i_d'
+  file: 'target_i_d.png'
+  holdLastFrame: True
+- key: 'target_o_d'
+  file: 'target_o_d.png'
+  holdLastFrame: True
+- key: 'target_r_d'
+  file: 'target_r_d.png'
+  holdLastFrame: True
+- key: 'target_n1_d'
+  file: 'target_n1_d.png'
+  holdLastFrame: True
+- key: 'target_m_d'
+  file: 'target_m_d.png'
+  holdLastFrame: True
+- key: 'target_a_d'
+  file: 'target_a_d.png'
+  holdLastFrame: True
+- key: 'target_n2_d'
+  file: 'target_n2_d.png'
+  holdLastFrame: True
 - key: 'hit_1_movie'
   file: 'ironman_punches_guy.mp4'
   streamingMovie: True
