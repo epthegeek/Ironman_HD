@@ -8,7 +8,7 @@ music_dir: music/
 hdfont_path: ./assets/fonts
 
 default_modes: 
-    score_display: "HD"
+    score_display: False
     bonus_tally: False
     osc_input: True
     service_mode: True

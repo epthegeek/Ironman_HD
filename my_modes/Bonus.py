@@ -58,8 +58,8 @@ class Bonus(procgame.game.AdvancedMode):
         self.top_line.set_text("BONUS TOTAL:")
         # change the points total
         points = (self.bonus_total * self.game.base.bonus_x)
-        self.game.score(points)
-        self.points_line.set_text(self.game.score_display.format_score(points))
+        awarded = self.game.score(points)
+        self.points_line.set_text(self.game.score_display.format_score(awarded))
         # delay for a bit, then close out
         self.delay(delay = 2,handler=self.shutdown)
 

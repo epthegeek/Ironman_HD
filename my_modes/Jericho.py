@@ -155,11 +155,11 @@ class Jericho(procgame.game.AdvancedMode):
                 self.remove_info_line(self.im_text_layer)
             else:
                 points = self.shot_value
-            self.game.score(points)
+            awarded = self.game.score(points)
             # update the lamps
             self.update_lamps()
             # do the display
-            self.hit_display(self.im_hit_layer,points)
+            self.hit_display(self.im_hit_layer,awarded)
 
     def hit_display(self,layer,points):
         self.cancel_delayed("display")

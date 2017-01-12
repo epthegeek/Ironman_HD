@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from pygame.font import *
 from procgame import dmd
+import random
 
 class IronmanTargets(procgame.game.AdvancedMode):
 
@@ -27,7 +28,11 @@ class IronmanTargets(procgame.game.AdvancedMode):
                            self.game.animations['hit_3_movie'],
                            self.game.animations['hit_4_movie'],
                            self.game.animations['hit_5_movie'],
-                           self.game.animations['hit_6_movie']]
+                           self.game.animations['hit_6_movie'],
+                           self.game.animations['hit_7_movie'],
+                           self.game.animations['hit_8_movie'],
+                           self.game.animations['hit_9_movie'],
+                           self.game.animations['hit_10_movie']]
         self.hit_index = 0
         self.top = dmd.HDTextLayer(15,15,self.game.fonts['bebas80'],"left",line_color=(0,0,0),line_width=3,interior_color=(224,224,224))
         self.i_layer = dmd.FrameLayer(frame=self.game.animations['target_i_image'].frames[0])
@@ -68,6 +73,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
     # read the current player information
     def evt_ball_starting(self):
         self.wipe_delays()
+        # reshuffle the hit movies
+        random.shuffle(self.hit_movies)
 
         # TODO: check if targets hit stay ball to ball
         self.left_tracking = self.game.getPlayerState('im_left_targets')
@@ -203,10 +210,13 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.cancel_delayed("clear")
         if self.mode_index == 0:
             string = "FAST SCORING"
+            anim = self.game.animations['ironman_land_and_stand']
         elif self.mode_index == 1:
             string = "DOUBLE SCORING"
+            anim = self.game.animations['IM_Lands_at_church']
         elif self.mode_index == 2:
             string = "IRONMAN SCORING"
+            anim = self.game.animations['IM3_suit_flip']
 
         if not complete:
             anim = self.hit_movies[self.hit_index]
@@ -221,12 +231,12 @@ class IronmanTargets(procgame.game.AdvancedMode):
             self.game.mark.player_mark += 1
             self.game.mark.score()
             self.top.set_text("TARGETS COMPLETED: " + string + " IS READY")
-            anim = self.game.animations['ironman_land_and_stand']
             # if the player isn't done with marks, show the mark completed
             if self.game.mark.player_mark <= 6 and not self.game.mark.finished:
                 self.delay(delay=delay_time,handler=self.game.mark.completed)
 
         anim.reset()
+        anim.opaque = True
         # the letter display
         layers = [anim,self.i_layer_d,self.r_layer_d,self.o_layer_d,self.n1_layer_d,self.m_layer_d,self.a_layer_d,self.n2_layer_d]
         for n in range(0,4,1):

@@ -52,6 +52,18 @@ Animations:
 - key: 'bonus_backdrop'
   file: 'bonus_backdrop.jpg'
   holdLastFrame: True
+- key: '1p_score_backdrop'
+  file: '1player.png'
+  holdLastFrame: True
+- key: '2p_score_backdrop'
+  file: '2player.png'
+  holdLastFrame: True
+- key: '3p_score_backdrop'
+  file: '3player.png'
+  holdLastFrame: True
+- key: '4p_score_backdrop'
+  file: '4player.png'
+  holdLastFrame: True
 - key: 'drone_0_image'
   file: 'drone_0.jpg'
   holdLastFrame: True
@@ -164,8 +176,32 @@ Animations:
   file: 'ironman_arm_rocket.mp4'
   streamingMovie: True
   holdLastFrame: True
+- key: 'hit_7_movie'
+  file: 'IM3_IM_fire_possibility.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_8_movie'
+  file: 'IM_shoots_ultron.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_9_movie'
+  file: 'IM_Sokovia_flying_firing.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'hit_10_movie'
+  file: 'IM_Crash_and_fire.mp4'
+  streamingMovie: True
+  holdLastFrame: True
 - key: 'ironman_land_and_stand'
   file: 'ironman_land_n_stand.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'IM_Lands_at_church'
+  file: 'IM_Lands_at_church.mp4'
+  streamingMovie: True
+  holdLastFrame: True
+- key: 'IM3_suit_flip'
+  file: 'IM3_suit_flip.mp4'
   streamingMovie: True
   holdLastFrame: True
 #- key: 'whiplash_still'
@@ -677,6 +713,12 @@ Fonts:
   - key: 'whiplash_150'
     file: 'WOODCUTTER_STORM.ttf'
     size: 150
+  - key: 'ptsans24'
+    file: 'PTSans.ttc'
+    size: 25
+  - key: 'bebas40'
+    file: 'BebasNeue.otf'
+    size: 40
   - key: 'bebas80'
     file: 'BebasNeue.otf'
     size: 80

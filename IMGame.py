@@ -32,6 +32,7 @@ from my_modes import MBSwitchStop
 from my_modes import Bonus
 from my_modes import InterrupterJones
 from my_modes import Jericho
+from my_modes import ScoreDisplay
 
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s -%(levelname)s - %(message)s")
 curr_file_path = os.path.dirname(os.path.abspath( __file__ ))
@@ -47,7 +48,9 @@ class IMGame(SkeletonGame):
         self.giState = "OFF"
         
         super(IMGame, self).__init__('config/im_machine.yaml',self.curr_file_path)
-       
+
+        self.score_display = ScoreDisplay(game=self) # pri 0
+
         self.base = BaseGameMode(game=self) # pri 5
 
         self.fast_scoring = FastScoring(game=self) # pri 9
@@ -121,7 +124,8 @@ class IMGame(SkeletonGame):
     def score(self, points,):
         """Convenience method to add *points* to the current player."""
         p = self.current_player()
-        p.score += (points * self.multiplier)
+        awarded = (points * self.multiplier)
+        p.score += awarded
         # check replay if they're enabled and the player hasn't earned it yet
 
         ## Replay award bit - not implemented currently - old code from CCC
@@ -129,8 +133,8 @@ class IMGame(SkeletonGame):
 #            if p.score >= self.user_settings['Machine (Standard)']['Replay Score']:
 #                self.set_tracking('replay_earned',True)
 #                self.award_replay()
-
-
+        # return tge actual awarded points
+        return awarded
 
 ## the following just set things up such that you can run Python ExampleGame.py
 ## and it will create an instance of the correct game objct and start running it!
