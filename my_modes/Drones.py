@@ -82,6 +82,7 @@ class Drones(procgame.game.AdvancedMode):
                     self.game.mark.mode_light(4)
                 elif self.drone_total == 16:
                     self.game.mark.mode_completed(4)
+                    self.game.base.light_extra_ball()
 
                 self.drones_for_mb -= 1
                 # play the sound effect
