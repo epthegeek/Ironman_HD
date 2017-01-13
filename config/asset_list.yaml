@@ -64,6 +64,18 @@ Animations:
 - key: '4p_score_backdrop'
   file: '4player.png'
   holdLastFrame: True
+- key: 'recon_img_ironman'
+  file: 'recon_ironman.jpg'
+  holdLastFrame: True
+- key: 'recon_img_whiplash'
+  file: 'recon_whiplash.jpg'
+  holdLastFrame: True
+- key: 'recon_img_warmachine'
+  file: 'recon_warmachine.jpg'
+  holdLastFrame: True
+- key: 'recon_img_monger'
+  file: 'recon_ironmonger.jpg'
+  holdLastFrame: True
 - key: 'drone_0_image'
   file: 'drone_0.jpg'
   holdLastFrame: True

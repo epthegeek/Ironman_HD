@@ -27,6 +27,8 @@ class ScoreDisplay(procgame.game.AdvancedMode):
         self.layer = ScoreLayer(self.game.dmd.width, self.game.dmd.height, self)
         self.layer.layers = list()
         # build all the basic layers to be used
+        self.info_string = ""
+        self.info_index = 0
         # main score
         self.main_score = dmd.HDTextLayer(1125,
                                           310,
@@ -47,27 +49,6 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_width=4,
                                         interior_color=(255,224,0))
         self.p1_score.set_text("00")
-        # ball number for 1p
-        self.ball_number = dmd.HDTextLayer(200,
-                                        100,
-                                        self.game.fonts['bebas80'],
-                                        "center",
-                                        vert_justify="center",
-                                        line_color=(0,0,0),
-                                        line_width=4,
-                                        interior_color=(255,224,0))
-        self.player_number = dmd.HDTextLayer(200,
-                                        100,
-                                        self.game.fonts['bebas80'],
-                                        "center",
-                                        vert_justify="center",
-                                        line_color=(0,0,0),
-                                        line_width=4,
-                                        interior_color=(255,224,0))
-        self.info_toggle = dmd.ScriptedLayer(500,
-                                             100,
-                                             [{'layer': self.ball_number,'seconds': 1},{'layer': self.player_number,'seconds': 1}],
-                                             )
         # 2p score
         self.p2_score = dmd.HDTextLayer(400,
                                         100,
@@ -159,10 +140,28 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         self.game.fonts['default'],
                                         "left",
                                         vert_justify="center",
-                                        line_color=(255,255,255),
-                                        line_width=0,
+                                        line_color=(0,0,0),
+                                        line_width=2,
                                         interior_color=(255,255,255))
-        self.recon_text.set_text("3 MORE DRONES FOR WAR MACHINE")
+        self.recon_text.set_text("RECON LOADING ...")
+        self.recon_strings = ["7 MORE TARGETS FOR FAST SCORING",
+                              "5 MORE HITS FOR WHIPLASH",
+                              "8 MORE DRONES FOR WAR MACHINE",
+                              "6 MORE ORBITS FOR MONGER"]
+        recon_img_ironman = dmd.FrameLayer(frame=self.game.animations['recon_img_ironman'].frames[0])
+        recon_img_ironman.enabled = False
+        recon_img_ironman.set_target_position(50,450)
+        recon_img_whiplash = dmd.FrameLayer(frame=self.game.animations['recon_img_whiplash'].frames[0])
+        recon_img_whiplash.enabled = False
+        recon_img_whiplash.set_target_position(50,450)
+        recon_img_warmachine = dmd.FrameLayer(frame=self.game.animations['recon_img_warmachine'].frames[0])
+        recon_img_warmachine.enabled = False
+        recon_img_warmachine.set_target_position(50,450)
+        recon_img_monger = dmd.FrameLayer(frame=self.game.animations['recon_img_monger'].frames[0])
+        recon_img_monger.enabled = False
+        recon_img_monger.set_target_position(50,450)
+        self.recon_images = [recon_img_ironman,recon_img_whiplash,recon_img_warmachine,recon_img_monger]
+        self.recon_index = 0
 
         self.last_num_players = 0
         self.last_player_idx = 0
@@ -196,7 +195,11 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                              self.duration,
                              self.warnings,
                              self.extra_balls,
-                             self.recon_text]
+                             self.recon_text,
+                             self.recon_images[0],
+                             self.recon_images[1],
+                             self.recon_images[2],
+                             self.recon_images[3]]
         players = len(self.game.players)
         print "Players is now " + str(players)
         if players <= 1:
@@ -287,7 +290,7 @@ class ScoreDisplay(procgame.game.AdvancedMode):
 
         for i in range(len(self.game.players[:4])):  # Limit to first 4 players for now.
             if self.game.current_player_index == i:
-                self.score_layers[i].set_text("PLAYER " + str(i + 1))
+                self.score_layers[i].set_text(self.info_string)
             else:
                 score = self.game.players[i].score
                 self.score_layers[i].set_text(self.format_score(score))
@@ -315,3 +318,55 @@ class ScoreDisplay(procgame.game.AdvancedMode):
 
     def mode_stopped(self):
         pass
+
+    def evt_ball_starting(self):
+        # run the recon loop
+        self.recon_rotate()
+
+    def evt_ball_ending(self):
+        # stop the recon loop
+        self.cancel_delayed("recon_loop");
+        self.recon_reset()
+
+    ## Recon info rotator
+    def recon_rotate(self):
+        if self.recon_index == 0:
+            dis = 3
+        else:
+            dis = (self.recon_index - 1)
+        # set the images and string
+        self.recon_images[dis].enabled = False
+        self.recon_images[self.recon_index].enabled = True
+        self.recon_text.set_text(self.recon_strings[self.recon_index])
+        # tick up the recon counter
+        self.recon_index += 1
+        if self.recon_index > 3:
+            self.recon_index = 0
+        # Piggyback the info switcher for player/ball
+        self.toggle_info()
+        # schedule the next update
+        self.delay("recon_loop",delay=3,handler=self.recon_rotate)
+
+    def recon_reset(self):
+        for layer in self.recon_images:
+            layer.enabled = False
+        self.recon_text.set_text("RECON LOADING...")
+        self.info_string = ""
+
+    def toggle_info(self):
+        # if there's only one player just show the ball number
+        if len(self.game.players) == 1:
+            my_string = "BALL " + str(self.game.ball)
+        # otherwise we're toggling back and forth
+        else:
+            if self.info_index == 0:
+                if (self.game.current_player() is not None):
+                    my_string = "PLAYER " + str(self.game.current_player_index + 1)
+                else:
+                    my_string = ""
+                self.info_index = 1
+            else:
+                my_string = "BALL " + str(self.game.ball)
+                self.info_index = 0
+        self.info_string = my_string
+        self.score_layers[self.game.current_player_index].set_text(self.info_string)
