@@ -989,7 +989,14 @@ Audio:
     - key: 'bonus_chord'
       file: 'Sound-0048.wav'
       volume: 1
+    - key: 'extra_ball_riff'
+      file: 'Sound-0027.wav'
+      volume: 1
   Voice:
+    - key: 'extra_ball_lit'
+      file: 'Sound-02AB.wav'
+    - key: 'extra_ball'
+      file: 'Sound-02AC.wav'
     - key: 'mark_1_completed'
       file: 'Sound-0334.wav'
       volume: 1

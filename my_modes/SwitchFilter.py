@@ -78,6 +78,8 @@ class SwitchFilter(procgame.game.AdvancedMode):
         self.game.score_display.update_recon_ramp()
     def sw_leftRampExit_active(self,sw):
         self.game.score_display.update_recon_ramp()
+        # if there's an extra ball lit
+        self.game.base.collect_extra_ball()
 
     def clear_layer(self):
         self.layer = None

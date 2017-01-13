@@ -221,7 +221,18 @@ class BaseGameMode(procgame.game.AdvancedMode):
     # extra ball and special
     def light_extra_ball(self):
         self.extra_balls_lit += 1
+        self.delay(delay=2, handler=self.voice_helper, param=['extra_ball_lit', procgame.sound.PLAY_FORCE])
         self.update_lamps()
+
+    def collect_extra_ball(self):
+        # add the extra ball
+        self.extra_balls_lit -= 1
+        self.extra_balls_pending += 1
+        # play a sound
+        self.game.sound.play('extra_ball_riff')
+        # play a quote
+        self.delay(delay=2 ,handler=self.voice_helper,param=['extra_ball',procgame.sound.PLAY_FORCE])
+        # do some display shit?
 
     def light_special(self):
         self.specials_pending += 1
