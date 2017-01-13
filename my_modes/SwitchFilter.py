@@ -70,6 +70,14 @@ class SwitchFilter(procgame.game.AdvancedMode):
                 self.game.fast_scoring.switch_hit()
         # set the last hit switch
         self.last_switch = sw.name
+        # update the recon
+        self.game.score_display.update_recon_switch()
+
+    # ramps for recon
+    def sw_rightRampExit_active(self,sw):
+        self.game.score_display.update_recon_ramp()
+    def sw_leftRampExit_active(self,sw):
+        self.game.score_display.update_recon_ramp()
 
     def clear_layer(self):
         self.layer = None

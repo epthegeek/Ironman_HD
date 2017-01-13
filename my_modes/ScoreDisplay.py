@@ -90,6 +90,7 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_width=0,
                                         interior_color=(255,255,255))
         self.switches.set_text("0")
+        self.switch_count = 0
         # ramps
         self.ramps = dmd.HDTextLayer(340,
                                         270,
@@ -100,6 +101,7 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_width=0,
                                         interior_color=(255,255,255))
         self.ramps.set_text("0")
+        self.ramp_count = 0
         # duration
         self.duration = dmd.HDTextLayer(340,
                                         310,
@@ -109,7 +111,8 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_color=(255,255,255),
                                         line_width=0,
                                         interior_color=(255,255,255))
-        self.duration.set_text("0")
+        self.duration.set_text("00:00:00")
+        self.timer = 0
 
         # extra balls
         self.extra_balls = dmd.HDTextLayer(340,
@@ -121,6 +124,7 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_width=0,
                                         interior_color=(255,255,255))
         self.extra_balls.set_text("0")
+        self.extra_ball_count = 0
 
         # warnings
         self.warnings = dmd.HDTextLayer(340,
@@ -132,6 +136,7 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_width=0,
                                         interior_color=(255,255,255))
         self.warnings.set_text("0")
+        self.warning_count = 0
 
         # recon image
         # recon text
@@ -326,10 +331,13 @@ class ScoreDisplay(procgame.game.AdvancedMode):
         self.delay(delay=1,handler=self.update_recon_info)
         # run the recon loop
         self.delay(delay=1,handler=self.recon_rotate)
+        # run the timer loop
+        self.delay(delay=1,handler=self.duration_loop)
 
     def evt_ball_ending(self):
         # stop the recon loop
-        self.cancel_delayed("recon_loop");
+        self.cancel_delayed("recon_loop")
+        self.cancel_delayed("duration_loop")
         self.recon_reset()
 
     ## Recon info rotator
@@ -349,7 +357,7 @@ class ScoreDisplay(procgame.game.AdvancedMode):
         # Piggyback the info switcher for player/ball
         self.toggle_info()
         # schedule the next update
-        self.delay("recon_loop",delay=3,handler=self.recon_rotate)
+        self.delay("recon_loop",delay=2.5,handler=self.recon_rotate)
 
     def recon_reset(self):
         for layer in self.recon_images:
@@ -377,10 +385,15 @@ class ScoreDisplay(procgame.game.AdvancedMode):
 
     def reset_stats(self):
         self.switches.set_text("0")
+        self.switch_count = 0
         self.ramps.set_text("0")
-        self.duration.set_text("0")
+        self.ramp_count = 0
+        self.duration.set_text("00:00:00")
+        self.timer = 0
         self.extra_balls.set_text("0")
+        self.extra_ball_count = 0
         self.warnings.set_text("0")
+        self.warning_count = 0
 
     def update_recon_info(self):
         self.update_recon_ironman()
@@ -442,3 +455,18 @@ class ScoreDisplay(procgame.game.AdvancedMode):
         else:
             my_string = "IRON MONGER MULTIBALL RUNNING"
         self.recon_strings[3] = my_string
+
+    def update_recon_switch(self):
+        self.switch_count += 1
+        self.switches.set_text(str(self.switch_count))
+
+    def update_recon_ramp(self):
+        self.ramp_count += 1
+        self.ramps.set_text(str(self.ramp_count))
+
+    def duration_loop(self):
+        self.timer += 1
+        m, s = divmod(self.timer, 60)
+        h, m = divmod(m, 60)
+        self.duration.set_text("%02d:%02d:%02d" % (h, m, s))
+        self.delay("duration_loop",delay=1,handler=self.duration_loop)
