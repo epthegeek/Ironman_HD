@@ -73,6 +73,8 @@ class WarMachine(procgame.game.AdvancedMode):
         self.delay(delay=3.6,handler=self.clear_layer)
         # update the lamps?
         self.update_lamps()
+        # update the recon info
+        self.game.score_display.update_recon_war_machine()
 
     def make_valid(self):
         self.valid = True

@@ -298,6 +298,8 @@ class WhiplashMultiball(procgame.game.AdvancedMode):
         self.game.mb_switch_stop.check_remove()
         # set the music back
         self.game.base.set_music()
+        # update the recon info
+        self.game.score_display.update_recon_whiplash()
         self.unload()
 
     def add_ball(self):

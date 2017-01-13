@@ -96,6 +96,8 @@ class Whiplash(procgame.game.AdvancedMode):
                 self.whiplash_hit_display("mb")
             else:
                 self.whiplash_hit_display()
+        # update the recon info
+        self.game.score_display.update_recon_whiplash()
 
     def whiplash_hit_display(self,type="normal"):
         self.cancel_delayed("clear")

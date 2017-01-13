@@ -194,6 +194,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
             points = 75000
             delay = 2
         data = [complete,points,delay]
+        # update the recon info
+        self.game.score_display.update_recon_ironman()
         return data
 
     # target_thunk is a default "this target is already on" handler
@@ -393,6 +395,8 @@ class IronmanTargets(procgame.game.AdvancedMode):
         self.scoring_mode_running = False
         # reset the tutorial flag for the next scoring mode
         self.game.base.tut_status[0] = True
+        # update the recon info
+        self.game.score_display.update_recon_ironman()
         self.update_lamps()
 
     def flasher_pulse(self):

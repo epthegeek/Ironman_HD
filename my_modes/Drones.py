@@ -123,6 +123,9 @@ class Drones(procgame.game.AdvancedMode):
                         self.add(target)
                 # update the lamps
                 self.update_lamps()
+                # update the recon info
+                self.game.score_display.update_recon_war_machine()
+
             else:
                 # otherwise, it's a thunk
                 self.drone_thunk(target)

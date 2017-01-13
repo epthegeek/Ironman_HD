@@ -331,6 +331,8 @@ class WarMachineMultiball(procgame.game.AdvancedMode):
         self.game.mb_switch_stop.check_remove()
         # hack set the drones higher
         self.game.drones.drones_for_mb = 10
+        # update the recon info
+        self.game.score_display.update_recon_war_machine()
         self.unload()
 
     def disable_lamps(self):

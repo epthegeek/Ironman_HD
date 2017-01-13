@@ -279,6 +279,8 @@ class MongerMultiball(procgame.game.AdvancedMode):
         self.game.monger.toy_letters = 0
         # saftey catch - kill the up post
         self.game.coils['centerShotPost'].disable()
+        # update the recon info
+        self.game.score_display.update.recon_monger()
         self.unload()
 
     def add_ball(self):

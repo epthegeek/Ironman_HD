@@ -144,10 +144,10 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                                         line_width=2,
                                         interior_color=(255,255,255))
         self.recon_text.set_text("RECON LOADING ...")
-        self.recon_strings = ["7 MORE TARGETS FOR FAST SCORING",
-                              "5 MORE HITS FOR WHIPLASH",
-                              "8 MORE DRONES FOR WAR MACHINE",
-                              "6 MORE ORBITS FOR MONGER"]
+        self.recon_strings = ["IRONMAN",
+                              "WHIPLASH",
+                              "WAR MACHINE",
+                              "MONGER"]
         recon_img_ironman = dmd.FrameLayer(frame=self.game.animations['recon_img_ironman'].frames[0])
         recon_img_ironman.enabled = False
         recon_img_ironman.set_target_position(50,450)
@@ -320,8 +320,12 @@ class ScoreDisplay(procgame.game.AdvancedMode):
         pass
 
     def evt_ball_starting(self):
+        # reset the stats numbers
+        self.reset_stats()
+        # update the status info for the player
+        self.delay(delay=1,handler=self.update_recon_info)
         # run the recon loop
-        self.recon_rotate()
+        self.delay(delay=1,handler=self.recon_rotate)
 
     def evt_ball_ending(self):
         # stop the recon loop
@@ -370,3 +374,71 @@ class ScoreDisplay(procgame.game.AdvancedMode):
                 self.info_index = 0
         self.info_string = my_string
         self.score_layers[self.game.current_player_index].set_text(self.info_string)
+
+    def reset_stats(self):
+        self.switches.set_text("0")
+        self.ramps.set_text("0")
+        self.duration.set_text("0")
+        self.extra_balls.set_text("0")
+        self.warnings.set_text("0")
+
+    def update_recon_info(self):
+        self.update_recon_ironman()
+        self.update_recon_whiplash()
+        self.update_recon_war_machine()
+        self.update_recon_monger()
+
+    def update_recon_ironman(self):
+        # ironman
+        modes = "FAST SCORING", "DOUBLE SCORING", "IRONMAN SCORING"
+        count = 0
+        for x in self.game.im_targets.left_tracking:
+            if x == True:
+                count += 1
+        for x in self.game.im_targets.right_tracking:
+            if x == True:
+                count += 1
+        num = (7 - count)
+        if num <= 0:
+            my_string = modes[self.game.im_targets.mode_index] + "IS READY"
+        else:
+            my_string = str(num) + " MORE TARGETS FOR " + modes[self.game.im_targets.mode_index]
+        self.recon_strings[0] = my_string
+
+    def update_recon_whiplash(self):
+        # whiplash
+        if self.game.whiplash.status == "READY":
+            my_string = "WHPILASH MULTIBALL READY"
+        elif self.game.whiplash_multiball.running:
+            my_string = "WHIPLASH MULTIBALL RUNNING"
+        else:
+            my_string = str(self.game.whiplash.hits_for_mb) + " MORE HITS FOR WHIPLASH"
+        self.recon_strings[1] = my_string
+
+    def update_recon_war_machine(self):
+        # war machine
+        if self.game.warmachine.multiball_status == "READY":
+            my_string = "WAR MACHINE MULTIBALL READY"
+        elif self.game.wm_multiball.running:
+            my_string = "WAR MACHINE MULTIBALL RUNNING"
+        else:
+            my_string = str(self.game.drones.drones_for_mb) + " MORE DRONES FOR WAR MACHINE"
+        self.recon_strings[2] = my_string
+
+    def update_recon_monger(self):
+        # monger
+        status = self.game.monger.status
+        num_letters = self.game.monger.letters
+        if status == "OPEN":
+            num = 10 - num_letters
+            my_string = str(num) + " MORE ORBITS TO RAISE IRON MONGER"
+        elif status == "READY":
+            my_string = "SHOOT SPINNER TO RAISE IRON MONGER"
+        elif status == "UP":
+            num = 10 - num_letters
+            my_string = str(num) + " MORE HITS FOR IRON MONGER MB"
+        elif status == "MB":
+            my_string = "SHOOT ORBIT TO START IRON MONGER MB"
+        else:
+            my_string = "IRON MONGER MULTIBALL RUNNING"
+        self.recon_strings[3] = my_string

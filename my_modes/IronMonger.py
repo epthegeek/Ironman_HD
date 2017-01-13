@@ -223,6 +223,8 @@ class IronMonger(procgame.game.AdvancedMode):
             self.delay(delay=2,handler=self.spinner_script_quote)
         # if we're already at 10 letters raise the monger
         self.update_lamps()
+        # update the recon info
+        self.game.score_display.update_recon_monger()
 
     def monger_ready_display(self):
         self.points_layer.set_text("IRON MONGER READY")
@@ -312,6 +314,8 @@ class IronMonger(procgame.game.AdvancedMode):
                 else:
                     self.game.monger_toy.toy_hit_display(points)
         self.update_lamps()
+        # update the recon info
+        self.game.score_display.update_recon_monger()
 
     def start_multiball(self):
         self.status = "MB"
